@@ -37,6 +37,7 @@ EventMouse::EventMouse(MouseEventType mouseEventCode)
 , _scrollX(0.0f)
 , _scrollY(0.0f)
 , _startPointCaptured(false)
+, _point(Vec2(0,0))
 {
 };
 
@@ -78,7 +79,8 @@ Vec2 EventMouse::getStartLocation() const
 
 // returns the delta position between the current location and the previous location in OpenGL coordinates
 Vec2 EventMouse::getDelta() const
-{     
-    return getLocation() - getPreviousLocation();
+{
+	CCASSERT(0, "Mouse::getDelta() returns garbage value. Use touch listener instead");
+	return getLocation() - getPreviousLocation();
 }
 NS_CC_END

@@ -1,5 +1,7 @@
 #include "HelloWorldScene.h"
 
+#include "Helpers/StaticHelpers.h"
+
 USING_NS_CC;
 
 Scene* HelloWorld::createScene()
@@ -71,10 +73,60 @@ bool HelloWorld::init()
 
     // add the sprite as a child to this layer
     this->addChild(sprite, 0);
-    
+
+	//Set camera
+	this->setCameraMask((unsigned short)CameraFlag::USER2, true);
+	camera = Camera::createPerspective(60,
+		(float)visibleSize.width / visibleSize.height, 1.0, 1000);
+	camera->setCameraFlag(CameraFlag::USER2);
+	//the calling order matters, we should first call setPosition3D, 
+	//then call lookAt.
+	camera->setPosition3D(sprite->getPosition3D() + Vec3(0, 0, 800));
+	camera->lookAt(sprite->getPosition3D());
+	this->addChild(camera);
+    //end camera
+
+    this->scheduleUpdate();
     return true;
 }
 
+void HelloWorld::onEnter()
+{
+    Layer::onEnter();
+
+    auto dispatcher = Director::getInstance()->getEventDispatcher();
+
+    auto keyListener = EventListenerKeyboard::create();
+    keyListener->onKeyPressed = CC_CALLBACK_2(HelloWorld::onKeyPressed, this);
+    keyListener->onKeyReleased = CC_CALLBACK_2(HelloWorld::onKeyReleased, this);
+    dispatcher->addEventListenerWithSceneGraphPriority(keyListener, this);
+
+    auto mouseListener = EventListenerMouse::create();
+    mouseListener->onMouseMove = CC_CALLBACK_1(HelloWorld::onMouseMove, this);
+    mouseListener->onMouseUp = CC_CALLBACK_1(HelloWorld::onMouseUp, this);
+    mouseListener->onMouseDown = CC_CALLBACK_1(HelloWorld::onMouseDown, this);
+    mouseListener->onMouseScroll = CC_CALLBACK_1(HelloWorld::onMouseScroll, this);
+    dispatcher->addEventListenerWithSceneGraphPriority(mouseListener, this);
+
+    auto touchListener = EventListenerTouchOneByOne::create();
+    touchListener->onTouchBegan = CC_CALLBACK_2(HelloWorld::onTouchBegan, this);
+    touchListener->onTouchMoved = CC_CALLBACK_2(HelloWorld::onTouchMoved, this);
+    touchListener->onTouchEnded = CC_CALLBACK_2(HelloWorld::onTouchEnded, this);
+    dispatcher->addEventListenerWithSceneGraphPriority(touchListener, this);
+
+    mouseDownFudge = false;
+    mouseUpFudge = false;
+    mouseMoveFudge = false;
+    mouseScrollFudge = false;
+    isMouseDown[0] = false;
+    isMouseDown[1] = false;
+    isMouseDown[2] = false;
+}
+
+void HelloWorld::onExit()
+{
+    Layer::onExit();
+}
 
 void HelloWorld::menuCloseCallback(Ref* pSender)
 {
@@ -83,4 +135,104 @@ void HelloWorld::menuCloseCallback(Ref* pSender)
 #if (CC_TARGET_PLATFORM == CC_PLATFORM_IOS)
     exit(0);
 #endif
+}
+
+void HelloWorld::onKeyPressed(EventKeyboard::KeyCode keyCode, Event* event)
+{
+}
+
+void HelloWorld::onKeyReleased(EventKeyboard::KeyCode keyCode, Event* event)
+{
+}
+
+void HelloWorld::onMouseDown(Event* event)
+{
+    mouseDownFudge = !mouseDownFudge;
+    if(!mouseDownFudge)
+        return;
+    EventMouse* e = (EventMouse*)event;
+    isMouseDown[e->getMouseButton()] = true;
+    std::stringstream ss;
+    ss << "Mouse Down detected, Key: ";
+    ss << e->getMouseButton();
+}
+
+void HelloWorld::onMouseUp(Event* event)
+{
+    mouseUpFudge = !mouseUpFudge;
+    if(!mouseUpFudge)
+        return;
+    EventMouse* e = (EventMouse*)event;
+    isMouseDown[e->getMouseButton()] = false;
+    std::stringstream ss;
+    ss << "Mouse Up detected, Key: ";
+    ss << e->getMouseButton();
+}
+
+///Referencing previous location results in garbage values
+///Use only for hover
+void HelloWorld::onMouseMove(Event* event)
+{
+    mouseMoveFudge = !mouseMoveFudge;
+    if(!mouseMoveFudge)
+        return;
+    EventMouse* e = (EventMouse*)event;
+    if(isMouseDown[0])
+    {//LMB drag
+ //       camera->setPosition3D(camera->getPosition3D() - Vec3(e->getDelta().x, e->getDelta().y, 0));
+    }
+    if(isMouseDown[1])
+    {//RMB drag
+
+    }
+    if(isMouseDown[2])
+    {//MMB drag
+
+    }
+    std::stringstream ss;
+    ss << "MousePosition X:";
+    ss << e->getCursorX() << " Y:" << e->getCursorY();
+}
+
+bool HelloWorld::onTouchBegan(Touch* touch, Event* e)
+{
+    return true;
+}
+
+void HelloWorld::onTouchMoved(Touch* touch, Event* e)
+{
+    CCASSERT(isMouseDown[0], "onTouchMoved should only trigger on LMB drag by cocos2dx specifications");
+    camera->setPosition3D(camera->getPosition3D() - Vec3(touch->getDelta().x, touch->getDelta().y, 0));
+    
+    if(isMouseDown[1])
+    {//RMB drag
+        CCLOG("RMB");
+    }
+    if(isMouseDown[2])
+    {//MMB drag
+        CCLOG("MMB");
+    }
+}
+
+void HelloWorld::onTouchEnded(Touch* touch, Event* e)
+{
+
+}
+
+
+///Input is 1 or -1
+void HelloWorld::onMouseScroll(Event* event)
+{
+    mouseScrollFudge = !mouseScrollFudge;
+    if(!mouseScrollFudge)
+        return;
+    EventMouse* e = (EventMouse*)event;
+    std::stringstream ss;
+    ss << "Mouse Scroll detected, X: ";
+    ss << e->getScrollX() << " Y: " << e->getScrollY();
+}
+
+void HelloWorld::update(float dt)
+{
+
 }

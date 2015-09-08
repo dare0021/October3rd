@@ -494,7 +494,7 @@ void EventDispatcher::forceAddEventListener(EventListener* listener)
 void EventDispatcher::addEventListenerWithSceneGraphPriority(EventListener* listener, Node* node)
 {
     CCASSERT(listener && node, "Invalid parameters.");
-    CCASSERT(!listener->isRegistered(), "The listener has been registered.");
+	CCASSERT(!listener->isRegistered(), "The listener has been registered.");
     
     if (!listener->checkAvailable())
         return;

@@ -50,6 +50,9 @@ NS_CC_BEGIN
  */
 class CC_DLL EventMouse : public Event
 {
+
+    friend class GLFWEventHandler;
+
 public:
     /**
     * MouseEventType Different types of MouseEvent.
@@ -100,6 +103,8 @@ public:
         _prevPoint = _point;
         _point.x = x;
         _point.y = y;
+        CCASSERT(_x == _point.x, "X mismatch");
+        CCASSERT(_y == _point.y, "Y mismatch");
         if (!_startPointCaptured)
         {
             _startPoint = _point;
