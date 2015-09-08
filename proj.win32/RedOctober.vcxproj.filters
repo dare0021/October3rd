@@ -41,6 +41,9 @@
     <ClInclude Include="..\Helpers\StaticHelpers.h">
       <Filter>src\Helpers</Filter>
     </ClInclude>
+    <ClInclude Include="..\Helpers\Consts.h">
+      <Filter>src\Helpers</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="game.rc">

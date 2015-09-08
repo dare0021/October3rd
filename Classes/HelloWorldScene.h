@@ -17,6 +17,11 @@ public:
 
 private:
 	cocos2d::Camera* camera;
+    cocos2d::EventKeyboard::KeyCode lastKey;
+    std::vector<cocos2d::EventKeyboard::KeyCode> activeKeys;
+    std::vector<std::pair<cocos2d::EventKeyboard::KeyCode, float>*> typeKeyCandidates;
+    bool mouseDownFudge, mouseUpFudge, mouseMoveFudge, mouseScrollFudge;
+    bool isMouseDown[3]; //cocos2dx only supports left right middle mouse buttons in that order
 
 	void onKeyPressed(cocos2d::EventKeyboard::KeyCode keyCode, cocos2d::Event* event);
 	void onKeyReleased(cocos2d::EventKeyboard::KeyCode keyCode, cocos2d::Event* event);
@@ -28,11 +33,10 @@ private:
     void onTouchMoved(cocos2d::Touch* touch, cocos2d::Event* e);
     void onTouchEnded(cocos2d::Touch* touch, cocos2d::Event* e);
 
+    void onKeyTyped(cocos2d::EventKeyboard::KeyCode keyCode);
+
     virtual void onEnter();
     virtual void onExit();
-
-    bool mouseDownFudge, mouseUpFudge, mouseMoveFudge, mouseScrollFudge;
-    bool isMouseDown[3]; //cocos2dx only supports left right middle mouse buttons in that order
 };
 
 #endif // __HELLOWORLD_SCENE_H__

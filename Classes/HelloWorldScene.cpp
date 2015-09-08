@@ -1,6 +1,7 @@
 #include "HelloWorldScene.h"
 
 #include "Helpers/StaticHelpers.h"
+#include "Helpers/Consts.h"
 
 USING_NS_CC;
 
@@ -121,6 +122,7 @@ void HelloWorld::onEnter()
     isMouseDown[0] = false;
     isMouseDown[1] = false;
     isMouseDown[2] = false;
+    typeKeyCandidates.clear();
 }
 
 void HelloWorld::onExit()
@@ -139,10 +141,44 @@ void HelloWorld::menuCloseCallback(Ref* pSender)
 
 void HelloWorld::onKeyPressed(EventKeyboard::KeyCode keyCode, Event* event)
 {
+    lastKey = keyCode;
+    activeKeys.push_back(keyCode);
+    typeKeyCandidates.push_back(new std::pair<EventKeyboard::KeyCode, float>(keyCode, 0));
 }
 
 void HelloWorld::onKeyReleased(EventKeyboard::KeyCode keyCode, Event* event)
 {
+    int toRemove = 0;
+    for (auto k : activeKeys)
+    {
+        if(k == keyCode)
+            break;
+        toRemove++;
+    }
+    if(toRemove < activeKeys.size())
+    {
+        activeKeys.erase(activeKeys.begin()+toRemove);
+    }
+    toRemove = 0;
+    for (auto p : typeKeyCandidates)
+    {
+        if(p->first == keyCode)
+            break;
+        toRemove++;
+    }
+    if(toRemove < typeKeyCandidates.size())
+	{
+		auto iter = *(typeKeyCandidates.begin() + toRemove);
+		if (iter->second <= TYPE_TIME_MAX)
+			onKeyTyped(keyCode);
+        typeKeyCandidates.erase(typeKeyCandidates.begin()+toRemove);
+    }
+}
+
+///Pseudo-listener
+void HelloWorld::onKeyTyped(EventKeyboard::KeyCode keyCode)
+{
+    CCLOG("TYPED: %c", StaticHelpers::keycodeToChar(keyCode));
 }
 
 void HelloWorld::onMouseDown(Event* event)
@@ -179,7 +215,7 @@ void HelloWorld::onMouseMove(Event* event)
     EventMouse* e = (EventMouse*)event;
     if(isMouseDown[0])
     {//LMB drag
- //       camera->setPosition3D(camera->getPosition3D() - Vec3(e->getDelta().x, e->getDelta().y, 0));
+
     }
     if(isMouseDown[1])
     {//RMB drag
@@ -199,6 +235,7 @@ bool HelloWorld::onTouchBegan(Touch* touch, Event* e)
     return true;
 }
 
+///Only works for LMB drag, but at least it works
 void HelloWorld::onTouchMoved(Touch* touch, Event* e)
 {
     CCASSERT(isMouseDown[0], "onTouchMoved should only trigger on LMB drag by cocos2dx specifications");
@@ -219,7 +256,6 @@ void HelloWorld::onTouchEnded(Touch* touch, Event* e)
 
 }
 
-
 ///Input is 1 or -1
 void HelloWorld::onMouseScroll(Event* event)
 {
@@ -234,5 +270,8 @@ void HelloWorld::onMouseScroll(Event* event)
 
 void HelloWorld::update(float dt)
 {
-
+    for (auto p : typeKeyCandidates)
+    {
+        p->second += dt;
+    }
 }
