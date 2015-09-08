@@ -13,6 +13,9 @@
     <Filter Include="src\Helpers">
       <UniqueIdentifier>{7d3a9e76-ad89-492e-88b3-516167cccdca}</UniqueIdentifier>
     </Filter>
+    <Filter Include="src\Entities">
+      <UniqueIdentifier>{d1ec8915-333b-401e-829f-608153b9cf5e}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp">
@@ -26,6 +29,12 @@
     </ClCompile>
     <ClCompile Include="..\Helpers\StaticHelpers.cpp">
       <Filter>src\Helpers</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Classes\Entities\O3Sprite.cpp">
+      <Filter>src\Entities</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Classes\Entities\Entity.cpp">
+      <Filter>src\Entities</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -43,6 +52,12 @@
     </ClInclude>
     <ClInclude Include="..\Helpers\Consts.h">
       <Filter>src\Helpers</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Classes\Entities\O3Sprite.h">
+      <Filter>src\Entities</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Classes\Entities\Entity.h">
+      <Filter>src\Entities</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
