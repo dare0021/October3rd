@@ -171,6 +171,7 @@ void HelloWorld::onKeyReleased(EventKeyboard::KeyCode keyCode, Event* event)
 		auto iter = *(typeKeyCandidates.begin() + toRemove);
 		if (iter->second <= TYPE_TIME_MAX)
 			onKeyTyped(keyCode);
+        delete iter;
         typeKeyCandidates.erase(typeKeyCandidates.begin()+toRemove);
     }
 }
