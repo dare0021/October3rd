@@ -17,7 +17,7 @@ public:
     virtual void update(float);
 
 private:
-	cocos2d::Camera* camera;
+    cocos2d::Sprite *overlaySprite;
     cocos2d::EventKeyboard::KeyCode lastKey;
     std::vector<cocos2d::EventKeyboard::KeyCode> activeKeys;
     std::unordered_map<cocos2d::EventKeyboard::KeyCode, float*> typeKeyCandidates;
@@ -35,6 +35,11 @@ private:
     void onTouchEnded(cocos2d::Touch* touch, cocos2d::Event* e);
 
     void onKeyTyped(cocos2d::EventKeyboard::KeyCode keyCode);
+
+    void lookAt(cocos2d::Vec2);
+    void moveScreenBy(cocos2d::Vec2);
+    cocos2d::Vec2 screenspaceToWorldspace(cocos2d::Vec2);
+    cocos2d::Vec2 worldspaceToScreenspace(cocos2d::Vec2);
 
     virtual void onEnter();
     virtual void onExit();
