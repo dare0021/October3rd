@@ -48,6 +48,7 @@ private:
     cocos2d::Vec2 screenspaceToWorldspace(cocos2d::Vec2);
     cocos2d::Vec2 worldspaceToScreenspace(cocos2d::Vec2);
 
+    O3Sprite* getSpriteByName(std::string name);
     void addSprite(O3Sprite*);
     void removeSprite(O3Sprite*);
     void removeSpriteByName(std::string name);

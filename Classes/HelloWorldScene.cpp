@@ -132,7 +132,12 @@ void HelloWorld::onKeyTyped(EventKeyboard::KeyCode keyCode)
     {
     case EventKeyboard::KeyCode::KEY_UP_ARROW:
     {
-        moveScreenBy(Vec2(0, 10));
+        auto s = getSpriteByName("dummy.png");
+        if(s)
+        {
+            s->setRotation(((int)(s->getRotation() + 45))%360);
+            s->setSpeed(10);
+        }
         break;
     }
     }
@@ -286,6 +291,21 @@ void HelloWorld::update(float dt)
     {
         *p.second += dt;
     }
+
+    for (auto o3s : spriteVect)
+    {
+        o3s->update(dt);
+    }
+}
+
+O3Sprite* HelloWorld::getSpriteByName(std::string name)
+{
+    for (auto s : spriteVect)
+    {
+        if(s->getName() == name)
+            return s;
+    }
+    return nullptr;
 }
 
 void HelloWorld::addSprite(O3Sprite* sprite)

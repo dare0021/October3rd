@@ -62,9 +62,12 @@ void O3Sprite::update(float dt)
 		updateSuspendTime += dt;
 		return;
 	}
-	dt += updateSuspendTime;
+	float totalDT = dt + updateSuspendTime;
 	updateSuspendTime = 0;
-	CCLOG("UPDATE");
+
+	Vec2 moveBy = Vec2(0, speed*dt);
+	moveBy.rotate(Vec2::ZERO, -1 * getRotation() * M_PI / 180);
+	setPosition(getPosition() + moveBy);
 }
 
 void O3Sprite::addSprite(std::string name, std::string path)
