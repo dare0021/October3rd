@@ -1,8 +1,11 @@
 #ifndef __HELLOWORLD_SCENE_H__
 #define __HELLOWORLD_SCENE_H__
 
+//#define MOUSE_DOUBLE_LISTEN_FUDGE
+
 #include "cocos2d.h"
 #include <unordered_map>
+#include "Entities/O3Sprite.h"
 
 class HelloWorld : public cocos2d::Layer
 {
@@ -18,10 +21,14 @@ private:
     cocos2d::Sprite *overlaySprite;
     cocos2d::EventKeyboard::KeyCode lastKey;
     std::vector<cocos2d::EventKeyboard::KeyCode> activeKeys;
+    std::vector<O3Sprite*> spriteVect;
     std::unordered_map<cocos2d::EventKeyboard::KeyCode, float*> typeKeyCandidates;
     bool scrollOut;
     float scrollTimeLeft;
+    ///cocos2dx mouse listener is broken
+    #ifdef MOUSE_DOUBLE_LISTEN_FUDGE
     bool mouseDownFudge, mouseUpFudge, mouseMoveFudge, mouseScrollFudge;
+    #endif
     bool isMouseDown[3]; //cocos2dx only supports left right middle mouse buttons in that order
 
 	void onKeyPressed(cocos2d::EventKeyboard::KeyCode keyCode, cocos2d::Event* event);
@@ -40,6 +47,10 @@ private:
     void moveScreenBy(cocos2d::Vec2);
     cocos2d::Vec2 screenspaceToWorldspace(cocos2d::Vec2);
     cocos2d::Vec2 worldspaceToScreenspace(cocos2d::Vec2);
+
+    void addSprite(O3Sprite*);
+    void removeSprite(O3Sprite*);
+    void removeSpriteByName(std::string name);
 
     virtual void onEnter();
     virtual void onExit();

@@ -5,15 +5,13 @@
 #include "O3Sprite.h"
 
 ///Everything in the playing field, such as the player, decoys, torpedos, etc
-class Entity : O3Sprite
+class Entity : public O3Sprite
 {
 public:
-	Entity();
+	Entity(std::string path);
 	float getNoiseLevel();
 
 private:
-	float speed;
-	cocos2d::Vec2 force;
 };
 
 #endif // __ENTITY_H__

@@ -82,10 +82,12 @@ void HelloWorld::onEnter()
     touchListener->onTouchEnded = CC_CALLBACK_2(HelloWorld::onTouchEnded, this);
     dispatcher->addEventListenerWithSceneGraphPriority(touchListener, this);
 
+#ifdef MOUSE_DOUBLE_LISTEN_FUDGE
     mouseDownFudge = false;
     mouseUpFudge = false;
     mouseMoveFudge = false;
     mouseScrollFudge = false;
+#endif
     isMouseDown[0] = false;
     isMouseDown[1] = false;
     isMouseDown[2] = false;
@@ -139,21 +141,30 @@ void HelloWorld::onKeyTyped(EventKeyboard::KeyCode keyCode)
 
 void HelloWorld::onMouseDown(Event* event)
 {
+    #ifdef MOUSE_DOUBLE_LISTEN_FUDGE
     mouseDownFudge = !mouseDownFudge;
     if(!mouseDownFudge)
         return;
+    #endif
     EventMouse* e = (EventMouse*)event;
     isMouseDown[e->getMouseButton()] = true;
     std::stringstream ss;
-    ss << "Mouse Down detected, Key: ";
+    ss << "Mouse Down ";
     ss << e->getMouseButton();
+
+    if(e->getMouseButton() == 1)
+        addSprite(new O3Sprite("dummy.png"));
+    else if(e->getMouseButton() == 2)
+        removeSpriteByName("dummy.png");
 }
 
 void HelloWorld::onMouseUp(Event* event)
 {
+    #ifdef MOUSE_DOUBLE_LISTEN_FUDGE
     mouseUpFudge = !mouseUpFudge;
     if(!mouseUpFudge)
         return;
+    #endif
     EventMouse* e = (EventMouse*)event;
     isMouseDown[e->getMouseButton()] = false;
     std::stringstream ss;
@@ -165,9 +176,11 @@ void HelloWorld::onMouseUp(Event* event)
 ///Use only for hover
 void HelloWorld::onMouseMove(Event* event)
 {
+    #ifdef MOUSE_DOUBLE_LISTEN_FUDGE
     mouseMoveFudge = !mouseMoveFudge;
     if(!mouseMoveFudge)
         return;
+    #endif
     EventMouse* e = (EventMouse*)event;
     if(isMouseDown[0])
     {//LMB drag
@@ -189,9 +202,11 @@ void HelloWorld::onMouseMove(Event* event)
 ///Input is 1 or -1
 void HelloWorld::onMouseScroll(Event* event)
 {
+    #ifdef MOUSE_DOUBLE_LISTEN_FUDGE
     mouseScrollFudge = !mouseScrollFudge;
     if(!mouseScrollFudge)
         return;
+    #endif
     EventMouse* e = (EventMouse*)event;
     if(e->getScrollY() > 0)
     {
@@ -270,5 +285,45 @@ void HelloWorld::update(float dt)
     for (auto p : typeKeyCandidates)
     {
         *p.second += dt;
+    }
+}
+
+void HelloWorld::addSprite(O3Sprite* sprite)
+{
+    spriteVect.push_back(sprite);
+    this->addChild(sprite);
+}
+
+void HelloWorld::removeSprite(O3Sprite* sprite)
+{
+    std::list<int> toRemove;
+    int i = 0;
+    for (auto s : spriteVect)
+    {
+        if(s == sprite)
+            toRemove.push_front(i);
+        i++;
+    }
+    for (auto j : toRemove)
+    {
+        this->removeChild(*(spriteVect.begin() + j));
+        spriteVect.erase(spriteVect.begin() + j);
+    }
+}
+
+void HelloWorld::removeSpriteByName(std::string name)
+{
+    std::list<int> toRemove;
+    int i = 0;
+    for (auto s : spriteVect)
+    {
+        if(s->getName() == name)
+            toRemove.push_front(i);
+        i++;
+    }
+    for (auto j : toRemove)
+    {
+        this->removeChild(*(spriteVect.begin() + j));
+        spriteVect.erase(spriteVect.begin() + j);
     }
 }

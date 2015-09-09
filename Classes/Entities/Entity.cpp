@@ -2,7 +2,7 @@
 
 USING_NS_CC;
 
-Entity::Entity()
+Entity::Entity(std::string path) : O3Sprite(path)
 {
 
 }
