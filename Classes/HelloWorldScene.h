@@ -9,8 +9,6 @@ class HelloWorld : public cocos2d::Layer
 public:
     static cocos2d::Scene* createScene();
     virtual bool init();
-    // a selector callback
-    void menuCloseCallback(cocos2d::Ref* pSender);
     // implement the "static create()" method manually
     CREATE_FUNC(HelloWorld);
 
@@ -21,6 +19,8 @@ private:
     cocos2d::EventKeyboard::KeyCode lastKey;
     std::vector<cocos2d::EventKeyboard::KeyCode> activeKeys;
     std::unordered_map<cocos2d::EventKeyboard::KeyCode, float*> typeKeyCandidates;
+    bool scrollOut;
+    float scrollTimeLeft;
     bool mouseDownFudge, mouseUpFudge, mouseMoveFudge, mouseScrollFudge;
     bool isMouseDown[3]; //cocos2dx only supports left right middle mouse buttons in that order
 

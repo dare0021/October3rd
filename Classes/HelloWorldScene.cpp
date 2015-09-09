@@ -44,17 +44,6 @@ bool HelloWorld::init()
     overlaySprite->setPosition(visibleSize.width/2, visibleSize.height/2);
     this->addChild(overlaySprite, 1024);
 
-    // add a "close" icon to exit the progress. it's an autorelease object
-    auto closeItem = MenuItemImage::create(
-                                           "CloseNormal.png",
-                                           "CloseSelected.png",
-                                           CC_CALLBACK_1(HelloWorld::menuCloseCallback, this));
-
-    // create menu, it's an autorelease object
-    auto menu = Menu::create(closeItem, NULL);
-    menu->setPosition(Vec2::ZERO);
-    overlaySprite->addChild(menu, 1);
-    
     auto label = Label::createWithTTF("Hello World", "fonts/Marker Felt.ttf", 24);
     
     // position the label on the center of the screen
@@ -62,6 +51,8 @@ bool HelloWorld::init()
 
     // add the label as a child to this layer
     overlaySprite->addChild(label, 1);
+
+    scrollTimeLeft = -1;
 
     this->scheduleUpdate();
     return true;
@@ -104,15 +95,6 @@ void HelloWorld::onEnter()
 void HelloWorld::onExit()
 {
     Layer::onExit();
-}
-
-void HelloWorld::menuCloseCallback(Ref* pSender)
-{
-    Director::getInstance()->end();
-
-#if (CC_TARGET_PLATFORM == CC_PLATFORM_IOS)
-    exit(0);
-#endif
 }
 
 void HelloWorld::onKeyPressed(EventKeyboard::KeyCode keyCode, Event* event)
@@ -204,6 +186,25 @@ void HelloWorld::onMouseMove(Event* event)
     ss << e->getCursorX() << " Y:" << e->getCursorY();
 }
 
+///Input is 1 or -1
+void HelloWorld::onMouseScroll(Event* event)
+{
+    mouseScrollFudge = !mouseScrollFudge;
+    if(!mouseScrollFudge)
+        return;
+    EventMouse* e = (EventMouse*)event;
+    if(e->getScrollY() > 0)
+    {
+        scrollOut = true;
+        scrollTimeLeft = SCALE_SCROLL_INTERVAL;
+    }
+    else if(e->getScrollY() < 0)
+    {
+        scrollOut = false;
+        scrollTimeLeft = SCALE_SCROLL_INTERVAL;
+    }
+}
+
 bool HelloWorld::onTouchBegan(Touch* touch, Event* e)
 {
     return true;
@@ -227,18 +228,6 @@ void HelloWorld::onTouchMoved(Touch* touch, Event* e)
 void HelloWorld::onTouchEnded(Touch* touch, Event* e)
 {
 
-}
-
-///Input is 1 or -1
-void HelloWorld::onMouseScroll(Event* event)
-{
-    mouseScrollFudge = !mouseScrollFudge;
-    if(!mouseScrollFudge)
-        return;
-    EventMouse* e = (EventMouse*)event;
-    std::stringstream ss;
-    ss << "Mouse Scroll detected, X: ";
-    ss << e->getScrollX() << " Y: " << e->getScrollY();
 }
 
 void HelloWorld::lookAt(Vec2 pos)
@@ -267,6 +256,17 @@ Vec2 HelloWorld::worldspaceToScreenspace(Vec2 wspos)
 
 void HelloWorld::update(float dt)
 {
+    if(scrollTimeLeft > 0)
+    {
+        float scaleMod = SCALE_DELTA * dt / SCALE_SCROLL_INTERVAL;
+        scaleMod = scrollOut ? scaleMod*-1 : scaleMod;
+        this->setScale(this->getScale() + scaleMod);
+        if(this->getScale() < SCALE_MIN)
+            this->setScale(SCALE_MIN);
+        else if(this->getScale() > SCALE_MAX)
+            this->setScale(SCALE_MAX);
+        scrollTimeLeft -= dt;
+    }
     for (auto p : typeKeyCandidates)
     {
         *p.second += dt;
