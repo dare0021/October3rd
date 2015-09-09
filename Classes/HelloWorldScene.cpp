@@ -43,7 +43,7 @@ bool HelloWorld::init()
                                            "CloseSelected.png",
                                            CC_CALLBACK_1(HelloWorld::menuCloseCallback, this));
     
-	closeItem->setPosition(Vec2(origin.x + visibleSize.width - closeItem->getContentSize().width/2 ,
+    closeItem->setPosition(Vec2(origin.x + visibleSize.width - closeItem->getContentSize().width/2 ,
                                 origin.y + closeItem->getContentSize().height/2));
 
     // create menu, it's an autorelease object
@@ -75,16 +75,16 @@ bool HelloWorld::init()
     // add the sprite as a child to this layer
     this->addChild(sprite, 0);
 
-	//Set camera
-	this->setCameraMask((unsigned short)CameraFlag::USER2, true);
-	camera = Camera::createPerspective(60,
-		(float)visibleSize.width / visibleSize.height, 1.0, 1000);
-	camera->setCameraFlag(CameraFlag::USER2);
-	//the calling order matters, we should first call setPosition3D, 
-	//then call lookAt.
-	camera->setPosition3D(sprite->getPosition3D() + Vec3(0, 0, 800));
-	camera->lookAt(sprite->getPosition3D());
-	this->addChild(camera);
+    //Set camera
+    this->setCameraMask((unsigned short)CameraFlag::USER2, true);
+    camera = Camera::createPerspective(60,
+        (float)visibleSize.width / visibleSize.height, 1.0, 1000);
+    camera->setCameraFlag(CameraFlag::USER2);
+    //the calling order matters, we should first call setPosition3D, 
+    //then call lookAt.
+    camera->setPosition3D(sprite->getPosition3D() + Vec3(0, 0, 800));
+    camera->lookAt(sprite->getPosition3D());
+    this->addChild(camera);
     //end camera
 
     this->scheduleUpdate();
@@ -143,7 +143,7 @@ void HelloWorld::onKeyPressed(EventKeyboard::KeyCode keyCode, Event* event)
 {
     lastKey = keyCode;
     activeKeys.push_back(keyCode);
-    typeKeyCandidates.push_back(new std::pair<EventKeyboard::KeyCode, float>(keyCode, 0));
+    typeKeyCandidates.insert(std::pair<EventKeyboard::KeyCode, float*>(keyCode, new float(0)));
 }
 
 void HelloWorld::onKeyReleased(EventKeyboard::KeyCode keyCode, Event* event)
@@ -159,21 +159,10 @@ void HelloWorld::onKeyReleased(EventKeyboard::KeyCode keyCode, Event* event)
     {
         activeKeys.erase(activeKeys.begin()+toRemove);
     }
-    toRemove = 0;
-    for (auto p : typeKeyCandidates)
-    {
-        if(p->first == keyCode)
-            break;
-        toRemove++;
-    }
-    if(toRemove < typeKeyCandidates.size())
-	{
-		auto iter = *(typeKeyCandidates.begin() + toRemove);
-		if (iter->second <= TYPE_TIME_MAX)
-			onKeyTyped(keyCode);
-        delete iter;
-        typeKeyCandidates.erase(typeKeyCandidates.begin()+toRemove);
-    }
+
+    if(*typeKeyCandidates.find(keyCode)->second <= TYPE_TIME_MAX)
+        onKeyTyped(keyCode);
+    typeKeyCandidates.erase(keyCode);
 }
 
 ///Pseudo-listener
@@ -273,6 +262,6 @@ void HelloWorld::update(float dt)
 {
     for (auto p : typeKeyCandidates)
     {
-        p->second += dt;
+        *p.second += dt;
     }
 }

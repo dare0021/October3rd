@@ -2,6 +2,7 @@
 #define __HELLOWORLD_SCENE_H__
 
 #include "cocos2d.h"
+#include <unordered_map>
 
 class HelloWorld : public cocos2d::Layer
 {
@@ -19,7 +20,7 @@ private:
 	cocos2d::Camera* camera;
     cocos2d::EventKeyboard::KeyCode lastKey;
     std::vector<cocos2d::EventKeyboard::KeyCode> activeKeys;
-    std::vector<std::pair<cocos2d::EventKeyboard::KeyCode, float>*> typeKeyCandidates;
+    std::unordered_map<cocos2d::EventKeyboard::KeyCode, float*> typeKeyCandidates;
     bool mouseDownFudge, mouseUpFudge, mouseMoveFudge, mouseScrollFudge;
     bool isMouseDown[3]; //cocos2dx only supports left right middle mouse buttons in that order
 
