@@ -6,6 +6,7 @@
 #include <unordered_map>
 
 ///All objects on screen, such as the player sub, decoys, or even popup messages
+///Typical values: Mass: hundreds, Friction: Single digit, Force: Thousands
 class O3Sprite : public cocos2d::Node
 {
 public:
@@ -25,10 +26,15 @@ public:
     int getID();
     void setPhysicsModel(PhysicsModel);
     PhysicsModel getPhysicsModel();
-    void setForce(cocos2d::Vec2);
-    cocos2d::Vec2 getForce();
+    void setForce(float);
+    float getForce();
     void setSpeed(float);
     float getSpeed();
+    void setMass(float);
+    float getMass();
+    void setFriction(float);
+    float getFriction();
+    cocos2d::Vec2 getHeadingVector();
 
 private:
 	static int lastID;
@@ -36,8 +42,9 @@ private:
     PhysicsModel physicsModel;
     bool updateSuspended;
     float updateSuspendTime;
-    float speed;
-    cocos2d::Vec2 force;
+    ///effectiveForce = force - friction * v^2 / 2
+    float friction;
+    float speed, mass, force;
     ///Separate name in O3Sprite from Sprite name
     ///So we can use this name for roles instead of a unique ID
     std::unordered_map<std::string, cocos2d::Sprite*> sprites;

@@ -3,10 +3,70 @@
 	{
 		"selected_items":
 		[
+			[
+				"remove",
+				"removeSpriteByName"
+			],
+			[
+				"updatesus",
+				"updateSuspendTime"
+			],
+			[
+				"keyco",
+				"KeyCode"
+			],
+			[
+				"hello",
+				"HelloWorld"
+			],
+			[
+				"TYPE",
+				"TYPE_TIME_MAX"
+			]
 		]
 	},
 	"buffers":
 	[
+		{
+			"file": "Classes/HelloWorldScene.cpp",
+			"settings":
+			{
+				"buffer_size": 8734,
+				"line_ending": "Windows"
+			}
+		},
+		{
+			"file": "Classes/Entities/O3Sprite.cpp",
+			"settings":
+			{
+				"buffer_size": 1466,
+				"line_ending": "Windows"
+			}
+		},
+		{
+			"file": "Classes/HelloWorldScene.h",
+			"settings":
+			{
+				"buffer_size": 2029,
+				"line_ending": "Windows"
+			}
+		},
+		{
+			"file": "Helpers/Consts.h",
+			"settings":
+			{
+				"buffer_size": 288,
+				"line_ending": "Windows"
+			}
+		},
+		{
+			"file": "Classes/Entities/O3Sprite.h",
+			"settings":
+			{
+				"buffer_size": 1066,
+				"line_ending": "Windows"
+			}
+		}
 	],
 	"build_system": "",
 	"command_palette":
@@ -32,16 +92,26 @@
 	},
 	"file_history":
 	[
+		"/C/October3rd/Classes/Entities/Entity.h",
+		"/C/October3rd/Classes/Entities/Entity.cpp",
+		"/C/October3rd/Helpers/Consts.h",
+		"/C/October3rd/Helpers/StaticHelpers.cpp",
+		"/C/October3rd/Classes/HelloWorldScene.h",
+		"/C/Users/Dev1/AppData/Roaming/Sublime Text 2/Packages/User/Default (Windows).sublime-keymap",
+		"/C/Users/Dev1/AppData/Roaming/Sublime Text 2/Packages/Default/Default (Windows).sublime-keymap",
+		"/C/Users/Dev1/AppData/Roaming/Sublime Text 2/Packages/Default/Preferences.sublime-settings",
+		"/C/Users/Dev1/AppData/Roaming/Sublime Text 2/Packages/User/Preferences.sublime-settings"
 	],
 	"find":
 	{
-		"height": 0.0
+		"height": 35.0
 	},
 	"find_in_files":
 	{
-		"height": 0.0,
+		"height": 93.0,
 		"where_history":
 		[
+			"C:\\October3rd\\Classes,C:\\October3rd\\Helpers"
 		]
 	},
 	"find_state":
@@ -49,6 +119,18 @@
 		"case_sensitive": false,
 		"find_history":
 		[
+			"#define",
+			"define",
+			"addchild(s",
+			"SCALE",
+			"masterSprite",
+			"setpo",
+			"this",
+			"layer",
+			"setpo",
+			"camera",
+			".second",
+			"typekey"
 		],
 		"highlight": true,
 		"in_selection": false,
@@ -66,8 +148,149 @@
 	"groups":
 	[
 		{
+			"selected": 0,
 			"sheets":
 			[
+				{
+					"buffer": 0,
+					"file": "Classes/HelloWorldScene.cpp",
+					"settings":
+					{
+						"buffer_size": 8734,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								3541,
+								3541
+							]
+						],
+						"settings":
+						{
+							"syntax": "Packages/C++/C++.tmLanguage",
+							"tab_size": 4,
+							"translate_tabs_to_spaces": true
+						},
+						"translation.x": 0.0,
+						"translation.y": 2106.0,
+						"zoom_level": 1.0
+					},
+					"type": "text"
+				},
+				{
+					"buffer": 1,
+					"file": "Classes/Entities/O3Sprite.cpp",
+					"settings":
+					{
+						"buffer_size": 1466,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								955,
+								955
+							]
+						],
+						"settings":
+						{
+							"syntax": "Packages/C++/C++.tmLanguage"
+						},
+						"translation.x": 0.0,
+						"translation.y": 844.0,
+						"zoom_level": 1.0
+					},
+					"type": "text"
+				}
+			]
+		},
+		{
+			"selected": 0,
+			"sheets":
+			[
+				{
+					"buffer": 2,
+					"file": "Classes/HelloWorldScene.h",
+					"settings":
+					{
+						"buffer_size": 2029,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								61,
+								61
+							]
+						],
+						"settings":
+						{
+							"syntax": "Packages/C++/C++.tmLanguage",
+							"tab_size": 4,
+							"translate_tabs_to_spaces": true
+						},
+						"translation.x": 0.0,
+						"translation.y": 0.0,
+						"zoom_level": 1.0
+					},
+					"type": "text"
+				},
+				{
+					"buffer": 3,
+					"file": "Helpers/Consts.h",
+					"settings":
+					{
+						"buffer_size": 288,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								224,
+								224
+							]
+						],
+						"settings":
+						{
+							"syntax": "Packages/C++/C++.tmLanguage"
+						},
+						"translation.x": 0.0,
+						"translation.y": 0.0,
+						"zoom_level": 1.0
+					},
+					"type": "text"
+				},
+				{
+					"buffer": 4,
+					"file": "Classes/Entities/O3Sprite.h",
+					"settings":
+					{
+						"buffer_size": 1066,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								365,
+								365
+							]
+						],
+						"settings":
+						{
+							"syntax": "Packages/C++/C++.tmLanguage"
+						},
+						"translation.x": 0.0,
+						"translation.y": 0.0,
+						"zoom_level": 1.0
+					},
+					"type": "text"
+				}
 			]
 		}
 	],
@@ -88,11 +311,18 @@
 				0,
 				1,
 				1
+			],
+			[
+				1,
+				0,
+				2,
+				1
 			]
 		],
 		"cols":
 		[
 			0.0,
+			0.5,
 			1.0
 		],
 		"rows":

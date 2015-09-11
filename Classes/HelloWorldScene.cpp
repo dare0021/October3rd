@@ -135,13 +135,24 @@ void HelloWorld::onKeyTyped(EventKeyboard::KeyCode keyCode)
         auto s = getSpriteByName("dummy.png");
         if(s)
         {
+            s->setPhysicsModel(O3Sprite::Newtonian);
+            s->setMass(300);
+            s->setFriction(5);
             s->setRotation(((int)(s->getRotation() + 45))%360);
-            s->setSpeed(10);
+            s->setForce(s->getForce() + 1000);
+        }
+        break;
+    }
+    case EventKeyboard::KeyCode::KEY_DOWN_ARROW:
+    {
+        auto s = getSpriteByName("dummy.png");
+        if(s)
+        {
+            s->setForce(0);
         }
         break;
     }
     }
-    CCLOG("TYPED: %c", StaticHelpers::keycodeToChar(keyCode));
 }
 
 void HelloWorld::onMouseDown(Event* event)
@@ -157,10 +168,8 @@ void HelloWorld::onMouseDown(Event* event)
     ss << "Mouse Down ";
     ss << e->getMouseButton();
 
-    if(e->getMouseButton() == 1)
+    if(e->getMouseButton() == 1 && !getChildByName("dummy.png"))
         addSprite(new O3Sprite("dummy.png"));
-    else if(e->getMouseButton() == 2)
-        removeSpriteByName("dummy.png");
 }
 
 void HelloWorld::onMouseUp(Event* event)
