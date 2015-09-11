@@ -52,8 +52,6 @@ bool HelloWorld::init()
     // add the label as a child to this layer
     overlaySprite->addChild(label, 1);
 
-    scrollTimeLeft = -1;
-
     this->scheduleUpdate();
     return true;
 }
@@ -115,7 +113,7 @@ void HelloWorld::onKeyReleased(EventKeyboard::KeyCode keyCode, Event* event)
             break;
         toRemove++;
     }
-    if(toRemove < activeKeys.size())
+    if(toRemove < (int)activeKeys.size())
     {
         activeKeys.erase(activeKeys.begin()+toRemove);
     }
@@ -196,6 +194,8 @@ void HelloWorld::onMouseMove(Event* event)
         return;
     #endif
     EventMouse* e = (EventMouse*)event;
+    lastCursor.x = e->getCursorX();
+    lastCursor.y = e->getCursorY();
     if(isMouseDown[0])
     {//LMB drag
 
@@ -224,13 +224,9 @@ void HelloWorld::onMouseScroll(Event* event)
     EventMouse* e = (EventMouse*)event;
     if(e->getScrollY() > 0)
     {
-        scrollOut = true;
-        scrollTimeLeft = SCALE_SCROLL_INTERVAL;
     }
     else if(e->getScrollY() < 0)
     {
-        scrollOut = false;
-        scrollTimeLeft = SCALE_SCROLL_INTERVAL;
     }
 }
 
@@ -263,6 +259,14 @@ void HelloWorld::lookAt(Vec2 pos)
 {
     Size visibleSize = Director::getInstance()->getVisibleSize();
     this->setPosition(pos - Vec2(visibleSize.width, visibleSize.height)/2);
+    CCLOG("NOW LOOKING AT: (%f %f)", lookingAt().x, lookingAt().y);
+}
+
+Vec2 HelloWorld::lookingAt()
+{
+    Size visibleSize = Director::getInstance()->getVisibleSize();
+    return -1 * this->getPosition() + Vec2(visibleSize.width, visibleSize.height)/2;
+//    return -1 * this->getPosition() / this-> getScale() + Vec2(visibleSize.width, visibleSize.height) * this->getScale() / 2;
 }
 
 void HelloWorld::moveScreenBy(Vec2 diff)
@@ -285,17 +289,6 @@ Vec2 HelloWorld::worldspaceToScreenspace(Vec2 wspos)
 
 void HelloWorld::update(float dt)
 {
-    if(scrollTimeLeft > 0)
-    {
-        float scaleMod = SCALE_DELTA * dt / SCALE_SCROLL_INTERVAL;
-        scaleMod = scrollOut ? scaleMod*-1 : scaleMod;
-        this->setScale(this->getScale() + scaleMod);
-        if(this->getScale() < SCALE_MIN)
-            this->setScale(SCALE_MIN);
-        else if(this->getScale() > SCALE_MAX)
-            this->setScale(SCALE_MAX);
-        scrollTimeLeft -= dt;
-    }
     for (auto p : typeKeyCandidates)
     {
         *p.second += dt;

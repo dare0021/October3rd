@@ -20,11 +20,10 @@ public:
 private:
     cocos2d::Sprite *overlaySprite;
     cocos2d::EventKeyboard::KeyCode lastKey;
+    cocos2d::Vec2 lastCursor;
     std::vector<cocos2d::EventKeyboard::KeyCode> activeKeys;
     std::vector<O3Sprite*> spriteVect;
     std::unordered_map<cocos2d::EventKeyboard::KeyCode, float*> typeKeyCandidates;
-    bool scrollOut;
-    float scrollTimeLeft;
     ///cocos2dx mouse listener is broken
     #ifdef MOUSE_DOUBLE_LISTEN_FUDGE
     bool mouseDownFudge, mouseUpFudge, mouseMoveFudge, mouseScrollFudge;
@@ -44,6 +43,7 @@ private:
     void onKeyTyped(cocos2d::EventKeyboard::KeyCode keyCode);
 
     void lookAt(cocos2d::Vec2);
+    cocos2d::Vec2 lookingAt();
     void moveScreenBy(cocos2d::Vec2);
     cocos2d::Vec2 screenspaceToWorldspace(cocos2d::Vec2);
     cocos2d::Vec2 worldspaceToScreenspace(cocos2d::Vec2);

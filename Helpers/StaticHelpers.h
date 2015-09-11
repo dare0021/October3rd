@@ -6,8 +6,6 @@
 class StaticHelpers
 {
 public:
-    static std::string Vec3toString(cocos2d::Vec3);
-    static std::string Vec2toString(cocos2d::Vec2);
     static char keycodeToChar(cocos2d::EventKeyboard::KeyCode code);
 };
 

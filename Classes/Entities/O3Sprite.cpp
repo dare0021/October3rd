@@ -107,7 +107,6 @@ void O3Sprite::update(float dt)
 		Vec2 moveBy = getHeadingVector() * speed * dt;
 		setPosition(getPosition() + moveBy);
 	}
-	CCLOG("FORCE %f \t SPD %f", force, speed);
 }
 
 void O3Sprite::addSprite(std::string name, std::string path)

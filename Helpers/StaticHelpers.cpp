@@ -4,20 +4,6 @@
 
 USING_NS_CC;
 
-std::string StaticHelpers::Vec3toString(Vec3 vec)
-{
-	std::stringstream ss;
-	ss << "(" << vec.x << ", " << vec.y << ", " << vec.z << ")";
-	return ss.str();
-}
-
-std::string StaticHelpers::Vec2toString(Vec2 vec)
-{
-	std::stringstream ss;
-	ss << "(" << vec.x << ", " << vec.y << ")";
-	return ss.str();
-}
-
 /// only works for upper case & numbers
 char StaticHelpers::keycodeToChar(EventKeyboard::KeyCode code)
 {
