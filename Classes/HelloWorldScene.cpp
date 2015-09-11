@@ -305,7 +305,6 @@ Vec2 HelloWorld::lookingAt()
 {
     Size visibleSize = Director::getInstance()->getVisibleSize();
     return -1 * this->getPosition() + Vec2(visibleSize.width, visibleSize.height)/2;
-//    return -1 * this->getPosition() / this-> getScale() + Vec2(visibleSize.width, visibleSize.height) * this->getScale() / 2;
 }
 
 void HelloWorld::moveScreenBy(Vec2 diff)
