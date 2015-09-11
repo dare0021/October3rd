@@ -2,6 +2,7 @@
 
 #include "Helpers/StaticHelpers.h"
 #include "Helpers/Consts.h"
+#include "Entities/Commorose.h"
 
 USING_NS_CC;
 
@@ -238,21 +239,59 @@ bool HelloWorld::onTouchBegan(Touch* touch, Event* e)
 ///Only works for LMB drag, but at least it works
 void HelloWorld::onTouchMoved(Touch* touch, Event* e)
 {
-    moveScreenBy(-1*touch->getDelta());
-
-    if(isMouseDown[1])
+    bool rmb = isMouseDown[1];
+    bool mmb = isMouseDown[2];
+    if(rmb)
     {//RMB drag
         CCLOG("RMB");
+        moveScreenBy(-1*touch->getDelta());
     }
-    if(isMouseDown[2])
-    {//MMB drag
-        CCLOG("MMB");
+    if(!(rmb || mmb))
+    {
+        Commorose* c = (Commorose*)getChildByName("commorose");
+        if(!c)
+        {
+            c = new Commorose("commorose");
+            c->setPosition(touch->getLocation());
+            addChild(c);
+        }
+        else
+        {
+            Vec2 delta = touch->getLocation() - touch->getStartLocation();
+            if(delta.length() > COMMOROSE_MIN_DIST)
+                c->setCursorAngle(StaticHelpers::headingAngle(delta));   
+            else
+                c->setCursorAngle(-1);
+        }
     }
 }
 
 void HelloWorld::onTouchEnded(Touch* touch, Event* e)
 {
-
+    Commorose* c = (Commorose*)getChildByName("commorose");
+    if(c)
+    {
+        switch (c->getMode()) //TODO: do something with this
+        {
+            case 0:
+            {
+                break;
+            }
+            case 1:
+            {
+                break;
+            }
+            case 2:
+            {
+                break;
+            }
+            case 3:
+            {
+                break;
+            }
+        }
+        removeChildByName("commorose");
+    }
 }
 
 void HelloWorld::lookAt(Vec2 pos)

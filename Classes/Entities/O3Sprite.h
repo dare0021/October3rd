@@ -20,7 +20,7 @@ public:
     O3Sprite(std::string path);
     ~O3Sprite();
     void update(float);
-    void addSprite(std::string name, std::string path);
+    cocos2d::Sprite* addSprite(std::string name, std::string path, bool visible = true);
     bool removeSprite(std::string name);
 
     int getID();
@@ -36,9 +36,7 @@ public:
     float getFriction();
     cocos2d::Vec2 getHeadingVector();
 
-private:
-	static int lastID;
-	int ID;
+protected:
     PhysicsModel physicsModel;
     bool updateSuspended;
     float updateSuspendTime;
@@ -48,6 +46,10 @@ private:
     ///Separate name in O3Sprite from Sprite name
     ///So we can use this name for roles instead of a unique ID
     std::unordered_map<std::string, cocos2d::Sprite*> sprites;
+
+private:
+	static int lastID;
+	int ID;
 };
 
 #endif // __O3SPRITE_H__

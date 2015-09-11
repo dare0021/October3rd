@@ -109,12 +109,14 @@ void O3Sprite::update(float dt)
 	}
 }
 
-void O3Sprite::addSprite(std::string name, std::string path)
+Sprite* O3Sprite::addSprite(std::string name, std::string path, bool visible)
 {
 	auto ms = Sprite::create(path);
 	ms->setName(name);
+	ms->setVisible(visible);
 	sprites.insert({ name, ms });
 	this->addChild(ms);
+	return ms;
 }
 
 bool O3Sprite::removeSprite(std::string name)

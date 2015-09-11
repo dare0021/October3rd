@@ -21,3 +21,14 @@ char StaticHelpers::keycodeToChar(EventKeyboard::KeyCode code)
         return '\0';
     }
 }
+
+/// translates vector to degrees with due north as 0 and the angle going CW
+float StaticHelpers::headingAngle(Vec2 vect)
+{
+    float retval = atan(vect.x/vect.y);
+    if(vect.y < 0)
+        retval += M_PI;
+    if(retval < 0)
+        retval += 2 * M_PI;
+    return retval * 180 / M_PI;
+}
