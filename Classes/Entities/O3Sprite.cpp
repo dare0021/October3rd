@@ -99,7 +99,8 @@ void O3Sprite::update(float dt)
 
 	if(physicsModel == Newtonian)
 	{
-		speed += (force - friction * speed * speed / 2) * dt / mass;
+		auto mu = speed>0 ? friction : -1 * friction;
+		speed += (force - mu * speed * speed / 2) * dt / mass;
 	}
 	if(physicsModel != Stationary)
 	{

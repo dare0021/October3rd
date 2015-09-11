@@ -148,7 +148,7 @@ void HelloWorld::onKeyTyped(EventKeyboard::KeyCode keyCode)
         auto s = getSpriteByName("dummy.png");
         if(s)
         {
-            s->setForce(0);
+            s->setForce(s->getForce() - 1000);
         }
         break;
     }
