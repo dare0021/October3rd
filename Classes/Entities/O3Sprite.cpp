@@ -1,6 +1,5 @@
 #include "O3Sprite.h"
-
-#include "Helpers/Consts.h"
+#include "Helpers/StaticHelpers.h"
 
 USING_NS_CC;
 
@@ -14,7 +13,8 @@ friction(0),
 mass(1),
 force(0),
 updateSuspended(false),
-updateSuspendTime(0)
+updateSuspendTime(0),
+animated(false)
 {
 	lastID++;
 	addSprite("mainSprite", mainSprite);
@@ -107,6 +107,20 @@ void O3Sprite::update(float dt)
 		Vec2 moveBy = getHeadingVector() * speed * dt;
 		setPosition(getPosition() + moveBy);
 	}
+
+	while(animated && animations.size())
+	{
+		for (auto kvp : animations)
+			kvp.second->update(dt);
+		auto ad = animations.find(currentAnimation);
+		if(ad == animations.end())
+			break;
+		removeChildByName("mainSprite");
+		auto s = StaticHelpers::duplicateSprite(ad->second->getCurrentSprite());
+		s->setName("mainSprite");
+		addChild(s);
+		break;
+	}
 }
 
 Sprite* O3Sprite::addSprite(std::string name, std::string path, bool visible)
@@ -126,4 +140,51 @@ bool O3Sprite::removeSprite(std::string name)
 	this->removeChild(sprite);
 	sprites.erase(name);
 	return found;
+}
+
+std::string O3Sprite::getCurrentAnimation()
+{
+	return currentAnimation;
+}
+
+void O3Sprite::addAnimation(std::string name, std::string path, int count, float frameRate, bool loop)
+{
+	auto val = new AnimData(path, count, frameRate, loop);
+	animations.insert({ name, val });
+}
+
+bool O3Sprite::setAnimation(std::string name)
+{
+	if(currentAnimation != name)
+		return forceAnimation(name);
+	return false;
+}
+
+bool O3Sprite::forceAnimation(std::string name)
+{
+	auto ad = animations.find(name);
+	CCASSERT(ad != animations.end(), "Non-existant animation name");
+	if(ad == animations.end()) //assert does not run on release builds
+		return false;
+	currentAnimation = name;
+	return true;
+}
+
+bool O3Sprite::playAnimation()
+{
+	bool output = !animated;
+	animated = true;
+	return output;
+}
+
+bool O3Sprite::isAnimated()
+{
+	return animated;
+}
+
+bool O3Sprite::stopAnimation()
+{
+	bool output = animated;
+	animated = false;
+	return output;
 }

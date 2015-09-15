@@ -2,7 +2,8 @@
 #define __O3SPRITE_H__
 
 #include "cocos2d.h"
-
+#include "AnimData.h"
+#include "Helpers/Consts.h"
 #include <unordered_map>
 
 ///All objects on screen, such as the player sub, decoys, or even popup messages
@@ -36,6 +37,14 @@ public:
     float getFriction();
     cocos2d::Vec2 getHeadingVector();
 
+    std::string getCurrentAnimation();
+    void addAnimation(std::string name, std::string path, int count, float frameRate = TARGET_FPS, bool loop = true);
+    bool setAnimation(std::string name);
+    bool forceAnimation(std::string name);
+    bool playAnimation();
+    bool isAnimated();
+    bool stopAnimation();
+
 protected:
     PhysicsModel physicsModel;
     bool updateSuspended;
@@ -47,9 +56,13 @@ protected:
     ///So we can use this name for roles instead of a unique ID
     std::unordered_map<std::string, cocos2d::Sprite*> sprites;
 
+    bool animated;
+    std::unordered_map<std::string, AnimData*> animations;
+    std::string currentAnimation;
+
 private:
-	static int lastID;
-	int ID;
+    static int lastID;
+    int ID;
 };
 
 #endif // __O3SPRITE_H__

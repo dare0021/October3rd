@@ -39,6 +39,9 @@
     <ClCompile Include="..\Classes\Entities\Commorose.cpp">
       <Filter>src\Entities</Filter>
     </ClCompile>
+    <ClCompile Include="..\Classes\Entities\AnimData.cpp">
+      <Filter>src\Entities</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="main.h">
@@ -63,6 +66,9 @@
       <Filter>src\Entities</Filter>
     </ClInclude>
     <ClInclude Include="..\Classes\Entities\Commorose.h">
+      <Filter>src\Entities</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Classes\Entities\AnimData.h">
       <Filter>src\Entities</Filter>
     </ClInclude>
   </ItemGroup>

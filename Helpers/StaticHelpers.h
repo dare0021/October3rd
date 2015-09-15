@@ -6,8 +6,9 @@
 class StaticHelpers
 {
 public:
+	static cocos2d::Sprite* duplicateSprite(cocos2d::Sprite *sprite);
     static char keycodeToChar(cocos2d::EventKeyboard::KeyCode code);
-    static float StaticHelpers::headingAngle(cocos2d::Vec2 vect);
+    static float headingAngle(cocos2d::Vec2 vect);
 };
 
 #endif // __STATICHELPERS_H__

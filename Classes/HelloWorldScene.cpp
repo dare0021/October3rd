@@ -102,7 +102,7 @@ void HelloWorld::onKeyPressed(EventKeyboard::KeyCode keyCode, Event* event)
 {
     lastKey = keyCode;
     activeKeys.push_back(keyCode);
-    typeKeyCandidates.insert(std::pair<EventKeyboard::KeyCode, float*>(keyCode, new float(0)));
+    typeKeyCandidates.insert({keyCode, new float(0)});
 }
 
 void HelloWorld::onKeyReleased(EventKeyboard::KeyCode keyCode, Event* event)
@@ -168,7 +168,13 @@ void HelloWorld::onMouseDown(Event* event)
     ss << e->getMouseButton();
 
     if(e->getMouseButton() == 1 && !getChildByName("dummy.png"))
-        addSprite(new O3Sprite("dummy.png"));
+    {
+        auto s = new O3Sprite("dummy.png");
+        addSprite(s);
+        s->addAnimation("idle", "animtest", 9, 12);
+        s->setAnimation("idle");
+        s->playAnimation();
+    }
 }
 
 void HelloWorld::onMouseUp(Event* event)

@@ -4,6 +4,18 @@
 		"selected_items":
 		[
 			[
+				"getCu",
+				"getCursorY"
+			],
+			[
+				"look",
+				"lookingAt"
+			],
+			[
+				"friction",
+				"frictionKinetic"
+			],
+			[
 				"remove",
 				"removeSpriteByName"
 			],
@@ -28,18 +40,26 @@
 	"buffers":
 	[
 		{
-			"file": "Classes/HelloWorldScene.cpp",
+			"file": "Classes/Entities/O3Sprite.cpp",
 			"settings":
 			{
-				"buffer_size": 8734,
+				"buffer_size": 1984,
 				"line_ending": "Windows"
 			}
 		},
 		{
-			"file": "Classes/Entities/O3Sprite.cpp",
+			"file": "Classes/HelloWorldScene.cpp",
 			"settings":
 			{
-				"buffer_size": 1466,
+				"buffer_size": 9752,
+				"line_ending": "Windows"
+			}
+		},
+		{
+			"file": "Classes/Entities/Commorose.cpp",
+			"settings":
+			{
+				"buffer_size": 2336,
 				"line_ending": "Windows"
 			}
 		},
@@ -47,7 +67,7 @@
 			"file": "Classes/HelloWorldScene.h",
 			"settings":
 			{
-				"buffer_size": 2029,
+				"buffer_size": 2044,
 				"line_ending": "Windows"
 			}
 		},
@@ -55,7 +75,7 @@
 			"file": "Helpers/Consts.h",
 			"settings":
 			{
-				"buffer_size": 288,
+				"buffer_size": 263,
 				"line_ending": "Windows"
 			}
 		},
@@ -63,7 +83,15 @@
 			"file": "Classes/Entities/O3Sprite.h",
 			"settings":
 			{
-				"buffer_size": 1066,
+				"buffer_size": 1368,
+				"line_ending": "Windows"
+			}
+		},
+		{
+			"file": "Classes/Entities/Commorose.h",
+			"settings":
+			{
+				"buffer_size": 409,
 				"line_ending": "Windows"
 			}
 		}
@@ -92,10 +120,13 @@
 	},
 	"file_history":
 	[
+		"/C/October3rd/Classes/Entities/Commorose.cpp",
+		"/C/October3rd/Helpers/StaticHelpers.h",
+		"/C/October3rd/Helpers/StaticHelpers.cpp",
+		"/C/October3rd/Classes/HelloWorldScene.cpp",
 		"/C/October3rd/Classes/Entities/Entity.h",
 		"/C/October3rd/Classes/Entities/Entity.cpp",
 		"/C/October3rd/Helpers/Consts.h",
-		"/C/October3rd/Helpers/StaticHelpers.cpp",
 		"/C/October3rd/Classes/HelloWorldScene.h",
 		"/C/Users/Dev1/AppData/Roaming/Sublime Text 2/Packages/User/Default (Windows).sublime-keymap",
 		"/C/Users/Dev1/AppData/Roaming/Sublime Text 2/Packages/Default/Default (Windows).sublime-keymap",
@@ -104,11 +135,11 @@
 	],
 	"find":
 	{
-		"height": 35.0
+		"height": 36.0
 	},
 	"find_in_files":
 	{
-		"height": 93.0,
+		"height": 0.0,
 		"where_history":
 		[
 			"C:\\October3rd\\Classes,C:\\October3rd\\Helpers"
@@ -119,6 +150,13 @@
 		"case_sensitive": false,
 		"find_history":
 		[
+			"setvisi",
+			"->setPosition\\(-?130, -?35\\);",
+			"scroll",
+			"lookAt",
+			"lookat",
+			"Speed",
+			"speed",
 			"#define",
 			"define",
 			"addchild(s",
@@ -135,7 +173,7 @@
 		"highlight": true,
 		"in_selection": false,
 		"preserve_case": false,
-		"regex": false,
+		"regex": true,
 		"replace_history":
 		[
 		],
@@ -148,23 +186,50 @@
 	"groups":
 	[
 		{
-			"selected": 0,
+			"selected": 1,
 			"sheets":
 			[
 				{
 					"buffer": 0,
-					"file": "Classes/HelloWorldScene.cpp",
+					"file": "Classes/Entities/O3Sprite.cpp",
 					"settings":
 					{
-						"buffer_size": 8734,
+						"buffer_size": 1984,
 						"regions":
 						{
 						},
 						"selection":
 						[
 							[
-								3541,
-								3541
+								1548,
+								1548
+							]
+						],
+						"settings":
+						{
+							"syntax": "Packages/C++/C++.tmLanguage",
+							"translate_tabs_to_spaces": false
+						},
+						"translation.x": 0.0,
+						"translation.y": 1710.0,
+						"zoom_level": 1.0
+					},
+					"type": "text"
+				},
+				{
+					"buffer": 1,
+					"file": "Classes/HelloWorldScene.cpp",
+					"settings":
+					{
+						"buffer_size": 9752,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								8018,
+								8018
 							]
 						],
 						"settings":
@@ -174,33 +239,34 @@
 							"translate_tabs_to_spaces": true
 						},
 						"translation.x": 0.0,
-						"translation.y": 2106.0,
+						"translation.y": 5631.0,
 						"zoom_level": 1.0
 					},
 					"type": "text"
 				},
 				{
-					"buffer": 1,
-					"file": "Classes/Entities/O3Sprite.cpp",
+					"buffer": 2,
+					"file": "Classes/Entities/Commorose.cpp",
 					"settings":
 					{
-						"buffer_size": 1466,
+						"buffer_size": 2336,
 						"regions":
 						{
 						},
 						"selection":
 						[
 							[
-								955,
-								955
+								1041,
+								1041
 							]
 						],
 						"settings":
 						{
-							"syntax": "Packages/C++/C++.tmLanguage"
+							"syntax": "Packages/C++/C++.tmLanguage",
+							"translate_tabs_to_spaces": false
 						},
 						"translation.x": 0.0,
-						"translation.y": 844.0,
+						"translation.y": 0.0,
 						"zoom_level": 1.0
 					},
 					"type": "text"
@@ -208,23 +274,23 @@
 			]
 		},
 		{
-			"selected": 0,
+			"selected": 1,
 			"sheets":
 			[
 				{
-					"buffer": 2,
+					"buffer": 3,
 					"file": "Classes/HelloWorldScene.h",
 					"settings":
 					{
-						"buffer_size": 2029,
+						"buffer_size": 2044,
 						"regions":
 						{
 						},
 						"selection":
 						[
 							[
-								61,
-								61
+								716,
+								716
 							]
 						],
 						"settings":
@@ -233,26 +299,26 @@
 							"tab_size": 4,
 							"translate_tabs_to_spaces": true
 						},
-						"translation.x": 0.0,
-						"translation.y": 0.0,
+						"translation.x": 30.0,
+						"translation.y": 228.0,
 						"zoom_level": 1.0
 					},
 					"type": "text"
 				},
 				{
-					"buffer": 3,
+					"buffer": 4,
 					"file": "Helpers/Consts.h",
 					"settings":
 					{
-						"buffer_size": 288,
+						"buffer_size": 263,
 						"regions":
 						{
 						},
 						"selection":
 						[
 							[
-								224,
-								224
+								238,
+								238
 							]
 						],
 						"settings":
@@ -266,19 +332,47 @@
 					"type": "text"
 				},
 				{
-					"buffer": 4,
+					"buffer": 5,
 					"file": "Classes/Entities/O3Sprite.h",
 					"settings":
 					{
-						"buffer_size": 1066,
+						"buffer_size": 1368,
 						"regions":
 						{
 						},
 						"selection":
 						[
 							[
-								365,
-								365
+								545,
+								545
+							]
+						],
+						"settings":
+						{
+							"syntax": "Packages/C++/C++.tmLanguage",
+							"tab_size": 4,
+							"translate_tabs_to_spaces": true
+						},
+						"translation.x": 34.0,
+						"translation.y": 228.0,
+						"zoom_level": 1.0
+					},
+					"type": "text"
+				},
+				{
+					"buffer": 6,
+					"file": "Classes/Entities/Commorose.h",
+					"settings":
+					{
+						"buffer_size": 409,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								377,
+								377
 							]
 						],
 						"settings":

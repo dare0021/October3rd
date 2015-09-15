@@ -4,6 +4,30 @@
 
 USING_NS_CC;
 
+///selectively copies parts of the given Sprite
+Sprite* StaticHelpers::duplicateSprite(Sprite *sprite)
+{
+    Sprite* pRet = Sprite::createWithTexture(sprite->getTexture());
+    if (sprite->getChildrenCount() > 0) {
+        auto children = sprite->getChildren();
+        for (auto child : children) {
+            auto spriteChild = dynamic_cast<Sprite*>(child);
+            if (! spriteChild) continue;
+            auto clone = duplicateSprite(spriteChild);
+            // can't set boundingBox
+            //might need to set textureRect, scale, rotation
+            //clone->boundingBox() = spriteChild->boundingBox();
+            clone->setContentSize(spriteChild->getContentSize());
+            clone->setPosition(spriteChild->getPosition());
+            clone->setAnchorPoint(spriteChild->getAnchorPoint());
+            clone->setLocalZOrder(spriteChild->getLocalZOrder());
+            clone->setTag(spriteChild->getTag());
+            pRet->addChild(clone);
+        }
+    }
+    return pRet;
+}
+
 /// only works for upper case & numbers
 char StaticHelpers::keycodeToChar(EventKeyboard::KeyCode code)
 {
