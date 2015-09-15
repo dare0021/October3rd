@@ -42,6 +42,9 @@
     <ClCompile Include="..\Classes\Entities\AnimData.cpp">
       <Filter>src\Entities</Filter>
     </ClCompile>
+    <ClCompile Include="..\Helpers\SaferAudioEngine.cpp">
+      <Filter>src\Helpers</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="main.h">
@@ -70,6 +73,9 @@
     </ClInclude>
     <ClInclude Include="..\Classes\Entities\AnimData.h">
       <Filter>src\Entities</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Helpers\SaferAudioEngine.h">
+      <Filter>src\Helpers</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

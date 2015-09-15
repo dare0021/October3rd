@@ -18,21 +18,18 @@ void SaferAudioEngine::destroy()
     ((SimpleAudioEngine*)engine)->end();
 }
 
-#ifndef NO_SOUND
-
-int SaferAudioEngine::playSoundEffect(std::string path, float gain, bool loop)
+int SaferAudioEngine::playSoundEffect(std::string path, bool loop)
 {
     CCASSERT(soundEffectLoaded(path), "sound effect was not loaded");
-    CCASSERT(0 <= gain && gain <= 1, "gain should be [0, 1]");
-    return ((SimpleAudioEngine*)engine)->playEffect((SOUND_PATH+path).c_str(), loop, 1, 0, gain);
+    return ((SimpleAudioEngine*)engine)->playEffect((SOUND_PATH+path).c_str(), loop, 1, 0, 1);
 }
 
 ///Will not play if the effect is already present
-int SaferAudioEngine::playNamedEffect(std::string path, std::string name, float gain, bool loop)
+int SaferAudioEngine::playNamedEffect(std::string path, std::string name, bool loop)
 {
     if(namedSoundEffects.find(name) != namedSoundEffects.end())
         return namedSoundEffects.find(name)->second;
-    int id = playSoundEffect(path, gain, loop);
+    int id = playSoundEffect(path, loop);
     namedSoundEffects[name] = id;
     return id;
 }

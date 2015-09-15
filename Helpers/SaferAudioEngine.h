@@ -10,8 +10,8 @@ class SaferAudioEngine
 public:
     SaferAudioEngine();
 
-    int playSoundEffect(std::string path, float gain = DEFAULT_VOLUME, bool loop = false);
-    int playNamedEffect(std::string path, std::string name, float gain = DEFAULT_VOLUME, bool loop = false);
+    int playSoundEffect(std::string path, bool loop = false);
+    int playNamedEffect(std::string path, std::string name, bool loop = false);
     void pauseSoundEffect(int id);
     bool pauseNamedEffect(std::string name);
     void stopSoundEffect(int id);
