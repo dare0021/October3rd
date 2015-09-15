@@ -258,7 +258,7 @@ void HelloWorld::onTouchMoved(Touch* touch, Event* e)
         if(!c)
         {
             c = new Commorose("commorose");
-            c->setPosition(touch->getLocation());
+            c->setPosition(pointingAt());
             addChild(c);
         }
         else
@@ -311,6 +311,11 @@ Vec2 HelloWorld::lookingAt()
 {
     Size visibleSize = Director::getInstance()->getVisibleSize();
     return -1 * this->getPosition() + Vec2(visibleSize.width, visibleSize.height)/2;
+}
+
+Vec2 HelloWorld::pointingAt()
+{
+    return -1 * this->getPosition() + lastCursor;
 }
 
 void HelloWorld::moveScreenBy(Vec2 diff)

@@ -44,6 +44,7 @@ private:
 
     void lookAt(cocos2d::Vec2);
     cocos2d::Vec2 lookingAt();
+    cocos2d::Vec2 pointingAt();
     void moveScreenBy(cocos2d::Vec2);
     cocos2d::Vec2 screenspaceToWorldspace(cocos2d::Vec2);
     cocos2d::Vec2 worldspaceToScreenspace(cocos2d::Vec2);
