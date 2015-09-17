@@ -53,6 +53,10 @@ bool HelloWorld::init()
     // add the label as a child to this layer
     overlaySprite->addChild(label, 1);
 
+    cursorSprite = Sprite::create("cursors/arrow.png");
+    addChild(cursorSprite, 9999);
+    cursorSprite->setScale(0.7);
+
     this->scheduleUpdate();
     return true;
 }
@@ -203,6 +207,7 @@ void HelloWorld::onMouseMove(Event* event)
     EventMouse* e = (EventMouse*)event;
     lastCursor.x = e->getCursorX();
     lastCursor.y = e->getCursorY();
+    cursorSprite->setPosition(pointingAt() + CURSOR_OFFSET);
     if(isMouseDown[0])
     {//LMB drag
 
@@ -267,7 +272,7 @@ void HelloWorld::onTouchMoved(Touch* touch, Event* e)
             if(delta.length() > COMMOROSE_MIN_DIST)
                 c->setCursorAngle(StaticHelpers::headingAngle(delta));   
             else
-                c->setCursorAngle(-1);
+                c->setCursorAngle(-90);
         }
     }
 }
@@ -277,25 +282,37 @@ void HelloWorld::onTouchEnded(Touch* touch, Event* e)
     Commorose* c = (Commorose*)getChildByName("commorose");
     if(c)
     {
+        removeChild(cursorSprite);
         switch (c->getMode()) //TODO: do something with this
         {
+            case -1:
+            {
+                cursorSprite = Sprite::create("cursors/arrow.png");
+                break;
+            }
             case 0:
             {
+                cursorSprite = Sprite::create("cursors/speed.png");
                 break;
             }
             case 1:
             {
+                cursorSprite = Sprite::create("cursors/defences.png");
                 break;
             }
             case 2:
             {
+                cursorSprite = Sprite::create("cursors/sensors.png");
                 break;
             }
             case 3:
             {
+                cursorSprite = Sprite::create("cursors/weapons.png");
                 break;
             }
         }
+        addChild(cursorSprite);
+        cursorSprite->setPosition(pointingAt() + CURSOR_OFFSET);
         removeChildByName("commorose");
     }
 }

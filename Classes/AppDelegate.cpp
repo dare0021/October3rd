@@ -1,6 +1,7 @@
 #include "AppDelegate.h"
 #include "HelloWorldScene.h"
 #include "Helpers/Consts.h"
+#include "Helpers/SaferAudioEngine.h"
 
 USING_NS_CC;
 
@@ -73,6 +74,7 @@ bool AppDelegate::applicationDidFinishLaunching() {
     auto scene = HelloWorld::createScene();
 
     // run
+    director->getOpenGLView()->setCursorVisible(false);
     director->runWithScene(scene);
 
     return true;
@@ -83,7 +85,7 @@ void AppDelegate::applicationDidEnterBackground() {
     Director::getInstance()->stopAnimation();
 
     // if you use SimpleAudioEngine, it must be pause
-    // SimpleAudioEngine::getInstance()->pauseBackgroundMusic();
+    SaferAudioEngine().pauseBGM();
 }
 
 // this function will be called when the app is active again
@@ -91,5 +93,5 @@ void AppDelegate::applicationWillEnterForeground() {
     Director::getInstance()->startAnimation();
 
     // if you use SimpleAudioEngine, it must resume here
-    // SimpleAudioEngine::getInstance()->resumeBackgroundMusic();
+    SaferAudioEngine().resumeBGM();
 }

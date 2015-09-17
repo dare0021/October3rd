@@ -3,7 +3,7 @@
 USING_NS_CC;
 
 Commorose::Commorose(std::string path) : O3Sprite(path + "/center.png"),
-cursorAngle(-1)
+cursorAngle(-90)
 {
 	setName("commorose");
 	addSprite("defences off", path + "/defences.png")->setPosition(130, -35);
@@ -18,20 +18,19 @@ cursorAngle(-1)
 
 void Commorose::setCursorAngle(float nca)
 {
-	CCASSERT((0 <= nca && nca < 360) || nca == -1, "Invalid angle for Commorose");
+	CCASSERT((0 <= nca && nca < 360) || nca == -90, "Invalid angle for Commorose");
 	cursorAngle = nca;
-
-	if(cursorAngle == -1)
-	{
-		sprites.find("defences on")->second->setVisible(false);
-		sprites.find("ping on")->second->setVisible(false);
-		sprites.find("speed on")->second->setVisible(false);
-		sprites.find("weapons on")->second->setVisible(false);
-		return;
-	}
 
 	switch (getMode())
 	{
+		case -1:
+		{
+			sprites.find("defences on")->second->setVisible(false);
+			sprites.find("ping on")->second->setVisible(false);
+			sprites.find("speed on")->second->setVisible(false);
+			sprites.find("weapons on")->second->setVisible(false);
+			break;
+		}
 		case 0:
 		{
 			sprites.find("defences on")->second->setVisible(false);
