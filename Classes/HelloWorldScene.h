@@ -18,7 +18,7 @@ public:
     virtual void update(float);
 
 private:
-    cocos2d::Sprite *overlaySprite, *cursorSprite;
+    cocos2d::Sprite *overlaySprite, *cursorSprite, *protractor, *commorose;
     cocos2d::EventKeyboard::KeyCode lastKey;
     cocos2d::Vec2 lastCursor;
     std::vector<cocos2d::EventKeyboard::KeyCode> activeKeys;

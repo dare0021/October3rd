@@ -149,6 +149,7 @@ xcopy "$(ProjectDir)..\Resources" "$(OutDir)" /D /E /I /F /Y
     <ClCompile Include="..\Classes\Entities\Commorose.cpp" />
     <ClCompile Include="..\Classes\Entities\Entity.cpp" />
     <ClCompile Include="..\Classes\Entities\O3Sprite.cpp" />
+    <ClCompile Include="..\Classes\Entities\Protractor.cpp" />
     <ClCompile Include="..\Classes\HelloWorldScene.cpp" />
     <ClCompile Include="..\Helpers\SaferAudioEngine.cpp" />
     <ClCompile Include="..\Helpers\StaticHelpers.cpp" />
@@ -160,6 +161,7 @@ xcopy "$(ProjectDir)..\Resources" "$(OutDir)" /D /E /I /F /Y
     <ClInclude Include="..\Classes\Entities\Commorose.h" />
     <ClInclude Include="..\Classes\Entities\Entity.h" />
     <ClInclude Include="..\Classes\Entities\O3Sprite.h" />
+    <ClInclude Include="..\Classes\Entities\Protractor.h" />
     <ClInclude Include="..\Classes\HelloWorldScene.h" />
     <ClInclude Include="..\Helpers\Consts.h" />
     <ClInclude Include="..\Helpers\SaferAudioEngine.h" />

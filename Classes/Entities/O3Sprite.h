@@ -22,6 +22,7 @@ public:
     ~O3Sprite();
     void update(float);
     cocos2d::Sprite* addSprite(std::string name, std::string path, bool visible = true);
+    cocos2d::Sprite* addSprite(std::string name, cocos2d::Sprite* sprite, bool visible = true);
     bool removeSprite(std::string name);
 
     int getID();

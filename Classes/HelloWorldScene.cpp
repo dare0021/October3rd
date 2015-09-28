@@ -3,6 +3,7 @@
 #include "Helpers/StaticHelpers.h"
 #include "Helpers/Consts.h"
 #include "Entities/Commorose.h"
+#include "Entities/Protractor.h"
 
 USING_NS_CC;
 
@@ -57,6 +58,13 @@ bool HelloWorld::init()
     addChild(cursorSprite, 9999);
     cursorSprite->setScale(0.7);
 
+    protractor = (Sprite*) new Protractor("protractor", PROTRACTOR_SIZE);
+    addChild(protractor, 0);
+
+	commorose = (Sprite*) new Commorose("commorose");
+    addChild(commorose, 0);
+
+    lookAt(Vec2(0,0));
     this->scheduleUpdate();
     return true;
 }
@@ -133,28 +141,28 @@ void HelloWorld::onKeyTyped(EventKeyboard::KeyCode keyCode)
 {
     switch (keyCode)
     {
-    case EventKeyboard::KeyCode::KEY_UP_ARROW:
-    {
-        auto s = getSpriteByName("dummy.png");
-        if(s)
+        case EventKeyboard::KeyCode::KEY_UP_ARROW:
         {
-            s->setPhysicsModel(O3Sprite::Newtonian);
-            s->setMass(300);
-            s->setFriction(5);
-            s->setRotation(((int)(s->getRotation() + 45))%360);
-            s->setForce(s->getForce() + 1000);
+            auto s = getSpriteByName("dummy.png");
+            if(s)
+            {
+                s->setPhysicsModel(O3Sprite::Newtonian);
+                s->setMass(300);
+                s->setFriction(5);
+                s->setRotation(((int)(s->getRotation() + 45))%360);
+                s->setForce(s->getForce() + 1000);
+            }
+            break;
         }
-        break;
-    }
-    case EventKeyboard::KeyCode::KEY_DOWN_ARROW:
-    {
-        auto s = getSpriteByName("dummy.png");
-        if(s)
+        case EventKeyboard::KeyCode::KEY_DOWN_ARROW:
         {
-            s->setForce(s->getForce() - 1000);
+            auto s = getSpriteByName("dummy.png");
+            if(s)
+            {
+                s->setForce(s->getForce() - 1000);
+            }
+            break;
         }
-        break;
-    }
     }
 }
 
@@ -208,6 +216,9 @@ void HelloWorld::onMouseMove(Event* event)
     lastCursor.x = e->getCursorX();
     lastCursor.y = e->getCursorY();
     cursorSprite->setPosition(pointingAt() + CURSOR_OFFSET);
+    Protractor* p = (Protractor*)protractor;
+    p->setCursorAngle(StaticHelpers::headingAngle(lastCursor - Director::getInstance()->getVisibleSize()/2));
+
     if(isMouseDown[0])
     {//LMB drag
 
@@ -220,9 +231,12 @@ void HelloWorld::onMouseMove(Event* event)
     {//MMB drag
 
     }
+
     std::stringstream ss;
     ss << "MousePosition X:";
     ss << e->getCursorX() << " Y:" << e->getCursorY();
+    CCLOG("%s", ss.str().c_str());
+    CCLOG("PROT POS %f %f", p->getPosition().x, p->getPosition().y);
 }
 
 ///Input is 1 or -1
@@ -252,6 +266,8 @@ void HelloWorld::onTouchMoved(Touch* touch, Event* e)
 {
     bool rmb = isMouseDown[1];
     bool mmb = isMouseDown[2];
+    Vec2 fullDelta = touch->getLocation() - touch->getStartLocation();
+    float headingAngle = StaticHelpers::headingAngle(fullDelta);
     if(rmb)
     {//RMB drag
         CCLOG("RMB");
@@ -259,18 +275,16 @@ void HelloWorld::onTouchMoved(Touch* touch, Event* e)
     }
     if(!(rmb || mmb))
     {
-        Commorose* c = (Commorose*)getChildByName("commorose");
-        if(!c)
+        Commorose* c = (Commorose*)commorose;
+        if(!c->isVisible())
         {
-            c = new Commorose("commorose");
             c->setPosition(pointingAt());
-            addChild(c);
+            c->setVisible(true);
         }
         else
         {
-            Vec2 delta = touch->getLocation() - touch->getStartLocation();
-            if(delta.length() > COMMOROSE_MIN_DIST)
-                c->setCursorAngle(StaticHelpers::headingAngle(delta));   
+            if(fullDelta.length() > COMMOROSE_MIN_DIST)
+                c->setCursorAngle(headingAngle);   
             else
                 c->setCursorAngle(-90);
         }
@@ -279,7 +293,7 @@ void HelloWorld::onTouchMoved(Touch* touch, Event* e)
 
 void HelloWorld::onTouchEnded(Touch* touch, Event* e)
 {
-    Commorose* c = (Commorose*)getChildByName("commorose");
+    Commorose* c = (Commorose*)commorose;
     if(c)
     {
         removeChild(cursorSprite);
@@ -313,14 +327,16 @@ void HelloWorld::onTouchEnded(Touch* touch, Event* e)
         }
         addChild(cursorSprite);
         cursorSprite->setPosition(pointingAt() + CURSOR_OFFSET);
-        removeChildByName("commorose");
+        commorose->setVisible(false);
     }
 }
 
+///all screen move functions should use this
 void HelloWorld::lookAt(Vec2 pos)
 {
     Size visibleSize = Director::getInstance()->getVisibleSize();
     this->setPosition(pos - Vec2(visibleSize.width, visibleSize.height)/2);
+    protractor->setPosition(lookingAt());
     CCLOG("NOW LOOKING AT: (%f %f)", lookingAt().x, lookingAt().y);
 }
 

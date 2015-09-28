@@ -133,6 +133,15 @@ Sprite* O3Sprite::addSprite(std::string name, std::string path, bool visible)
 	return ms;
 }
 
+Sprite* O3Sprite::addSprite(std::string name, Sprite* sprite, bool visible)
+{
+	sprite->setName(name);
+	sprite->setVisible(visible);
+	sprites.insert({ name, sprite });
+	this->addChild(sprite);
+	return sprite;
+}
+
 bool O3Sprite::removeSprite(std::string name)
 {
 	auto sprite = sprites.find(name)->second;
