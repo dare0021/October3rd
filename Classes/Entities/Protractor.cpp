@@ -1,4 +1,5 @@
-#include "Protractor.h"
+﻿#include "Protractor.h"
+#include "ui/CocosGUI.h"
 
 USING_NS_CC;
 
@@ -7,11 +8,22 @@ cursorAngle(-90), radius(radius)
 {
 	setName("Protractor");
 	DrawNode *drawnode = DrawNode::create();
-	drawnode->drawDot(Vec2(0,0), radius, Color4F(1,1,1,0.2));
+	drawnode->drawDot(Vec2(0,0), radius, Color4F(1,1,1,0.1));
+	for (int i=0; i<360; i+=10)
+	{
+		drawnode->drawSegment(radius*0.9*angleToVector(i), radius*angleToVector(i), 
+								PROTRACTOR_LINE_THICKNESS, Color4F(1,1,1,0.2));
+		if (i % 20)
+			continue;
+		std::stringstream ss;
+		ss << i;
+		auto txt = ui::Text::create(ss.str(), "", 15);
+		txt->setPosition(radius*0.8*angleToVector(i));
+		txt->setOpacity(128);
+		drawnode->addChild(txt);
+	}
 	removeSprite("mainSprite");
 	addSprite("mainSprite", (Sprite*)drawnode);
-
-	drawnode = DrawNode::create();
 }
 
 void Protractor::setCursorAngle(float nca)
@@ -24,8 +36,8 @@ void Protractor::setCursorAngle(float nca)
 	if(cursorAngle >= 0)
 	{
 		DrawNode *drawnode = DrawNode::create();
-		drawnode->drawSegment(Vec2(0,0), radius*Vec2(sin(cursorAngle*M_PI/180), cos(cursorAngle*M_PI/180)), 
-								PROTRACTOR_LINE_THICKNESS, Color4F(1,1,1,0.7));
+		drawnode->drawSegment(Vec2(0,0), radius*angleToVector(cursorAngle), 
+								PROTRACTOR_LINE_THICKNESS, Color4F(1,1,1,0.5));
 		addSprite("indicatorLine", (Sprite*)drawnode);
 	}
 }
@@ -38,4 +50,9 @@ float Protractor::getCursorAngle()
 float Protractor::getRadius()
 {
 	return radius;
+}
+
+Vec2 Protractor::angleToVector(float a)
+{
+	return Vec2(sin(a*M_PI/180), cos(a*M_PI/180));
 }

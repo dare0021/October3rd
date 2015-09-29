@@ -16,6 +16,7 @@ public:
 
 private:
 	float cursorAngle, radius;
+	cocos2d::Vec2 angleToVector(float degrees);
 };
 
 #endif // __PROTRACTOR_H__
