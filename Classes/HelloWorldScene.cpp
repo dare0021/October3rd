@@ -59,10 +59,10 @@ bool HelloWorld::init()
     cursorSprite->setScale(0.7);
 
     protractor = (Sprite*) new Protractor("protractor", PROTRACTOR_SIZE);
-    addChild(protractor, 0);
+    addChild(protractor, 1);
 
 	commorose = (Sprite*) new Commorose("commorose");
-    addChild(commorose, 0);
+    addChild(commorose, 9000);
     commorose->setVisible(false);
 
     moveScreenBy(Director::getInstance()->getVisibleSize()/-2);
@@ -334,8 +334,36 @@ void HelloWorld::onTouchEnded(Touch* touch, Event* e)
 ///all screen move functions should use this
 void HelloWorld::lookAt(Vec2 pos)
 {
-    this->setPosition(-1*(pos - Director::getInstance()->getVisibleSize()/2));
+    Vec2 visible = Director::getInstance()->getVisibleSize();
+    this->setPosition(-1*(pos - visible/2));
     protractor->setPosition(lookingAt());
+    //draw grid
+    Vec2 botleft = screenspaceToWorldspace(Vec2::ZERO);
+    Vec2 topright = screenspaceToWorldspace(visible);
+	DrawNode* gridSprite = (DrawNode*)getChildByName("gridSprite");
+    if(gridSprite)
+        gridSprite->clear();
+    else
+    {
+        gridSprite = DrawNode::create();
+        gridSprite->setName("gridSprite");
+        addChild(gridSprite, 0);
+    }
+    for (int i=botleft.x; i<topright.x; i++)
+    {
+        if(i % (int)GRID_SPACING.x)
+            continue;
+        gridSprite->drawSegment(Vec2(i, botleft.y), Vec2(i, botleft.y+visible.y),
+                                GRID_LINE_THICKNESS, Color4F(1,1,1,0.1));
+    }
+    for (int i=botleft.y; i<topright.y; i++)
+    {
+        if(i % (int)GRID_SPACING.y)
+            continue;
+        gridSprite->drawSegment(Vec2(botleft.x, i), Vec2(botleft.x+visible.x, i),
+                                GRID_LINE_THICKNESS, Color4F(1,1,1,0.1));   
+    }
+
     CCLOG("NOW LOOKING AT: (%f %f)", lookingAt().x, lookingAt().y);
 }
 
