@@ -18,9 +18,9 @@ public:
     virtual void update(float);
 
 private:
-    cocos2d::Sprite *overlaySprite, *cursorSprite, *protractor, *commorose;
+    cocos2d::Sprite *overlaySprite, *cursorSprite, *protractor, *commorose, *playerSub;
     cocos2d::EventKeyboard::KeyCode lastKey;
-    cocos2d::Vec2 lastCursor;
+    cocos2d::Vec2 lastCursor, lastPlayerPos;
     std::vector<cocos2d::EventKeyboard::KeyCode> activeKeys;
     std::vector<O3Sprite*> spriteVect;
     std::unordered_map<cocos2d::EventKeyboard::KeyCode, float*> typeKeyCandidates;
@@ -29,6 +29,7 @@ private:
     bool mouseDownFudge, mouseUpFudge, mouseMoveFudge, mouseScrollFudge;
     #endif
     bool isMouseDown[3]; //cocos2dx only supports left right middle mouse buttons in that order
+    float timeSinceLastMouseUp;
 
 	void onKeyPressed(cocos2d::EventKeyboard::KeyCode keyCode, cocos2d::Event* event);
 	void onKeyReleased(cocos2d::EventKeyboard::KeyCode keyCode, cocos2d::Event* event);
@@ -41,6 +42,7 @@ private:
     void onTouchEnded(cocos2d::Touch* touch, cocos2d::Event* e);
 
     void onKeyTyped(cocos2d::EventKeyboard::KeyCode keyCode);
+    void repaintCursor();
 
     void lookAt(cocos2d::Vec2);
     cocos2d::Vec2 lookingAt();

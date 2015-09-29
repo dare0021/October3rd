@@ -56,3 +56,19 @@ float StaticHelpers::headingAngle(Vec2 vect)
         retval += 2 * M_PI;
     return retval * 180 / M_PI;
 }
+
+bool StaticHelpers::angleIsCloserToB(float a, float val, float b)
+{
+    Vec2 vectA = degreesToVec2(a);
+    Vec2 vectV = degreesToVec2(val);
+    Vec2 vectB = degreesToVec2(b);
+    float diffA = acosf(vectV.dot(vectA)/(vectV.length() * vectA.length())) * 180 / M_PI;
+    float diffB = acosf(vectV.dot(vectB)/(vectV.length() * vectB.length())) * 180 / M_PI;
+    return diffA > diffB;
+}
+
+/// uses due north as 0 and goes CW
+Vec2 StaticHelpers::degreesToVec2(float angle)
+{
+    return Vec2(sin(angle*M_PI/180), cos(angle*M_PI/180));
+}

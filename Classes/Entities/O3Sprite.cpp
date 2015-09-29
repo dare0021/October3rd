@@ -9,9 +9,13 @@ O3Sprite::O3Sprite(std::string mainSprite) :
 ID(lastID+1),
 physicsModel(Stationary),
 speed(0),
+maxSpeed(-1),
 friction(0),
 mass(1),
 force(0),
+maxForce(-1),
+turnSpeed(0.5),
+targetHeading(0),
 updateSuspended(false),
 updateSuspendTime(0),
 animated(false)
@@ -29,6 +33,11 @@ O3Sprite::~O3Sprite()
 	}
 }
 
+int O3Sprite::getID()
+{
+	return ID;
+}
+
 void O3Sprite::setPhysicsModel(PhysicsModel npm)
 {
 	physicsModel = npm;
@@ -41,7 +50,8 @@ O3Sprite::PhysicsModel O3Sprite::getPhysicsModel()
 
 void O3Sprite::setForce(float nf)
 {
-	force = nf;
+	force = nf > maxForce ? maxForce : nf;
+	force = nf < -1*maxForce ? -1*maxForce : nf;
 }
 
 float O3Sprite::getForce()
@@ -51,7 +61,8 @@ float O3Sprite::getForce()
 
 void O3Sprite::setSpeed(float ns)
 {
-	speed = ns;
+	speed = ns > maxSpeed ? maxSpeed : ns;
+	speed = ns < -1*maxSpeed ? -1*maxSpeed : ns;
 }
 
 float O3Sprite::getSpeed()
@@ -79,6 +90,51 @@ float O3Sprite::getFriction()
 	return friction;
 }
 
+float O3Sprite::getNoiseLevel()
+{
+	CCASSERT(0, "Not implemented");
+	return -1;
+}
+
+void O3Sprite::setMaxSpeed(float nv)
+{
+	maxSpeed = nv;
+}
+
+float O3Sprite::getMaxSpeed()
+{
+	return maxSpeed;
+}
+
+void O3Sprite::setMaxForce(float nv)
+{
+	maxForce = nv;
+}
+
+float O3Sprite::getMaxForce()
+{
+	return maxForce;
+}
+
+void O3Sprite::setTurnSpeed(float nv)
+{
+	turnSpeed = nv;
+}
+
+float O3Sprite::getTurnSpeed()
+{
+	return turnSpeed;
+}
+
+void O3Sprite::setTargetHeading(float nv)
+{
+	targetHeading = nv;
+}
+
+float O3Sprite::getTargetHeading()
+{
+	return targetHeading;
+}
 
 Vec2 O3Sprite::getHeadingVector()
 {
@@ -100,12 +156,20 @@ void O3Sprite::update(float dt)
 	if(physicsModel == Newtonian)
 	{
 		auto mu = speed>0 ? friction : -1 * friction;
-		speed += (force - mu * speed * speed / 2) * dt / mass;
+		setSpeed(speed + (force - mu * speed * speed / 2) * dt / mass);
 	}
 	if(physicsModel != Stationary)
 	{
 		Vec2 moveBy = getHeadingVector() * speed * dt;
 		setPosition(getPosition() + moveBy);
+	}
+	if(getRotation() != targetHeading)
+	{
+		float dt = targetHeading - getRotation();
+		dt = dt>180 ? dt-360 : dt;
+		dt = dt<-1*turnSpeed ? -1*turnSpeed : dt;
+		dt = dt>turnSpeed ? turnSpeed : dt;
+		setRotation(getRotation() + dt);
 	}
 
 	while(animated && animations.size())

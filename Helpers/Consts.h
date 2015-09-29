@@ -11,6 +11,7 @@ static const float COMMOROSE_MIN_DIST = 50.0f;
 static const float PROTRACTOR_SIZE = 200;
 static const float PROTRACTOR_LINE_THICKNESS = 0.5;
 static const float GRID_LINE_THICKNESS = 0.5;
+static const float DOUBLECLICK_THRESHOLD = 0.3;
 
 static const cocos2d::Vec2 GRID_SPACING = cocos2d::Vec2(20, 20);
 static const cocos2d::Vec2 CURSOR_OFFSET = cocos2d::Vec2(12, -14);

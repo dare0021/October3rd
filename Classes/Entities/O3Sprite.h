@@ -36,6 +36,15 @@ public:
     float getMass();
     void setFriction(float);
     float getFriction();
+    float getNoiseLevel();
+    void setMaxSpeed(float);
+    float getMaxSpeed();
+    void setMaxForce(float);
+    float getMaxForce();
+    void setTurnSpeed(float);
+    float getTurnSpeed();
+    void setTargetHeading(float);
+    float getTargetHeading();
     cocos2d::Vec2 getHeadingVector();
 
     std::string getCurrentAnimation();
@@ -52,7 +61,7 @@ protected:
     float updateSuspendTime;
     ///effectiveForce = force - friction * v^2 / 2
     float friction;
-    float speed, mass, force;
+    float speed, mass, force, maxSpeed, maxForce, turnSpeed, targetHeading;
     ///Separate name in O3Sprite from Sprite name
     ///So we can use this name for roles instead of a unique ID
     std::unordered_map<std::string, cocos2d::Sprite*> sprites;

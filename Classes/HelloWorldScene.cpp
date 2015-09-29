@@ -4,6 +4,7 @@
 #include "Helpers/Consts.h"
 #include "Entities/Commorose.h"
 #include "Entities/Protractor.h"
+#include "Entities/Submarine.h"
 
 USING_NS_CC;
 
@@ -32,6 +33,7 @@ bool HelloWorld::init()
     
     Vec2 visibleSize = Director::getInstance()->getVisibleSize();
     Vec2 origin = Director::getInstance()->getVisibleOrigin();
+    timeSinceLastMouseUp = 9999;
 
     // add "HelloWorld" splash screen"
     auto sprite = Sprite::create("HelloWorld.png");
@@ -64,6 +66,13 @@ bool HelloWorld::init()
 	commorose = (Sprite*) new Commorose("commorose");
     addChild(commorose, 9000);
     commorose->setVisible(false);
+
+    playerSub = (Sprite*) new Submarine("player-sub.png");
+    auto s = (Submarine*)playerSub;
+    s->setPhysicsModel(O3Sprite::Newtonian);
+    s->setMass(300);
+    s->setFriction(5);
+    addChild(playerSub, 1000);
 
     moveScreenBy(Director::getInstance()->getVisibleSize()/-2);
     lookAt(Vec2::ZERO);
@@ -145,24 +154,14 @@ void HelloWorld::onKeyTyped(EventKeyboard::KeyCode keyCode)
     {
         case EventKeyboard::KeyCode::KEY_UP_ARROW:
         {
-            auto s = getSpriteByName("dummy.png");
-            if(s)
-            {
-                s->setPhysicsModel(O3Sprite::Newtonian);
-                s->setMass(300);
-                s->setFriction(5);
-                s->setRotation(((int)(s->getRotation() + 45))%360);
-                s->setForce(s->getForce() + 1000);
-            }
+            auto s = (Submarine*)playerSub;
+            s->setForce(s->getForce() + 1000);
             break;
         }
         case EventKeyboard::KeyCode::KEY_DOWN_ARROW:
         {
-            auto s = getSpriteByName("dummy.png");
-            if(s)
-            {
-                s->setForce(s->getForce() - 1000);
-            }
+            auto s = (Submarine*)playerSub;
+            s->setForce(s->getForce() - 1000);
             break;
         }
     }
@@ -200,6 +199,7 @@ void HelloWorld::onMouseUp(Event* event)
     #endif
     EventMouse* e = (EventMouse*)event;
     isMouseDown[e->getMouseButton()] = false;
+    timeSinceLastMouseUp = 0;
     std::stringstream ss;
     ss << "Mouse Up detected, Key: ";
     ss << e->getMouseButton();
@@ -217,7 +217,7 @@ void HelloWorld::onMouseMove(Event* event)
     EventMouse* e = (EventMouse*)event;
     lastCursor.x = e->getCursorX();
     lastCursor.y = e->getCursorY();
-    cursorSprite->setPosition(pointingAt() + CURSOR_OFFSET);
+    repaintCursor();
     Protractor* p = (Protractor*)protractor;
     p->setCursorAngle(StaticHelpers::headingAngle(lastCursor - Director::getInstance()->getVisibleSize()/2));
 
@@ -250,6 +250,8 @@ void HelloWorld::onMouseScroll(Event* event)
     EventMouse* e = (EventMouse*)event;
     if(e->getScrollY() > 0)
     {
+        auto vect = screenspaceToWorldspace(lastCursor);
+        CCLOG("POS: %f %f", vect.x, vect.y);
     }
     else if(e->getScrollY() < 0)
     {
@@ -294,7 +296,7 @@ void HelloWorld::onTouchMoved(Touch* touch, Event* e)
 void HelloWorld::onTouchEnded(Touch* touch, Event* e)
 {
     Commorose* c = (Commorose*)commorose;
-    if(c)
+    if(c->isVisible())
     {
         removeChild(cursorSprite);
         switch (c->getMode()) //TODO: do something with this
@@ -326,9 +328,20 @@ void HelloWorld::onTouchEnded(Touch* touch, Event* e)
             }
         }
         addChild(cursorSprite);
-        cursorSprite->setPosition(pointingAt() + CURSOR_OFFSET);
+        repaintCursor();
         commorose->setVisible(false);
+        return;
     }
+    if(timeSinceLastMouseUp < DOUBLECLICK_THRESHOLD)
+    {
+        auto p = (Protractor*)protractor;
+        ((O3Sprite*)playerSub)->setTargetHeading(p->getCursorAngle());
+    }
+}
+
+void HelloWorld::repaintCursor()
+{
+    cursorSprite->setPosition(pointingAt() + CURSOR_OFFSET);
 }
 
 ///all screen move functions should use this
@@ -349,6 +362,7 @@ void HelloWorld::lookAt(Vec2 pos)
         gridSprite->setName("gridSprite");
         addChild(gridSprite, 0);
     }
+    //vertical lines
     for (int i=botleft.x; i<topright.x; i++)
     {
         if(i % (int)GRID_SPACING.x)
@@ -356,6 +370,7 @@ void HelloWorld::lookAt(Vec2 pos)
         gridSprite->drawSegment(Vec2(i, botleft.y), Vec2(i, botleft.y+visible.y),
                                 GRID_LINE_THICKNESS, Color4F(1,1,1,0.1));
     }
+    //horizontal lines
     for (int i=botleft.y; i<topright.y; i++)
     {
         if(i % (int)GRID_SPACING.y)
@@ -363,8 +378,7 @@ void HelloWorld::lookAt(Vec2 pos)
         gridSprite->drawSegment(Vec2(botleft.x, i), Vec2(botleft.x+visible.x, i),
                                 GRID_LINE_THICKNESS, Color4F(1,1,1,0.1));   
     }
-
-    CCLOG("NOW LOOKING AT: (%f %f)", lookingAt().x, lookingAt().y);
+    repaintCursor();
 }
 
 Vec2 HelloWorld::lookingAt()
@@ -405,6 +419,11 @@ void HelloWorld::update(float dt)
     {
         o3s->update(dt);
     }
+
+    lastPlayerPos = playerSub->getPosition();
+    timeSinceLastMouseUp += dt;
+    playerSub->update(dt);
+    moveScreenBy(playerSub->getPosition() - lastPlayerPos);
 }
 
 O3Sprite* HelloWorld::getSpriteByName(std::string name)
