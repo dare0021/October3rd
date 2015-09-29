@@ -24,7 +24,8 @@ void Protractor::setCursorAngle(float nca)
 	if(cursorAngle >= 0)
 	{
 		DrawNode *drawnode = DrawNode::create();
-		drawnode->drawLine(Vec2(0,0), radius*Vec2(sin(cursorAngle*M_PI/180), cos(cursorAngle*M_PI/180)), Color4F(1,1,1,0.7));
+		drawnode->drawSegment(Vec2(0,0), radius*Vec2(sin(cursorAngle*M_PI/180), cos(cursorAngle*M_PI/180)), 
+								PROTRACTOR_LINE_THICKNESS, Color4F(1,1,1,0.7));
 		addSprite("indicatorLine", (Sprite*)drawnode);
 	}
 }

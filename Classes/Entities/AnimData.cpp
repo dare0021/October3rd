@@ -53,7 +53,6 @@ void AnimData::update(float dt)
 		}
 	}
 	timeOffset = x;
-	CCLOG("NOW AT %d", getFrameNumber());
 }
 
 Sprite* AnimData::getCurrentSprite()

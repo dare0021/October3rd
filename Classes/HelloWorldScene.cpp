@@ -30,20 +30,20 @@ bool HelloWorld::init()
         return false;
     }
     
-    Size visibleSize = Director::getInstance()->getVisibleSize();
+    Vec2 visibleSize = Director::getInstance()->getVisibleSize();
     Vec2 origin = Director::getInstance()->getVisibleOrigin();
 
     // add "HelloWorld" splash screen"
     auto sprite = Sprite::create("HelloWorld.png");
 
     // position the sprite on the center of the screen
-    sprite->setPosition(Vec2(visibleSize.width/2 + origin.x, visibleSize.height/2 + origin.y));
+    sprite->setPosition(Vec2(visibleSize.x/2 + origin.x, visibleSize.y/2 + origin.y));
 
     // add the sprite as a child to this layer
     this->addChild(sprite, 0);
 
     overlaySprite = Sprite::create();
-    overlaySprite->setPosition(visibleSize.width/2, visibleSize.height/2);
+    overlaySprite->setPosition(visibleSize/2);
     this->addChild(overlaySprite, 1024);
 
     auto label = Label::createWithTTF("Hello World", "fonts/Marker Felt.ttf", 24);
@@ -63,8 +63,10 @@ bool HelloWorld::init()
 
 	commorose = (Sprite*) new Commorose("commorose");
     addChild(commorose, 0);
+    commorose->setVisible(false);
 
-    lookAt(Vec2(0,0));
+    moveScreenBy(Director::getInstance()->getVisibleSize()/-2);
+    lookAt(Vec2::ZERO);
     this->scheduleUpdate();
     return true;
 }
@@ -235,8 +237,6 @@ void HelloWorld::onMouseMove(Event* event)
     std::stringstream ss;
     ss << "MousePosition X:";
     ss << e->getCursorX() << " Y:" << e->getCursorY();
-    CCLOG("%s", ss.str().c_str());
-    CCLOG("PROT POS %f %f", p->getPosition().x, p->getPosition().y);
 }
 
 ///Input is 1 or -1
@@ -334,16 +334,14 @@ void HelloWorld::onTouchEnded(Touch* touch, Event* e)
 ///all screen move functions should use this
 void HelloWorld::lookAt(Vec2 pos)
 {
-    Size visibleSize = Director::getInstance()->getVisibleSize();
-    this->setPosition(pos - Vec2(visibleSize.width, visibleSize.height)/2);
+    this->setPosition(-1*(pos - Director::getInstance()->getVisibleSize()/2));
     protractor->setPosition(lookingAt());
     CCLOG("NOW LOOKING AT: (%f %f)", lookingAt().x, lookingAt().y);
 }
 
 Vec2 HelloWorld::lookingAt()
 {
-    Size visibleSize = Director::getInstance()->getVisibleSize();
-    return -1 * this->getPosition() + Vec2(visibleSize.width, visibleSize.height)/2;
+    return -1 * this->getPosition() + Director::getInstance()->getVisibleSize()/2;
 }
 
 Vec2 HelloWorld::pointingAt()
@@ -353,19 +351,18 @@ Vec2 HelloWorld::pointingAt()
 
 void HelloWorld::moveScreenBy(Vec2 diff)
 {
-    Size visibleSize = Director::getInstance()->getVisibleSize();
-    lookAt(this->getPosition() + Vec2(visibleSize.width, visibleSize.height)/2 - diff);
+    lookAt(-1 * this->getPosition() + Director::getInstance()->getVisibleSize()/2 + diff);
 }
 
 Vec2 HelloWorld::screenspaceToWorldspace(Vec2 sspos)
 {
-    Vec2 origin = this->getPosition();
+    Vec2 origin = -1 * this->getPosition();
     return sspos + origin;
 }
 
 Vec2 HelloWorld::worldspaceToScreenspace(Vec2 wspos)
 {
-    Vec2 origin = this->getPosition();
+    Vec2 origin = -1 * this->getPosition();
     return wspos - origin;
 }
 
