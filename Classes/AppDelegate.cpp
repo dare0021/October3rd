@@ -15,6 +15,8 @@ AppDelegate::AppDelegate() {
 
 AppDelegate::~AppDelegate() 
 {
+    cocos2d::UserDefault::getInstance()->setBoolForKey("AudioIsOff", SaferAudioEngine().isMuted());
+    SaferAudioEngine().destroy();
 }
 
 //if you want a different context,just modify the value of glContextAttrs
@@ -86,6 +88,7 @@ void AppDelegate::applicationDidEnterBackground() {
 
     // if you use SimpleAudioEngine, it must be pause
     SaferAudioEngine().pauseBGM();
+    cocos2d::UserDefault::getInstance()->setBoolForKey("AudioIsOff", SaferAudioEngine().isMuted());
 }
 
 // this function will be called when the app is active again
