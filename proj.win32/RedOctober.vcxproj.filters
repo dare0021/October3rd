@@ -48,9 +48,6 @@
     <ClCompile Include="..\Classes\Entities\Submarine.cpp">
       <Filter>src\Entities</Filter>
     </ClCompile>
-    <ClCompile Include="..\Classes\Entities\Torpedo.cpp">
-      <Filter>src\Entities</Filter>
-    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="main.h">
@@ -84,9 +81,6 @@
       <Filter>src\Entities</Filter>
     </ClInclude>
     <ClInclude Include="..\Classes\Entities\Submarine.h">
-      <Filter>src\Entities</Filter>
-    </ClInclude>
-    <ClInclude Include="..\Classes\Entities\Torpedo.h">
       <Filter>src\Entities</Filter>
     </ClInclude>
   </ItemGroup>
