@@ -20,18 +20,19 @@ TorpedoData* Submarine::getTorpedoPrototype(std::string name)
 	return out->second;
 }
 
-Torpedo* Submarine::spawnTorpedo(std::string name)
+Torpedo* Submarine::spawnTorpedo(std::string name, float targetHeading)
 {
-	return spawnTorpedo(getTorpedoPrototype(name));
+	return spawnTorpedo(getTorpedoPrototype(name), targetHeading);
 }
 
-Torpedo* Submarine::spawnTorpedo(TorpedoData* prototype)
+Torpedo* Submarine::spawnTorpedo(TorpedoData* prototype, float targetHeading)
 {
 	CCASSERT(prototype, "nullptr");
 
 	auto torpedo = new Torpedo(prototype, getID());
 	torpedo->setPosition(torpedo->getPosition() + getPosition());
 	torpedo->setRotation(torpedo->getRotation() + getRotation());
+	torpedo->setTargetHeading(targetHeading);
 	torpedo->setSpeed(torpedo->getSpeed() + getSpeed());
 	return torpedo;
 }

@@ -12,8 +12,8 @@ public:
 
 	void addTorpedoPrototype(TorpedoData*);
 	TorpedoData* getTorpedoPrototype(std::string name);
-	Torpedo* spawnTorpedo(std::string name);
-	Torpedo* spawnTorpedo(TorpedoData*);
+	Torpedo* spawnTorpedo(std::string name, float targetHeading);
+	Torpedo* spawnTorpedo(TorpedoData*, float targetHeading);
 
 private:
 	std::unordered_map<std::string, TorpedoData*> torpedoPrototypes;

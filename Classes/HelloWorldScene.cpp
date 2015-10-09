@@ -74,6 +74,12 @@ bool HelloWorld::init()
     s->setFriction(5);
     addChild(playerSub, 1000);
 
+    auto tpt = new TorpedoData("testpedo");
+    tpt->spritePath = "basic.png";
+    tpt->friction = 1;
+    tpt->initialForce = 1000;
+    ((Submarine*)playerSub)->addTorpedoPrototype(tpt);
+
     moveScreenBy(Director::getInstance()->getVisibleSize()/-2);
     lookAt(Vec2::ZERO);
     this->scheduleUpdate();
@@ -164,6 +170,18 @@ void HelloWorld::onKeyTyped(EventKeyboard::KeyCode keyCode)
             s->setForce(s->getForce() - 1000);
             break;
         }
+		case EventKeyboard::KeyCode::KEY_SPACE:
+		{
+            auto c = (Commorose*)commorose;
+            auto s = (Submarine*)playerSub;
+            if(c->getMode() == 3) //weapons
+            {
+                auto torpedo = s->spawnTorpedo("testpedo", 
+                    ((Protractor*)protractor)->getCursorAngle());
+                addSprite(torpedo);
+            }
+            break;
+		}
     }
 }
 
