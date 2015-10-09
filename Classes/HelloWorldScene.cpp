@@ -77,7 +77,7 @@ bool HelloWorld::init()
     auto tpt = new TorpedoData("testpedo");
     tpt->spritePath = "basic.png";
     tpt->friction = 1;
-    tpt->initialForce = 1000;
+    tpt->initialForce = 10000;
     ((Submarine*)playerSub)->addTorpedoPrototype(tpt);
 
     moveScreenBy(Director::getInstance()->getVisibleSize()/-2);
