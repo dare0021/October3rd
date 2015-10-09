@@ -11,13 +11,6 @@
 class O3Sprite : public cocos2d::Node
 {
 public:
-    enum PhysicsModel
-    {
-        Stationary,
-        SpeedOnly,
-        Newtonian
-    };
-
     O3Sprite(std::string path);
     ~O3Sprite();
     void update(float);

@@ -18,4 +18,11 @@ static const cocos2d::Vec2 CURSOR_OFFSET = cocos2d::Vec2(12, -14);
 
 static const std::string SOUND_PATH = "Sounds/";
 
+enum class PhysicsModel
+{
+    Stationary,
+    SpeedOnly,
+    Newtonian
+};
+
 #endif // __CONSTS_H__

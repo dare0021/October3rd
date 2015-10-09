@@ -69,7 +69,7 @@ bool HelloWorld::init()
 
     playerSub = (Sprite*) new Submarine("player-sub.png");
     auto s = (Submarine*)playerSub;
-    s->setPhysicsModel(O3Sprite::Newtonian);
+    s->setPhysicsModel(PhysicsModel::Newtonian);
     s->setMass(300);
     s->setFriction(5);
     addChild(playerSub, 1000);

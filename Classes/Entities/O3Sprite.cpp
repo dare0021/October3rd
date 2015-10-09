@@ -7,7 +7,7 @@ int O3Sprite::lastID = -1;
 
 O3Sprite::O3Sprite(std::string mainSprite) :
 ID(lastID+1),
-physicsModel(Stationary),
+physicsModel(PhysicsModel::Stationary),
 speed(0),
 maxSpeed(-1),
 friction(0),
@@ -18,7 +18,8 @@ turnSpeed(10),
 targetHeading(0),
 updateSuspended(false),
 updateSuspendTime(0),
-animated(false)
+animated(false),
+currentAnimation("NOT_INITIALIZED")
 {
 	lastID++;
 	addSprite("mainSprite", mainSprite);
@@ -43,13 +44,18 @@ void O3Sprite::setPhysicsModel(PhysicsModel npm)
 	physicsModel = npm;
 }
 
-O3Sprite::PhysicsModel O3Sprite::getPhysicsModel()
+PhysicsModel O3Sprite::getPhysicsModel()
 {
 	return physicsModel;
 }
 
 void O3Sprite::setForce(float nf)
 {
+	if(maxForce < 0)
+	{
+		force = nf;
+		return;
+	}
 	force = nf > maxForce ? maxForce : nf;
 	force = nf < -1*maxForce ? -1*maxForce : nf;
 }
@@ -61,6 +67,11 @@ float O3Sprite::getForce()
 
 void O3Sprite::setSpeed(float ns)
 {
+	if(maxSpeed < 0)
+	{
+		speed = ns;
+		return;
+	}
 	speed = ns > maxSpeed ? maxSpeed : ns;
 	speed = ns < -1*maxSpeed ? -1*maxSpeed : ns;
 }
@@ -153,12 +164,12 @@ void O3Sprite::update(float dt)
 	float totalDT = dt + updateSuspendTime;
 	updateSuspendTime = 0;
 
-	if(physicsModel == Newtonian)
+	if(physicsModel == PhysicsModel::Newtonian)
 	{
 		auto mu = speed>0 ? friction : -1 * friction;
 		setSpeed(speed + (force - mu * speed * speed / 2) * dt / mass);
 	}
-	if(physicsModel != Stationary)
+	if(physicsModel != PhysicsModel::Stationary)
 	{
 		Vec2 moveBy = getHeadingVector() * speed * dt;
 		setPosition(getPosition() + moveBy);
