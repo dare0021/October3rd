@@ -14,7 +14,7 @@ friction(0),
 mass(1),
 force(0),
 maxForce(-1),
-turnSpeed(0.5),
+turnSpeed(10),
 targetHeading(0),
 updateSuspended(false),
 updateSuspendTime(0),
@@ -165,11 +165,12 @@ void O3Sprite::update(float dt)
 	}
 	if(getRotation() != targetHeading)
 	{
-		float dt = targetHeading - getRotation();
-		dt = dt>180 ? dt-360 : dt;
-		dt = dt<-1*turnSpeed ? -1*turnSpeed : dt;
-		dt = dt>turnSpeed ? turnSpeed : dt;
-		setRotation(getRotation() + dt);
+		float dh = targetHeading - getRotation();
+		dh = dh>180 ? dh-360 : dh;
+		auto effectiveSpeed = turnSpeed * dt;
+		dh = dh<-1*effectiveSpeed ? -1*effectiveSpeed : dh;
+		dh = dh>effectiveSpeed ? effectiveSpeed : dh;
+		setRotation(getRotation() + dh);
 	}
 
 	while(animated && animations.size())
