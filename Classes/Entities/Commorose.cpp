@@ -3,7 +3,7 @@
 USING_NS_CC;
 
 Commorose::Commorose(std::string path) : O3Sprite(path + "/center.png"),
-cursorAngle(-90)
+cursorAngle(-90), positionOnScreen(Vec2::ZERO)
 {
 	setName("commorose");
 	addSprite("defences off", path + "/defences.png")->setPosition(130, -35);
@@ -74,4 +74,14 @@ float Commorose::getCursorAngle()
 int Commorose::getMode()
 {
 	return ((int)cursorAngle)/90;
+}
+
+void Commorose::setPositionOnScreen(Vec2 nv)
+{
+	positionOnScreen = nv;
+}
+
+Vec2 Commorose::getPositionOnScreen()
+{
+	return positionOnScreen;
 }

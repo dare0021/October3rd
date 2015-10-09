@@ -280,7 +280,7 @@ void HelloWorld::onTouchMoved(Touch* touch, Event* e)
         Commorose* c = (Commorose*)commorose;
         if(!c->isVisible())
         {
-            c->setPosition(pointingAt());
+            c->setPositionOnScreen(touch->getLocation());
             c->setVisible(true);
         }
         else
@@ -379,6 +379,8 @@ void HelloWorld::lookAt(Vec2 pos)
                                 GRID_LINE_THICKNESS, Color4F(1,1,1,0.1));   
     }
     repaintCursor();
+    Commorose* c = (Commorose*)commorose;
+    c->setPosition(screenspaceToWorldspace(c->getPositionOnScreen()));
 }
 
 Vec2 HelloWorld::lookingAt()
