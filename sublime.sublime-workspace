@@ -142,6 +142,7 @@
 	],
 	"file_history":
 	[
+		"/C/Users/HAJE/Downloads/IJLDGlobalFinals.java",
 		"/C/October3rd/Classes/HelloWorldScene.cpp",
 		"/C/October3rd/Classes/Entities/Submarine.h",
 		"/C/October3rd/Classes/Entities/Torpedo.h",
@@ -173,7 +174,7 @@
 	],
 	"find":
 	{
-		"height": 38.0
+		"height": 30.0
 	},
 	"find_in_files":
 	{
@@ -293,7 +294,7 @@
 						"translation.y": 989.0,
 						"zoom_level": 1.0
 					},
-					"stack_index": 1,
+					"stack_index": 0,
 					"type": "text"
 				}
 			]
@@ -327,7 +328,7 @@
 						"translation.y": 528.0,
 						"zoom_level": 1.0
 					},
-					"stack_index": 0,
+					"stack_index": 1,
 					"type": "text"
 				},
 				{
