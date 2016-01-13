@@ -380,7 +380,16 @@ void HelloWorld::lookAt(Vec2 pos)
     if (gridSprite)
     {
         gridSprite->clear();
-        gridSprite->removeAllChildrenWithCleanup(true);
+        std::vector<std::string> toRemove;
+        for (auto child : gridSprite->getChildren())
+        {
+            if (!onScreen(child->getPosition(), Vec2(GRID_LABEL_SPACING)))
+                toRemove.push_back(child->getName());
+        }
+        for (auto name : toRemove)
+        {
+            gridSprite->removeChildByName(name);
+        }
     }
     else
     {
@@ -397,10 +406,15 @@ void HelloWorld::lookAt(Vec2 pos)
                                 GRID_LINE_THICKNESS, Color4F(1,1,1,0.1));
         if(!(i % (int)GRID_LABEL_SPACING.x))
         {
-            auto txt = ui::Text::create(std::to_string(i), "", GRID_LABEL_SIZE);
-            txt->setPosition(Vec2(i, topright.y - GRID_LABEL_SIZE * 2));
-            txt->setOpacity(128);
-            gridSprite->addChild(txt);
+            std::string txt = std::to_string(i);
+            auto label = gridSprite->getChildByName("v" + txt);
+            if (!label)
+            {
+                label = Label::createWithTTF(txt, "fonts/arial.ttf", GRID_LABEL_SIZE);
+                label->setName("v" + txt);
+                gridSprite->addChild(label);
+            }
+            label->setPosition(Vec2(i, topright.y - GRID_LABEL_SIZE * 2));
         }
     }
     //horizontal lines
@@ -412,10 +426,15 @@ void HelloWorld::lookAt(Vec2 pos)
                                 GRID_LINE_THICKNESS, Color4F(1,1,1,0.1));   
         if(!(i % (int)GRID_LABEL_SPACING.y))
         {
-            auto txt = ui::Text::create(std::to_string(i), "", GRID_LABEL_SIZE);
-            txt->setPosition(Vec2(topright.x - txt->getBoundingBox().size.width/2 + GRID_LABEL_SIZE, i));
-            txt->setOpacity(128);
-            gridSprite->addChild(txt);
+            std::string txt = std::to_string(i);
+            auto label = gridSprite->getChildByName("h" + txt);
+            if (!label)
+            {
+                label = Label::createWithTTF(txt, "fonts/arial.ttf", GRID_LABEL_SIZE);
+                label->setName("h" + txt);
+                gridSprite->addChild(label);
+            }
+            label->setPosition(Vec2(topright.x - label->getBoundingBox().size.width/2 + GRID_LABEL_SIZE, i));
         }
     }
     repaintCursor();
@@ -436,6 +455,30 @@ Vec2 HelloWorld::pointingAt()
 void HelloWorld::moveScreenBy(Vec2 diff)
 {
     lookAt(-1 * this->getPosition() + Director::getInstance()->getVisibleSize()/2 + diff);
+}
+
+bool HelloWorld::onScreen(Vec2 pos)
+{
+    return onScreen(pos, Vec4::ZERO);
+}
+
+bool HelloWorld::onScreen(Vec2 pos, Vec2 margin)
+{
+    return onScreen(pos, Vec4(margin.x, margin.y, margin.x, margin.y));
+}
+
+/// Checks the vector itself
+/// Be careful for edge cases where the anchor is off screen but the object itself is not
+/// margin is top right bottom left
+bool HelloWorld::onScreen(Vec2 pos, Vec4 margin)
+{
+    Vec2 visible = Director::getInstance()->getVisibleSize();
+    auto sspos = worldspaceToScreenspace(pos);
+    if(sspos.x < -1*margin.w || sspos.y < -1*margin.z)
+        return false;
+    if(sspos.x > visible.x+margin.x || sspos.y > visible.y+margin.y)
+        return false;
+    return true;
 }
 
 Vec2 HelloWorld::screenspaceToWorldspace(Vec2 sspos)

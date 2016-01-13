@@ -48,6 +48,9 @@ private:
     cocos2d::Vec2 lookingAt();
     cocos2d::Vec2 pointingAt();
     void moveScreenBy(cocos2d::Vec2);
+    bool onScreen(cocos2d::Vec2);
+    bool onScreen(cocos2d::Vec2, cocos2d::Vec2);
+    bool onScreen(cocos2d::Vec2, cocos2d::Vec4);
     cocos2d::Vec2 screenspaceToWorldspace(cocos2d::Vec2);
     cocos2d::Vec2 worldspaceToScreenspace(cocos2d::Vec2);
 
