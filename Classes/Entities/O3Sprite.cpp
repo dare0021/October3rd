@@ -49,6 +49,7 @@ PhysicsModel O3Sprite::getPhysicsModel()
 	return physicsModel;
 }
 
+/// maxForce is ignored if maxForce < 0
 void O3Sprite::setForce(float nf)
 {
 	if(maxForce < 0)
@@ -65,6 +66,7 @@ float O3Sprite::getForce()
 	return force;
 }
 
+/// maxSpeed is ignored if maxSpeed < 0
 void O3Sprite::setSpeed(float ns)
 {
 	if(maxSpeed < 0)

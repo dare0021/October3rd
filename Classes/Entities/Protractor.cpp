@@ -15,9 +15,7 @@ cursorAngle(-90), radius(radius)
 								PROTRACTOR_LINE_THICKNESS, Color4F(1,1,1,0.2));
 		if (i % 20)
 			continue;
-		std::stringstream ss;
-		ss << i;
-		auto txt = ui::Text::create(ss.str(), "", 15);
+		auto txt = ui::Text::create(std::to_string(i), "", PROTRACTOR_LABEL_SIZE);
 		txt->setPosition(radius*0.8*angleToVector(i));
 		txt->setOpacity(128);
 		drawnode->addChild(txt);

@@ -1,5 +1,7 @@
 #include "HelloWorldScene.h"
 
+#include "ui/CocosGUI.h"
+
 #include "Helpers/StaticHelpers.h"
 #include "Helpers/Consts.h"
 #include "Entities/Commorose.h"
@@ -368,12 +370,18 @@ void HelloWorld::lookAt(Vec2 pos)
     Vec2 visible = Director::getInstance()->getVisibleSize();
     this->setPosition(-1*(pos - visible/2));
     protractor->setPosition(lookingAt());
+
     //draw grid
     Vec2 botleft = screenspaceToWorldspace(Vec2::ZERO);
     Vec2 topright = screenspaceToWorldspace(visible);
+    Vec2 drawSpaceBotLeft = botleft - GRID_LABEL_SPACING;
+    Vec2 drawSpaceTopRight = topright + GRID_LABEL_SPACING;
 	DrawNode* gridSprite = (DrawNode*)getChildByName("gridSprite");
-    if(gridSprite)
+    if (gridSprite)
+    {
         gridSprite->clear();
+        gridSprite->removeAllChildrenWithCleanup(true);
+    }
     else
     {
         gridSprite = DrawNode::create();
@@ -381,20 +389,34 @@ void HelloWorld::lookAt(Vec2 pos)
         addChild(gridSprite, 0);
     }
     //vertical lines
-    for (int i=botleft.x; i<topright.x; i++)
+    for (int i= drawSpaceBotLeft.x; i<drawSpaceTopRight.x; i++)
     {
         if(i % (int)GRID_SPACING.x)
             continue;
-        gridSprite->drawSegment(Vec2(i, botleft.y), Vec2(i, botleft.y+visible.y),
+        gridSprite->drawSegment(Vec2(i, drawSpaceBotLeft.y), Vec2(i, drawSpaceBotLeft.y+visible.y+2*GRID_LABEL_SPACING.y),
                                 GRID_LINE_THICKNESS, Color4F(1,1,1,0.1));
+        if(!(i % (int)GRID_LABEL_SPACING.x))
+        {
+            auto txt = ui::Text::create(std::to_string(i), "", GRID_LABEL_SIZE);
+            txt->setPosition(Vec2(i, topright.y - GRID_LABEL_SIZE * 2));
+            txt->setOpacity(128);
+            gridSprite->addChild(txt);
+        }
     }
     //horizontal lines
-    for (int i=botleft.y; i<topright.y; i++)
+    for (int i= drawSpaceBotLeft.y; i<drawSpaceTopRight.y; i++)
     {
         if(i % (int)GRID_SPACING.y)
             continue;
-        gridSprite->drawSegment(Vec2(botleft.x, i), Vec2(botleft.x+visible.x, i),
+        gridSprite->drawSegment(Vec2(drawSpaceBotLeft.x, i), Vec2(drawSpaceBotLeft.x+visible.x + 2 * GRID_LABEL_SPACING.x, i),
                                 GRID_LINE_THICKNESS, Color4F(1,1,1,0.1));   
+        if(!(i % (int)GRID_LABEL_SPACING.y))
+        {
+            auto txt = ui::Text::create(std::to_string(i), "", GRID_LABEL_SIZE);
+            txt->setPosition(Vec2(topright.x - txt->getBoundingBox().size.width/2 + GRID_LABEL_SIZE, i));
+            txt->setOpacity(128);
+            gridSprite->addChild(txt);
+        }
     }
     repaintCursor();
     Commorose* c = (Commorose*)commorose;
