@@ -295,7 +295,7 @@
 						{
 							"syntax": "Packages/C++/C++.tmLanguage"
 						},
-						"translation.x": -0.0,
+						"translation.x": 0.0,
 						"translation.y": 0.0,
 						"zoom_level": 1.0
 					},
@@ -315,8 +315,8 @@
 						"selection":
 						[
 							[
-								1184,
-								1184
+								460,
+								460
 							]
 						],
 						"settings":
