@@ -35,6 +35,7 @@ animations(std::unordered_map<std::string, AnimData*>())
 {
 }
 
+/// Class must be initialized before using this function
 TorpedoData::TorpedoData(std::string name, std::string prototypeName)
  : TorpedoData(name)
 {

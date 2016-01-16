@@ -8,20 +8,23 @@ Submarine::Submarine(std::string path) : O3Sprite(path)
 }
 
 /// returns if an entry was overwritten
+/// overwritten entries are freed
 bool Submarine::addTorpedoPrototype(TorpedoData* data)
 {
 	bool out = false;
 	if(torpedoPrototypes.find(data->getName()) != torpedoPrototypes.end())
 	{
-		torpedoPrototypes.erase(data->getName());
+		removeTorpedoPrototype(data->getName());
 		out = true;
 	}
 	torpedoPrototypes.insert({data->getName(), data});
 	return out;
 }
 
+/// frees said prototype
 bool Submarine::removeTorpedoPrototype(std::string name)
 {
+	delete torpedoPrototypes.find(name)->second;
 	return torpedoPrototypes.erase(name);
 }
 
