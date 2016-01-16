@@ -103,7 +103,7 @@ JLDString* JLDIO::parseString(std::istringstream& iss)
 	ignoreWhiteSpace(iss);
 	char charBuffer, matchedChar;
 	iss.get(charBuffer);
-	assert((charBuffer == '\'' || charBuffer == '\"') && "Input is not a string");
+	assert((charBuffer == '\'' || charBuffer == '"') && "Input is not a string");
 	matchedChar = charBuffer;
 	std::string text = "";
 	iss.get(charBuffer);
@@ -239,10 +239,10 @@ std::string JLDIO::findAndUseMacros(std::string raw)
 		}
 	}
 	out = raw.substr(cutAfter);
-	maxMacroSize = orderedKeyList.front().size();
 	// No macros found
-	if(!maxMacroSize)
+	if (!orderedKeyList.size())
 		return out;
+	maxMacroSize = orderedKeyList.front().size();
 
 	// std::cout<<"maxMacroSize: "<<maxMacroSize<<"\n";
 	// std::cout<<"orderedKeyList: ";

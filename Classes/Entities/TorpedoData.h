@@ -3,11 +3,15 @@
 
 #include "cocos2d.h"
 #include "AnimData.h"
+#include "Helpers/JLD/JLDIO.h"
 
 class TorpedoData
 {
 public:
+    static void init(std::string filepath);
+
 	TorpedoData(std::string name);
+    TorpedoData(std::string name, std::string prototypeName);
 
 	std::string getName();
 
@@ -24,6 +28,7 @@ public:
 
 private:
 	std::string name;
+    static JLDDoc* torpedoPrototypes;
 };
 
 #endif // __TORPEDODATA_H__

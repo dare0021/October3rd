@@ -19,7 +19,8 @@ static const cocos2d::Vec2 GRID_SPACING = cocos2d::Vec2(20, 20);
 static const cocos2d::Vec2 GRID_LABEL_SPACING = GRID_SPACING * 5;
 static const cocos2d::Vec2 CURSOR_OFFSET = cocos2d::Vec2(12, -14);
 
-static const std::string SOUND_PATH = "Sounds/";
+static const std::string SOUND_PATH = "sounds/";
+static const std::string DATA_PATH = "data/";
 
 enum class PhysicsModel
 {

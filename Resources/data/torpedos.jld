@@ -1,0 +1,11 @@
+#define STATIONARY 0
+#define SPEEDONLY  1
+#define NEWTONIAN  2
+{
+	"testpedo" :
+	{
+		"spritePath"	: "basic.png",
+		"friction"		: "1",
+		"initialForce"	: "10000"
+	}
+}

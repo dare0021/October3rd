@@ -69,6 +69,8 @@ bool HelloWorld::init()
     addChild(commorose, 9000);
     commorose->setVisible(false);
 
+    TorpedoData::init("torpedos.jld");
+
     playerSub = (Sprite*) new Submarine("player-sub.png");
     auto s = (Submarine*)playerSub;
     s->setPhysicsModel(PhysicsModel::Newtonian);
@@ -76,11 +78,7 @@ bool HelloWorld::init()
     s->setFriction(5);
     addChild(playerSub, 1000);
 
-    auto tpt = new TorpedoData("testpedo");
-    tpt->spritePath = "basic.png";
-    tpt->friction = 1;
-    tpt->initialForce = 10000;
-    ((Submarine*)playerSub)->addTorpedoPrototype(tpt);
+    ((Submarine*)playerSub)->addTorpedoPrototype(new TorpedoData("testpedo", "testpedo"));
 
     moveScreenBy(Director::getInstance()->getVisibleSize()/-2);
     lookAt(Vec2::ZERO);

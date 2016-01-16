@@ -27,12 +27,10 @@ _isDone(false)
 
 AnimData::~AnimData()
 {
-	CCLOG("will probably go kaputs");
 	for (auto iter : data)
 	{
 		delete iter;
 	}
-	CCLOG("nah were good");
 }
 
 void AnimData::update(float dt)

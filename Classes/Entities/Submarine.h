@@ -10,7 +10,8 @@ class Submarine : public O3Sprite
 public:
 	Submarine(std::string path);
 
-	void addTorpedoPrototype(TorpedoData*);
+	bool addTorpedoPrototype(TorpedoData*);
+	bool removeTorpedoPrototype(std::string name);
 	TorpedoData* getTorpedoPrototype(std::string name);
 	Torpedo* spawnTorpedo(std::string name, float targetHeading);
 	Torpedo* spawnTorpedo(TorpedoData*, float targetHeading);

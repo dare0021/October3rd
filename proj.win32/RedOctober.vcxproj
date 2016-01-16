@@ -153,6 +153,8 @@ xcopy "$(ProjectDir)..\Resources" "$(OutDir)" /D /E /I /F /Y
     <ClCompile Include="..\Classes\Entities\Torpedo.cpp" />
     <ClCompile Include="..\Classes\Entities\TorpedoData.cpp" />
     <ClCompile Include="..\Classes\HelloWorldScene.cpp" />
+    <ClCompile Include="..\Helpers\JLD\DataTypes.cpp" />
+    <ClCompile Include="..\Helpers\JLD\JLDIO.cpp" />
     <ClCompile Include="..\Helpers\SaferAudioEngine.cpp" />
     <ClCompile Include="..\Helpers\StaticHelpers.cpp" />
     <ClCompile Include="main.cpp" />
@@ -168,6 +170,8 @@ xcopy "$(ProjectDir)..\Resources" "$(OutDir)" /D /E /I /F /Y
     <ClInclude Include="..\Classes\Entities\TorpedoData.h" />
     <ClInclude Include="..\Classes\HelloWorldScene.h" />
     <ClInclude Include="..\Helpers\Consts.h" />
+    <ClInclude Include="..\Helpers\JLD\DataTypes.h" />
+    <ClInclude Include="..\Helpers\JLD\JLDIO.h" />
     <ClInclude Include="..\Helpers\SaferAudioEngine.h" />
     <ClInclude Include="..\Helpers\StaticHelpers.h" />
     <ClInclude Include="main.h" />
