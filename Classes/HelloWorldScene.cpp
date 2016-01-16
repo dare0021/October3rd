@@ -434,7 +434,7 @@ void HelloWorld::lookAt(Vec2 pos)
                 label->setName("h" + txt);
                 gridSprite->addChild(label);
             }
-            label->setPosition(Vec2(topright.x - label->getBoundingBox().size.width/2 + GRID_LABEL_SIZE, i));
+            label->setPosition(Vec2(botleft.x + GRID_LABEL_SIZE * 2, i));
         }
     }
     repaintCursor();
