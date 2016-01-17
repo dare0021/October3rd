@@ -21,12 +21,27 @@ static const cocos2d::Vec2 CURSOR_OFFSET = cocos2d::Vec2(12, -14);
 
 static const std::string SOUND_PATH = "sounds/";
 static const std::string DATA_PATH = "data/";
+static const std::string PLAYER_SUB_NAME = "player_sub";
 
 enum class PhysicsModel
 {
     Stationary,
     SpeedOnly,
     Newtonian
+};
+
+/// 0: Subs
+/// 100: Persistent items
+/// 200: Transient items
+/// 999: Not specified
+enum class MinimapIcon
+{
+	PlayerSubmarine,
+	Submarine,
+	Torpedo = 100,
+	CounterMeasure,
+	Ping = 200,
+	Unknown = 999
 };
 
 #endif // __CONSTS_H__
