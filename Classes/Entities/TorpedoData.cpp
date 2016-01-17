@@ -18,7 +18,7 @@ void TorpedoData::init(std::string filepath)
 
 TorpedoData::TorpedoData(std::string name) : 
 name(name), 
-physicsModel(PhysicsModel::Newtonian),
+physicsModel(PhysicsModel::SpeedOnly),
 spritePath("NOT_INITIALIZED"), 
 friction(0), 
 initialSpeed(0), 
@@ -26,7 +26,7 @@ maxSpeed(-1),
 mass(1),
 initialForce(0),
 maxForce(-1),
-turnSpeed(10),
+turnSpeed(0),
 headingOffset(0),
 animated(false),
 positionOffset(Vec2::ZERO),

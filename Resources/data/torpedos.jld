@@ -5,7 +5,7 @@
 	"testpedo" :
 	{
 		"spritePath"	: "basic.png",
-		"friction"		: "1",
-		"initialForce"	: "10000"
+		"initialSpeed"	: "100",
+		"turnSpeed"		: "5"
 	}
 }

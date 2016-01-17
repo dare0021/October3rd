@@ -6,6 +6,7 @@
 #include "cocos2d.h"
 #include <unordered_map>
 #include "Entities/O3Sprite.h"
+#include "Entities/Submarine.h"
 
 class HelloWorld : public cocos2d::Layer
 {
@@ -23,6 +24,9 @@ private:
     cocos2d::Vec2 lastCursor, lastPlayerPos;
     std::vector<cocos2d::EventKeyboard::KeyCode> activeKeys;
     std::vector<O3Sprite*> spriteVect;
+    std::vector<Torpedo*> torpedoVect;
+    std::vector<Submarine*> subVect;
+    //std::vector<CounterMreasure*> CMVect;
     std::unordered_map<cocos2d::EventKeyboard::KeyCode, float*> typeKeyCandidates;
     ///cocos2dx mouse listener is broken
     #ifdef MOUSE_DOUBLE_LISTEN_FUDGE
@@ -55,9 +59,11 @@ private:
     cocos2d::Vec2 worldspaceToScreenspace(cocos2d::Vec2);
 
     O3Sprite* getSpriteByName(std::string name);
-    void addSprite(O3Sprite*);
+    void addSprite(O3Sprite*, bool addToSpriteVect = true);
     void removeSprite(O3Sprite*);
     void removeSpriteByName(std::string name);
+
+    void addTorpedo(Torpedo*);
 
     virtual void onEnter();
     virtual void onExit();

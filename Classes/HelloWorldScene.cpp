@@ -6,7 +6,6 @@
 #include "Helpers/Consts.h"
 #include "Entities/Commorose.h"
 #include "Entities/Protractor.h"
-#include "Entities/Submarine.h"
 
 USING_NS_CC;
 
@@ -176,10 +175,7 @@ void HelloWorld::onKeyTyped(EventKeyboard::KeyCode keyCode)
             auto s = (Submarine*)playerSub;
             if(c->getMode() == 3) //weapons
             {
-                auto torpedo = s->spawnTorpedo("testpedo", 
-                    ((Protractor*)protractor)->getCursorAngle());
-                torpedo->setName("testpedo");
-                addSprite(torpedo);
+                addTorpedo(s->spawnTorpedo("testpedo", ((Protractor*)protractor)->getCursorAngle()));
             }
             break;
 		}
@@ -503,6 +499,10 @@ void HelloWorld::update(float dt)
     {
         o3s->update(dt);
     }
+    for (auto torpedo : torpedoVect)
+    {
+        torpedo->update(dt);
+    }
 
     lastPlayerPos = playerSub->getPosition();
     timeSinceLastMouseUp += dt;
@@ -520,9 +520,10 @@ O3Sprite* HelloWorld::getSpriteByName(std::string name)
     return nullptr;
 }
 
-void HelloWorld::addSprite(O3Sprite* sprite)
+void HelloWorld::addSprite(O3Sprite* sprite, bool addToSpriteVect)
 {
-    spriteVect.push_back(sprite);
+    if(addToSpriteVect)
+        spriteVect.push_back(sprite);
     this->addChild(sprite);
 }
 
@@ -558,4 +559,10 @@ void HelloWorld::removeSpriteByName(std::string name)
         this->removeChild(*(spriteVect.begin() + j));
         spriteVect.erase(spriteVect.begin() + j);
     }
+}
+
+void HelloWorld::addTorpedo(Torpedo* torpedo)
+{
+    torpedoVect.push_back(torpedo);
+    addSprite(torpedo, false);
 }

@@ -175,12 +175,6 @@ void O3Sprite::update(float dt)
 	{
 		Vec2 moveBy = getHeadingVector() * speed * dt;
 		setPosition(getPosition() + moveBy);
-		if(getName() == "testpedo")
-		{
-			CCLOG("dt %f", dt);
-			CCLOG("speed %f", speed);
-			CCLOG("torpedo moveBy (%f, %f)\n", moveBy.x, moveBy.y);
-		}
 	}
 	if(getRotation() != targetHeading)
 	{
