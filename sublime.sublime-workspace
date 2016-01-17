@@ -4,6 +4,22 @@
 		"selected_items":
 		[
 			[
+				"torp",
+				"torpedoPrototypes"
+			],
+			[
+				"tor",
+				"torpedoPrototypes"
+			],
+			[
+				"proto",
+				"prototype"
+			],
+			[
+				"pro",
+				"prototype"
+			],
+			[
 				"find",
 				"findAndReplace"
 			],
@@ -64,34 +80,42 @@
 	"buffers":
 	[
 		{
-			"file": "Helpers/JLD/DataTypes.cpp",
+			"file": "Classes/HelloWorldScene.cpp",
 			"settings":
 			{
-				"buffer_size": 2109,
+				"buffer_size": 15504,
 				"line_ending": "Windows"
 			}
 		},
 		{
-			"file": "Helpers/JLD/JLDIO.cpp",
+			"file": "Classes/Entities/Submarine.cpp",
 			"settings":
 			{
-				"buffer_size": 1948,
+				"buffer_size": 1378,
 				"line_ending": "Windows"
 			}
 		},
 		{
-			"file": "Helpers/JLD/DataTypes.h",
+			"file": "Classes/Entities/TorpedoData.h",
 			"settings":
 			{
-				"buffer_size": 1078,
+				"buffer_size": 762,
 				"line_ending": "Windows"
 			}
 		},
 		{
-			"file": "Helpers/JLD/JLDIO.h",
+			"file": "Classes/Entities/TorpedoData.cpp",
 			"settings":
 			{
-				"buffer_size": 337,
+				"buffer_size": 2616,
+				"line_ending": "Windows"
+			}
+		},
+		{
+			"file": "Classes/Entities/AnimData.cpp",
+			"settings":
+			{
+				"buffer_size": 1193,
 				"line_ending": "Windows"
 			}
 		},
@@ -99,7 +123,23 @@
 			"file": "Helpers/Consts.h",
 			"settings":
 			{
-				"buffer_size": 745,
+				"buffer_size": 945,
+				"line_ending": "Windows"
+			}
+		},
+		{
+			"file": "Helpers/JLD/DataTypes.h",
+			"settings":
+			{
+				"buffer_size": 2364,
+				"line_ending": "Windows"
+			}
+		},
+		{
+			"file": "Resources/data/torpedos.jld",
+			"settings":
+			{
+				"buffer_size": 164,
 				"line_ending": "Windows"
 			}
 		}
@@ -143,17 +183,25 @@
 	],
 	"file_history":
 	[
+		"/C/October3rd/Classes/Entities/Submarine.h",
+		"/C/October3rd/Classes/Entities/AnimData.cpp",
+		"/C/October3rd/Helpers/JLD/JLDIO.h",
+		"/C/October3rd/Resources/data/torpedos.jld",
+		"/C/Users/HAJE/Downloads/example.jld",
+		"/C/October3rd/Classes/Entities/TorpedoData.cpp",
+		"/C/October3rd/Helpers/JLD/DataTypes.h",
+		"/C/October3rd/Resources/data/torpedo/testpedo.jld",
+		"/C/October3rd/Helpers/JLD/DataTypes.cpp",
+		"/C/October3rd/Helpers/JLD/JLDIO.cpp",
+		"/C/Users/HAJE/AppData/Roaming/Sublime Text 3/Packages/User/Default (Windows).sublime-keymap",
 		"/C/October3rd/Helpers/JLD/Importer.cpp",
 		"/C/October3rd/Helpers/JLD/Importer.h",
 		"/C/October3rd/Classes/HelloWorldScene.cpp",
 		"/C/October3rd/Classes/HelloWorldScene.h",
 		"/C/October3rd/Classes/Entities/TorpedoData.h",
-		"/C/October3rd/Classes/Entities/TorpedoData.cpp",
-		"/C/October3rd/Classes/Entities/Submarine.h",
 		"/C/October3rd/Classes/Entities/Submarine.cpp",
 		"/C/October3rd/Helpers/JLD/JLD.h",
 		"/C/October3rd/Helpers/JLD/JLD.cpp",
-		"/C/Users/HAJE/AppData/Roaming/Sublime Text 3/Packages/User/Default (Windows).sublime-keymap",
 		"/C/Users/HAJE/Downloads/IJLDGlobalFinals.java",
 		"/C/October3rd/Classes/Entities/Torpedo.h",
 		"/C/October3rd/Classes/Entities/Torpedo.cpp",
@@ -163,7 +211,6 @@
 		"/C/October3rd/Classes/Entities/O3Sprite.h",
 		"/C/October3rd/Classes/Entities/Commorose.h",
 		"/C/October3rd/Classes/Entities/Commorose.cpp",
-		"/C/October3rd/Classes/Entities/AnimData.cpp",
 		"/C/October3rd/Helpers/StaticHelpers.cpp",
 		"/C/October3rd/Helpers/StaticHelpers.h",
 		"/C/October3rd/Classes/Entities/AnimData.h",
@@ -180,7 +227,7 @@
 	],
 	"find":
 	{
-		"height": 30.0
+		"height": 36.0
 	},
 	"find_in_files":
 	{
@@ -197,6 +244,8 @@
 		"case_sensitive": false,
 		"find_history":
 		[
+			"delete",
+			"playerSub",
 			"	\n",
 			"setro",
 			"setrotation",
@@ -271,29 +320,60 @@
 	"groups":
 	[
 		{
-			"selected": 1,
+			"selected": 3,
 			"sheets":
 			[
 				{
 					"buffer": 0,
-					"file": "Helpers/JLD/DataTypes.cpp",
+					"file": "Classes/HelloWorldScene.cpp",
 					"semi_transient": false,
 					"settings":
 					{
-						"buffer_size": 2109,
+						"buffer_size": 15504,
 						"regions":
 						{
 						},
 						"selection":
 						[
 							[
-								1519,
-								1519
+								1959,
+								1959
 							]
 						],
 						"settings":
 						{
-							"syntax": "Packages/C++/C++.tmLanguage"
+							"syntax": "Packages/C++/C++.tmLanguage",
+							"tab_size": 4,
+							"translate_tabs_to_spaces": true
+						},
+						"translation.x": 0.0,
+						"translation.y": 875.0,
+						"zoom_level": 1.0
+					},
+					"stack_index": 6,
+					"type": "text"
+				},
+				{
+					"buffer": 1,
+					"file": "Classes/Entities/Submarine.cpp",
+					"semi_transient": false,
+					"settings":
+					{
+						"buffer_size": 1378,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								197,
+								197
+							]
+						],
+						"settings":
+						{
+							"syntax": "Packages/C++/C++.tmLanguage",
+							"translate_tabs_to_spaces": false
 						},
 						"translation.x": 0.0,
 						"translation.y": 0.0,
@@ -303,54 +383,20 @@
 					"type": "text"
 				},
 				{
-					"buffer": 1,
-					"file": "Helpers/JLD/JLDIO.cpp",
-					"semi_transient": false,
-					"settings":
-					{
-						"buffer_size": 1948,
-						"regions":
-						{
-						},
-						"selection":
-						[
-							[
-								460,
-								460
-							]
-						],
-						"settings":
-						{
-							"syntax": "Packages/C++/C++.tmLanguage"
-						},
-						"translation.x": 0.0,
-						"translation.y": 240.0,
-						"zoom_level": 1.0
-					},
-					"stack_index": 0,
-					"type": "text"
-				}
-			]
-		},
-		{
-			"selected": 1,
-			"sheets":
-			[
-				{
 					"buffer": 2,
-					"file": "Helpers/JLD/DataTypes.h",
+					"file": "Classes/Entities/TorpedoData.h",
 					"semi_transient": false,
 					"settings":
 					{
-						"buffer_size": 1078,
+						"buffer_size": 762,
 						"regions":
 						{
 						},
 						"selection":
 						[
 							[
-								115,
-								115
+								721,
+								721
 							]
 						],
 						"settings":
@@ -368,24 +414,25 @@
 				},
 				{
 					"buffer": 3,
-					"file": "Helpers/JLD/JLDIO.h",
+					"file": "Classes/Entities/TorpedoData.cpp",
 					"semi_transient": false,
 					"settings":
 					{
-						"buffer_size": 337,
+						"buffer_size": 2616,
 						"regions":
 						{
 						},
 						"selection":
 						[
 							[
-								149,
-								149
+								225,
+								225
 							]
 						],
 						"settings":
 						{
-							"syntax": "Packages/C++/C++.tmLanguage"
+							"syntax": "Packages/C++/C++.tmLanguage",
+							"translate_tabs_to_spaces": false
 						},
 						"translation.x": 0.0,
 						"translation.y": 0.0,
@@ -396,11 +443,11 @@
 				},
 				{
 					"buffer": 4,
-					"file": "Helpers/Consts.h",
-					"semi_transient": false,
+					"file": "Classes/Entities/AnimData.cpp",
+					"semi_transient": true,
 					"settings":
 					{
-						"buffer_size": 745,
+						"buffer_size": 1193,
 						"regions":
 						{
 						},
@@ -413,7 +460,8 @@
 						],
 						"settings":
 						{
-							"syntax": "Packages/C++/C++.tmLanguage"
+							"syntax": "Packages/C++/C++.tmLanguage",
+							"translate_tabs_to_spaces": false
 						},
 						"translation.x": 0.0,
 						"translation.y": 0.0,
@@ -421,13 +469,105 @@
 					},
 					"stack_index": 4,
 					"type": "text"
+				},
+				{
+					"buffer": 5,
+					"file": "Helpers/Consts.h",
+					"semi_transient": false,
+					"settings":
+					{
+						"buffer_size": 945,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								838,
+								838
+							]
+						],
+						"settings":
+						{
+							"syntax": "Packages/C++/C++.tmLanguage"
+						},
+						"translation.x": 0.0,
+						"translation.y": 0.0,
+						"zoom_level": 1.0
+					},
+					"stack_index": 5,
+					"type": "text"
+				}
+			]
+		},
+		{
+			"selected": 1,
+			"sheets":
+			[
+				{
+					"buffer": 6,
+					"file": "Helpers/JLD/DataTypes.h",
+					"semi_transient": false,
+					"settings":
+					{
+						"buffer_size": 2364,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								550,
+								558
+							]
+						],
+						"settings":
+						{
+							"syntax": "Packages/C++/C++.tmLanguage",
+							"tab_size": 4,
+							"translate_tabs_to_spaces": true
+						},
+						"translation.x": 0.0,
+						"translation.y": 960.0,
+						"zoom_level": 1.0
+					},
+					"stack_index": 7,
+					"type": "text"
+				},
+				{
+					"buffer": 7,
+					"file": "Resources/data/torpedos.jld",
+					"semi_transient": false,
+					"settings":
+					{
+						"buffer_size": 164,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								0,
+								0
+							]
+						],
+						"settings":
+						{
+							"syntax": "Packages/Text/Plain text.tmLanguage"
+						},
+						"translation.x": 0.0,
+						"translation.y": 0.0,
+						"zoom_level": 1.0
+					},
+					"stack_index": 0,
+					"type": "text"
 				}
 			]
 		}
 	],
 	"incremental_find":
 	{
-		"height": 30.0
+		"height": 28.0
 	},
 	"input":
 	{
@@ -471,7 +611,7 @@
 	"project": "sublime.sublime-project",
 	"replace":
 	{
-		"height": 56.0
+		"height": 52.0
 	},
 	"save_all_on_build": true,
 	"select_file":
@@ -501,7 +641,7 @@
 		],
 		"width": 0.0
 	},
-	"selected_group": 0,
+	"selected_group": 1,
 	"settings":
 	{
 	},

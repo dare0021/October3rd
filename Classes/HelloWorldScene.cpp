@@ -178,6 +178,7 @@ void HelloWorld::onKeyTyped(EventKeyboard::KeyCode keyCode)
             {
                 auto torpedo = s->spawnTorpedo("testpedo", 
                     ((Protractor*)protractor)->getCursorAngle());
+                torpedo->setName("testpedo");
                 addSprite(torpedo);
             }
             break;

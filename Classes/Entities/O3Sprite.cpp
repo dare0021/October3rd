@@ -169,12 +169,18 @@ void O3Sprite::update(float dt)
 	if(physicsModel == PhysicsModel::Newtonian)
 	{
 		auto mu = speed>0 ? friction : -1 * friction;
-		setSpeed(speed + (force - mu * speed * speed / 2) * dt / mass);
+		setSpeed(speed + (dt / mass) * (force - mu * speed * speed / 2));
 	}
 	if(physicsModel != PhysicsModel::Stationary)
 	{
 		Vec2 moveBy = getHeadingVector() * speed * dt;
 		setPosition(getPosition() + moveBy);
+		if(getName() == "testpedo")
+		{
+			CCLOG("dt %f", dt);
+			CCLOG("speed %f", speed);
+			CCLOG("torpedo moveBy (%f, %f)\n", moveBy.x, moveBy.y);
+		}
 	}
 	if(getRotation() != targetHeading)
 	{
