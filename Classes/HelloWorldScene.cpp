@@ -6,6 +6,7 @@
 #include "Helpers/Consts.h"
 #include "Entities/Commorose.h"
 #include "Entities/Protractor.h"
+#include "Entities/Minimap.h"
 
 USING_NS_CC;
 
@@ -58,14 +59,14 @@ bool HelloWorld::init()
     overlaySprite->addChild(label, 1);
 
     cursorSprite = Sprite::create("cursors/arrow.png");
-    addChild(cursorSprite, 9999);
+    addChild(cursorSprite, CURSOR_DEPTH);
     cursorSprite->setScale(0.7);
 
     protractor = (Sprite*) new Protractor("protractor", PROTRACTOR_SIZE);
     addChild(protractor, 1);
 
 	commorose = (Sprite*) new Commorose("commorose");
-    addChild(commorose, 9000);
+    addChild(commorose, CURSOR_DEPTH - 1);
     commorose->setVisible(false);
 
     TorpedoData::init("torpedos.jld");
@@ -76,9 +77,12 @@ bool HelloWorld::init()
     s->setPhysicsModel(PhysicsModel::Newtonian);
     s->setMass(300);
     s->setFriction(5);
-    addChild(playerSub, 1000);
+    addChild(playerSub, UI_DEPTH);
 
     ((Submarine*)playerSub)->addTorpedoPrototype(new TorpedoData("testpedo", "testpedo"));
+
+    minimap = (Sprite*) new Minimap("minimap");
+    addChild(minimap, UI_DEPTH);
 
     moveScreenBy(Director::getInstance()->getVisibleSize()/-2);
     lookAt(Vec2::ZERO);
@@ -366,6 +370,9 @@ void HelloWorld::lookAt(Vec2 pos)
     Vec2 visible = Director::getInstance()->getVisibleSize();
     this->setPosition(-1*(pos - visible/2));
     protractor->setPosition(lookingAt());
+    Vec2 minimapPos = lookingAt() - visible/2 + MINIMAP_SIZE/2;
+    minimapPos.x += MINIMAP_SIZE.x/5;
+    minimap->setPosition(minimapPos);
 
     //draw grid
     Vec2 botleft = screenspaceToWorldspace(Vec2::ZERO);
@@ -491,11 +498,20 @@ Vec2 HelloWorld::worldspaceToScreenspace(Vec2 wspos)
 
 void HelloWorld::update(float dt)
 {
+    auto m = (Minimap*) minimap;
+    timeSinceLastMouseUp += dt;
+    timeSinceLastMinimapUpdate += dt;
+    bool updateMinimap = timeSinceLastMinimapUpdate >= MINIMAP_REDRAW_TICK;
+    if(updateMinimap)
+        timeSinceLastMinimapUpdate -= MINIMAP_REDRAW_TICK;
+
     for (auto p : typeKeyCandidates)
     {
         *p.second += dt;
     }
 
+    // update existing items' opacity before adding new ones
+    m->update(dt);
     for (auto o3s : spriteVect)
     {
         o3s->update(dt);
@@ -503,11 +519,14 @@ void HelloWorld::update(float dt)
     for (auto torpedo : torpedoVect)
     {
         torpedo->update(dt);
+        if(updateMinimap)
+            m->newTorpedo(torpedo->getPosition());
     }
 
     lastPlayerPos = playerSub->getPosition();
-    timeSinceLastMouseUp += dt;
     playerSub->update(dt);
+    if(updateMinimap)
+        m->newPlayer(playerSub->getPosition());
     moveScreenBy(playerSub->getPosition() - lastPlayerPos);
 }
 

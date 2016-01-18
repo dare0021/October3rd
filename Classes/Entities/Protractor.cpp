@@ -3,7 +3,8 @@
 
 USING_NS_CC;
 
-Protractor::Protractor(std::string path, float radius) : O3Sprite(path + "/center.png"),
+/// Dummy sprite is not used. Just so I don't have to rewrite O3Sprite
+Protractor::Protractor(std::string path, float radius) : O3Sprite(path + "/1x1empty.png"),
 cursorAngle(-90), radius(radius)
 {
 	setName("Protractor");
