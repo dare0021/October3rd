@@ -36,6 +36,7 @@ bool HelloWorld::init()
     Vec2 visibleSize = Director::getInstance()->getVisibleSize();
     Vec2 origin = Director::getInstance()->getVisibleOrigin();
     timeSinceLastMouseUp = 9999;
+    timeSinceLastMinimapUpdate = 0;
 
     // add "HelloWorld" splash screen"
     auto sprite = Sprite::create("HelloWorld.png");
@@ -501,6 +502,7 @@ void HelloWorld::update(float dt)
     auto m = (Minimap*) minimap;
     timeSinceLastMouseUp += dt;
     timeSinceLastMinimapUpdate += dt;
+    CCLOG("MM Update %f", timeSinceLastMinimapUpdate);
     bool updateMinimap = timeSinceLastMinimapUpdate >= MINIMAP_REDRAW_TICK;
     if(updateMinimap)
         timeSinceLastMinimapUpdate -= MINIMAP_REDRAW_TICK;

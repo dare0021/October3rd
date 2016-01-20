@@ -17,11 +17,12 @@ static const float PROTRACTOR_LINE_THICKNESS = 0.5;
 static const float GRID_LINE_THICKNESS = 0.5;
 static const float GRID_LABEL_SIZE = 15;
 static const float DOUBLECLICK_THRESHOLD = 0.3;
-/// how often the minimap items are redrawn in ms
-static const float MINIMAP_REDRAW_TICK = 100;
+/// how often the minimap items are redrawn in s
+static const float MINIMAP_REDRAW_TICK = 0.1;
 static const float MINIMAP_FADE_ACC = 1.5;
-/// how long a minimap item remains on the screen including fade out in ms
-static const float MINIMAP_ICON_TTL = 1000;
+/// how long a minimap item remains on the screen including fade out in s
+static const float MINIMAP_ICON_TTL = 1;
+static const float MINIMAP_ICON_SIZE = 1;
 
 static const cocos2d::Vec2 GRID_SPACING = cocos2d::Vec2(20, 20);
 static const cocos2d::Vec2 GRID_LABEL_SPACING = GRID_SPACING * 5;
