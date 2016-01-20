@@ -502,7 +502,6 @@ void HelloWorld::update(float dt)
     auto m = (Minimap*) minimap;
     timeSinceLastMouseUp += dt;
     timeSinceLastMinimapUpdate += dt;
-    CCLOG("MM Update %f", timeSinceLastMinimapUpdate);
     bool updateMinimap = timeSinceLastMinimapUpdate >= MINIMAP_REDRAW_TICK;
     if(updateMinimap)
         timeSinceLastMinimapUpdate -= MINIMAP_REDRAW_TICK;

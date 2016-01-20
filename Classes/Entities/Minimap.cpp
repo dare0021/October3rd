@@ -13,10 +13,16 @@ timeSinceLastOpacityUpdate(0)
 
 void Minimap::newEntry(O3Sprite* sprite, Vec2 pos, float ttl, bool isDrawNode, Color4F color)
 {
+	if(pos.x < -1*GAME_SIZE.x/2 || pos.x > GAME_SIZE.x/2 ||
+		pos.y < -1*GAME_SIZE.y/2 || pos.y > GAME_SIZE.y/2)
+	{
+		// ignore objects outside of bounds
+		return;
+	}
 	entries[sprite->getID()] = new MinimapElem(sprite, ttl, isDrawNode, color);
 	addChild(sprite);
-	float xrat = GAME_SIZE.x / 2 / MINIMAP_INTERNAL_SIZE.x;
-	float yrat = GAME_SIZE.y / 2 / MINIMAP_INTERNAL_SIZE.y;
+	float xrat = GAME_SIZE.x / MINIMAP_INTERNAL_SIZE.x;
+	float yrat = GAME_SIZE.y / MINIMAP_INTERNAL_SIZE.y;
 	sprite->setPosition(Vec2(pos.x / xrat, pos.y / yrat));
 }
 
