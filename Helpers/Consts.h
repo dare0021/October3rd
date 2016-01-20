@@ -19,10 +19,12 @@ static const float GRID_LABEL_SIZE = 15;
 static const float DOUBLECLICK_THRESHOLD = 0.3;
 /// how often the minimap items are redrawn in s
 static const float MINIMAP_REDRAW_TICK = 0.1;
-static const float MINIMAP_FADE_ACC = 1.5;
+static const float MINIMAP_FADE_ACC = 1.1;
 /// how long a minimap item remains on the screen including fade out in s
-static const float MINIMAP_ICON_TTL = 1;
+static const float MINIMAP_ICON_TTL = 3;
 static const float MINIMAP_ICON_SIZE = 1;
+/// if < threshold, opject is rejected as being invisible
+static const float MINIMAP_OPACITY_THRESHOLD = 0.05;
 
 static const cocos2d::Vec2 GRID_SPACING = cocos2d::Vec2(20, 20);
 static const cocos2d::Vec2 GRID_LABEL_SPACING = GRID_SPACING * 5;
