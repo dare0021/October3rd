@@ -49,6 +49,6 @@ Torpedo* Submarine::spawnTorpedo(TorpedoData* prototype, float targetHeading)
 	torpedo->setPosition(torpedo->getPosition() + getPosition());
 	torpedo->setRotation(torpedo->getRotation() + getRotation());
 	torpedo->setTargetHeading(targetHeading);
-	torpedo->setSpeed(torpedo->getSpeed() + getSpeed());
+	torpedo->setSpeed(torpedo->getSpeed());
 	return torpedo;
 }

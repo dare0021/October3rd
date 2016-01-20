@@ -13,6 +13,8 @@ timeSinceLastOpacityUpdate(0)
 
 void Minimap::newEntry(O3Sprite* sprite, Vec2 pos, float ttl, bool isDrawNode, Color4F color)
 {
+	// necessary since culling should be done off screen instead of having
+	// the torpedo disappear magically
 	if(pos.x < -1*GAME_SIZE.x/2 || pos.x > GAME_SIZE.x/2 ||
 		pos.y < -1*GAME_SIZE.y/2 || pos.y > GAME_SIZE.y/2)
 	{
