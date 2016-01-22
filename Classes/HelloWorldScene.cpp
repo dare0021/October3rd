@@ -8,6 +8,10 @@
 #include "Entities/Protractor.h"
 #include "Entities/Minimap.h"
 
+// when not locked, there is no guarantee the camera will always point to the
+// player sub. e.g. when player sub location is modified by bounds checker
+//#define LOCK_PLAYER_CAMERA
+
 USING_NS_CC;
 
 Scene* HelloWorld::createScene()
@@ -553,6 +557,17 @@ void HelloWorld::update(float dt)
         }
     }
 
+    // redirect the player sub if it veers off map
+    //TODO: enemy subs
+    if(playerSub->getPosition().x < -1*GAME_SIZE.x/2)
+        playerSub->setPosition(-1*GAME_SIZE.x/2, playerSub->getPosition().y);
+    else if(playerSub->getPosition().x > GAME_SIZE.x/2)
+        playerSub->setPosition(GAME_SIZE.x/2, playerSub->getPosition().y);
+    if(playerSub->getPosition().y < -1*GAME_SIZE.y/2)
+        playerSub->setPosition(playerSub->getPosition().x, -1*GAME_SIZE.y/2);
+    else if(playerSub->getPosition().y > GAME_SIZE.y/2)
+        playerSub->setPosition(playerSub->getPosition().x, GAME_SIZE.y/2);
+
     if(updateMinimap)
         timeSinceLastMinimapUpdate -= MINIMAP_REDRAW_FREQ;
 
@@ -578,7 +593,11 @@ void HelloWorld::update(float dt)
     playerSub->update(dt);
     if(updateMinimap)
         m->newPlayer(playerSub->getPosition());
+    #ifdef LOCK_PLAYER_CAMERA
+    lookAt(playerSub->getPosition());
+    #else
     moveScreenBy(playerSub->getPosition() - lastPlayerPos);
+    #endif
 }
 
 O3Sprite* HelloWorld::getSpriteByName(std::string name)
