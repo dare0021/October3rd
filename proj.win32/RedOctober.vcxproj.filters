@@ -63,7 +63,7 @@
     <ClCompile Include="..\Helpers\JLD\JLDIO.cpp">
       <Filter>src\Helpers\JLD</Filter>
     </ClCompile>
-    <ClCompile Include="..\Classes\Entities\Minimap.cpp">
+    <ClCompile Include="..\Classes\Entities\Notifier.cpp">
       <Filter>src\Entities</Filter>
     </ClCompile>
   </ItemGroup>
@@ -113,7 +113,7 @@
     <ClInclude Include="..\Helpers\JLD\JLDIO.h">
       <Filter>src\Helpers\JLD</Filter>
     </ClInclude>
-    <ClInclude Include="..\Classes\Entities\Minimap.h">
+    <ClInclude Include="..\Classes\Entities\Notifier.h">
       <Filter>src\Entities</Filter>
     </ClInclude>
   </ItemGroup>

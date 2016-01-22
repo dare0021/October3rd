@@ -1,4 +1,4 @@
-#include "Minimap.h"
+#include "Notifier.h"
 #include "Helpers/Consts.h"
 
 #define SHOW_OFFSCREEN_OBJECTS
@@ -6,14 +6,19 @@
 USING_NS_CC;
 //TODO: replace DrawDot() with sprites and TintTo::
 
-Minimap::Minimap(std::string path) : O3Sprite(path + "/bg.png"),
+Notifier::Notifier(std::string path, Vec2 screenSize) : O3Sprite("1x1empty.png"),
 resourceFolderPath(path),
-timeSinceLastOpacityUpdate(0)
+timeSinceLastOpacityUpdate(0),
+screenSize(screenSize)
 {
-
+	minimap = new O3Sprite(resourceFolderPath + "/bg.png");
+    Vec2 minimapPos = -1 * screenSize/2 + MINIMAP_SIZE/2;
+    minimapPos.x += MINIMAP_SIZE.x/5;
+    minimap->setPosition(minimapPos);
+    addChild(minimap);
 }
 
-void Minimap::newEntry(O3Sprite* sprite, Vec2 pos, float ttl, bool isDrawNode, Color4F color)
+void Notifier::newEntry(O3Sprite* sprite, Vec2 pos, float ttl, bool isDrawNode, Color4F color)
 {
 	#ifndef SHOW_OFFSCREEN_OBJECTS
 	// necessary since culling should be done off screen instead of having
@@ -25,14 +30,14 @@ void Minimap::newEntry(O3Sprite* sprite, Vec2 pos, float ttl, bool isDrawNode, C
 		return;
 	}
 	#endif
-	entries[sprite->getID()] = new MinimapElem(sprite, ttl, isDrawNode, color);
-	addChild(sprite);
+	entries[sprite->getID()] = new NotifierElem(sprite, ttl, isDrawNode, color);
+	minimap->addChild(sprite);
 	float xrat = GAME_SIZE.x / MINIMAP_INTERNAL_SIZE.x;
 	float yrat = GAME_SIZE.y / MINIMAP_INTERNAL_SIZE.y;
 	sprite->setPosition(Vec2(pos.x / xrat, pos.y / yrat));
 }
 
-void Minimap::newTorpedo(Vec2 pos)
+void Notifier::newTorpedo(Vec2 pos)
 {
 	auto sprite = new O3Sprite("1x1empty.png");
 	auto drawnode = DrawNode::create();
@@ -42,7 +47,7 @@ void Minimap::newTorpedo(Vec2 pos)
 	newEntry(sprite, pos, MINIMAP_ICON_TTL, true, color);
 }
 
-void Minimap::newSubmarine(Vec2 pos)
+void Notifier::newSubmarine(Vec2 pos)
 {
 	auto sprite = new O3Sprite("1x1empty.png");
 	auto drawnode = DrawNode::create();
@@ -52,7 +57,7 @@ void Minimap::newSubmarine(Vec2 pos)
 	newEntry(sprite, pos, MINIMAP_ICON_TTL, true, color);
 }
 
-void Minimap::newPlayer(Vec2 pos)
+void Notifier::newPlayer(Vec2 pos)
 {
 	auto sprite = new O3Sprite("1x1empty.png");
 	auto drawnode = DrawNode::create();
@@ -62,7 +67,7 @@ void Minimap::newPlayer(Vec2 pos)
 	newEntry(sprite, pos, MINIMAP_ICON_TTL, true, color);
 }
 
-void Minimap::newCounterMeasure(Vec2 pos)
+void Notifier::newCounterMeasure(Vec2 pos)
 {
 	auto sprite = new O3Sprite("1x1empty.png");
 	auto drawnode = DrawNode::create();
@@ -72,7 +77,7 @@ void Minimap::newCounterMeasure(Vec2 pos)
 	newEntry(sprite, pos, MINIMAP_ICON_TTL, true, color);
 }
 
-void Minimap::newPing(Vec2 pos)
+void Notifier::newPing(Vec2 pos)
 {
 	auto sprite = new O3Sprite("1x1empty.png");
 	int count = 150;
@@ -83,7 +88,7 @@ void Minimap::newPing(Vec2 pos)
 	newEntry(sprite, pos, count / fps, false);
 }
 
-void Minimap::newTubeFilling(Vec2 pos)
+void Notifier::newTubeFilling(Vec2 pos)
 {
 	auto sprite = new O3Sprite("1x1empty.png");
 	auto drawnode = DrawNode::create();
@@ -93,10 +98,11 @@ void Minimap::newTubeFilling(Vec2 pos)
 	newEntry(sprite, pos, MINIMAP_ICON_TTL, true, color);
 }
 
-void Minimap::update(float dt)
+void Notifier::update(float dt)
 {
 	timeSinceLastOpacityUpdate += dt;
 
+	// minimap curation. Opacity modification / deleting old dots
 	if (timeSinceLastOpacityUpdate >= MINIMAP_REDRAW_FREQ)
 	{
 		timeSinceLastOpacityUpdate -= MINIMAP_REDRAW_FREQ;
@@ -128,7 +134,7 @@ void Minimap::update(float dt)
 
 			if(removeFlag)
 			{
-				removeChild(elem->sprite);
+				minimap->removeChild(elem->sprite);
 				toRemove.push_back(kvp.first);
 			}
 		}

@@ -11,10 +11,10 @@
 /// designed to tack on a new transient item (sprite fades with time) each interval
 /// interval should be independent of the update rate
 /// each sprite goes from 255 opacity to 0 within their time to live with decreasing delta
-class Minimap : public O3Sprite
+class Notifier : public O3Sprite
 {
 public:
-	Minimap(std::string resourceFolderPath);
+	Notifier(std::string resourceFolderPath, cocos2d::Vec2 screenSize);
 
 	/// separate functions for each type for sprite allocation
 	/// e.g. Ping has a different sprite compared to a torpedo
@@ -30,14 +30,14 @@ public:
 	void update(float dt);
 
 private:
-	struct MinimapElem
+	struct NotifierElem
 	{
 		O3Sprite* sprite;
 		float ttl;
 		bool isDrawNode;
 		cocos2d::Color4F color;
 
-		MinimapElem(O3Sprite* s, float t, bool idn, cocos2d::Color4F c)
+		NotifierElem(O3Sprite* s, float t, bool idn, cocos2d::Color4F c)
 		{
 			sprite = s;
 			ttl = t;
@@ -48,8 +48,11 @@ private:
 
 	std::string resourceFolderPath;
 	/// key: Sprite ID
-	std::unordered_map<int, MinimapElem*> entries;
+	std::unordered_map<int, NotifierElem*> entries;
 	float timeSinceLastOpacityUpdate;
+	cocos2d::Vec2 screenSize;
+
+	O3Sprite* minimap;
 };
 
 #endif //__MINIMAP_H__

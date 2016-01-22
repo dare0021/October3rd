@@ -6,7 +6,7 @@
 #include "Helpers/Consts.h"
 #include "Entities/Commorose.h"
 #include "Entities/Protractor.h"
-#include "Entities/Minimap.h"
+#include "Entities/Notifier.h"
 
 // when not locked, there is no guarantee the camera will always point to the
 // player sub. e.g. when player sub location is modified by bounds checker
@@ -40,7 +40,7 @@ bool HelloWorld::init()
     Vec2 visibleSize = Director::getInstance()->getVisibleSize();
     Vec2 origin = Director::getInstance()->getVisibleOrigin();
     timeSinceLastMouseUp = 9999;
-    timeSinceLastMinimapUpdate = 0;
+    timeSinceLastNotifierUpdate = 0;
     timeSinceLastObjectCull = 0;
 
     // add "HelloWorld" splash screen"
@@ -87,8 +87,8 @@ bool HelloWorld::init()
 
     ((Submarine*)playerSub)->addTorpedoPrototype(new TorpedoData("testpedo", "testpedo"));
 
-    minimap = (Sprite*) new Minimap("minimap");
-    addChild(minimap, UI_DEPTH);
+    notifier = (Sprite*) new Notifier("notifier", visibleSize);
+    addChild(notifier, UI_DEPTH);
 
     moveScreenBy(Director::getInstance()->getVisibleSize()/-2);
     lookAt(Vec2::ZERO);
@@ -383,9 +383,7 @@ void HelloWorld::lookAt(Vec2 pos)
     Vec2 visible = Director::getInstance()->getVisibleSize();
     this->setPosition(-1*(pos - visible/2));
     protractor->setPosition(lookingAt());
-    Vec2 minimapPos = lookingAt() - visible/2 + MINIMAP_SIZE/2;
-    minimapPos.x += MINIMAP_SIZE.x/5;
-    minimap->setPosition(minimapPos);
+    notifier->setPosition(lookingAt());
 
     //draw grid
     Vec2 botleft = screenspaceToWorldspace(Vec2::ZERO);
@@ -511,12 +509,12 @@ Vec2 HelloWorld::worldspaceToScreenspace(Vec2 wspos)
 
 void HelloWorld::update(float dt)
 {
-    auto m = (Minimap*) minimap;
+    auto m = (Notifier*) notifier;
     timeSinceLastMouseUp += dt;
-    timeSinceLastMinimapUpdate += dt;
+    timeSinceLastNotifierUpdate += dt;
     timeSinceLastObjectCull += dt;
     Vec2 visibleSize = Director::getInstance()->getVisibleSize();
-    bool updateMinimap = timeSinceLastMinimapUpdate >= MINIMAP_REDRAW_FREQ;
+    bool updateNotifier = timeSinceLastNotifierUpdate >= MINIMAP_REDRAW_FREQ;
 
     // cull first, then update the remainder
     if(timeSinceLastObjectCull >= OBJECT_CULL_FREQ)
@@ -568,8 +566,8 @@ void HelloWorld::update(float dt)
     else if(playerSub->getPosition().y > GAME_SIZE.y/2)
         playerSub->setPosition(playerSub->getPosition().x, GAME_SIZE.y/2);
 
-    if(updateMinimap)
-        timeSinceLastMinimapUpdate -= MINIMAP_REDRAW_FREQ;
+    if(updateNotifier)
+        timeSinceLastNotifierUpdate -= MINIMAP_REDRAW_FREQ;
 
     for (auto p : typeKeyCandidates)
     {
@@ -585,13 +583,13 @@ void HelloWorld::update(float dt)
     for (auto torpedo : torpedoVect)
     {
         torpedo->update(dt);
-        if(updateMinimap)
+        if(updateNotifier)
             m->newTorpedo(torpedo->getPosition());
     }
 
     lastPlayerPos = playerSub->getPosition();
     playerSub->update(dt);
-    if(updateMinimap)
+    if(updateNotifier)
         m->newPlayer(playerSub->getPosition());
     #ifdef LOCK_PLAYER_CAMERA
     lookAt(playerSub->getPosition());
