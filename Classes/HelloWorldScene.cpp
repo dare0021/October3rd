@@ -509,12 +509,12 @@ Vec2 HelloWorld::worldspaceToScreenspace(Vec2 wspos)
 
 void HelloWorld::update(float dt)
 {
-    auto m = (Notifier*) notifier;
+    auto n = (Notifier*) notifier;
     timeSinceLastMouseUp += dt;
     timeSinceLastNotifierUpdate += dt;
     timeSinceLastObjectCull += dt;
     Vec2 visibleSize = Director::getInstance()->getVisibleSize();
-    bool updateNotifier = timeSinceLastNotifierUpdate >= MINIMAP_REDRAW_FREQ;
+    bool updateMinimap = timeSinceLastNotifierUpdate >= MINIMAP_REDRAW_FREQ;
 
     // cull first, then update the remainder
     if(timeSinceLastObjectCull >= OBJECT_CULL_FREQ)
@@ -566,8 +566,10 @@ void HelloWorld::update(float dt)
     else if(playerSub->getPosition().y > GAME_SIZE.y/2)
         playerSub->setPosition(playerSub->getPosition().x, GAME_SIZE.y/2);
 
-    if(updateNotifier)
+    if(updateMinimap)
         timeSinceLastNotifierUpdate -= MINIMAP_REDRAW_FREQ;
+
+    n->setLookingAt(lookingAt());
 
     for (auto p : typeKeyCandidates)
     {
@@ -575,7 +577,7 @@ void HelloWorld::update(float dt)
     }
 
     // update existing items' opacity before adding new ones
-    m->update(dt);
+    n->update(dt);
     for (auto o3s : spriteVect)
     {
         o3s->update(dt);
@@ -583,14 +585,15 @@ void HelloWorld::update(float dt)
     for (auto torpedo : torpedoVect)
     {
         torpedo->update(dt);
-        if(updateNotifier)
-            m->newTorpedo(torpedo->getPosition());
+        if(updateMinimap)
+            n->newMinimapTorpedo(torpedo->getPosition());
+		n->newOffscreenTorpedo(torpedo->getPosition(), torpedo->getID());
     }
 
     lastPlayerPos = playerSub->getPosition();
     playerSub->update(dt);
-    if(updateNotifier)
-        m->newPlayer(playerSub->getPosition());
+    if(updateMinimap)
+        n->newMinimapPlayer(playerSub->getPosition());
     #ifdef LOCK_PLAYER_CAMERA
     lookAt(playerSub->getPosition());
     #else
