@@ -37,6 +37,7 @@ bool HelloWorld::init()
     Vec2 origin = Director::getInstance()->getVisibleOrigin();
     timeSinceLastMouseUp = 9999;
     timeSinceLastMinimapUpdate = 0;
+    timeSinceLastObjectCull = 0;
 
     // add "HelloWorld" splash screen"
     auto sprite = Sprite::create("HelloWorld.png");
@@ -201,13 +202,20 @@ void HelloWorld::onMouseDown(Event* event)
     ss << "Mouse Down ";
     ss << e->getMouseButton();
 
-    if(e->getMouseButton() == 1 && !getChildByName("dummy.png"))
+    if(e->getMouseButton() == 1)
     {
-        auto s = new O3Sprite("dummy.png");
-        addSprite(s);
-        s->addAnimation("idle", "animtest", 9, 12);
-        s->setAnimation("idle");
-        s->playAnimation();
+        if(!getChildByName("dummy.png"))
+        {
+            auto s = new O3Sprite("dummy.png");
+            addSprite(s);
+            s->addAnimation("idle", "animtest", 9, 12);
+            s->setAnimation("idle");
+            s->playAnimation();
+        }
+        else
+        {
+            removeChildByName("dummy.png");
+        }
     }
 }
 
@@ -502,9 +510,51 @@ void HelloWorld::update(float dt)
     auto m = (Minimap*) minimap;
     timeSinceLastMouseUp += dt;
     timeSinceLastMinimapUpdate += dt;
-    bool updateMinimap = timeSinceLastMinimapUpdate >= MINIMAP_REDRAW_TICK;
+    timeSinceLastObjectCull += dt;
+    Vec2 visibleSize = Director::getInstance()->getVisibleSize();
+    bool updateMinimap = timeSinceLastMinimapUpdate >= MINIMAP_REDRAW_FREQ;
+
+    // cull first, then update the remainder
+    if(timeSinceLastObjectCull >= OBJECT_CULL_FREQ)
+    {
+        timeSinceLastObjectCull -= OBJECT_CULL_FREQ;
+        std::vector<int> toRemove;
+        for (auto sprite : torpedoVect)
+        {
+            auto bounds = (GAME_SIZE + visibleSize) / 2;
+            if(sprite->getPosition().x < -1* bounds.x ||
+                sprite->getPosition().x > bounds.x ||
+                sprite->getPosition().y < -1*bounds.y ||
+                sprite->getPosition().y > bounds.y)
+            {
+                toRemove.push_back(sprite->getID());
+            }
+        }
+        for (int i : toRemove)
+        {
+            removeTorpedoByID(i);
+        }
+
+        toRemove.clear();
+        for (auto sprite : spriteVect)
+        {
+            auto bounds = (GAME_SIZE + visibleSize) / 2;
+            if(sprite->getPosition().x < -1* bounds.x ||
+                sprite->getPosition().x > bounds.x ||
+                sprite->getPosition().y < -1*bounds.y ||
+                sprite->getPosition().y > bounds.y)
+            {
+                toRemove.push_back(sprite->getID());
+            }
+        }
+        for (int i : toRemove)
+        {
+            removeSpriteByID(i);
+        }
+    }
+
     if(updateMinimap)
-        timeSinceLastMinimapUpdate -= MINIMAP_REDRAW_TICK;
+        timeSinceLastMinimapUpdate -= MINIMAP_REDRAW_FREQ;
 
     for (auto p : typeKeyCandidates)
     {
@@ -548,24 +598,7 @@ void HelloWorld::addSprite(O3Sprite* sprite, bool addToSpriteVect)
     this->addChild(sprite);
 }
 
-void HelloWorld::removeSprite(O3Sprite* sprite)
-{
-    std::list<int> toRemove;
-    int i = 0;
-    for (auto s : spriteVect)
-    {
-        if(s == sprite)
-            toRemove.push_front(i);
-        i++;
-    }
-    for (auto j : toRemove)
-    {
-        this->removeChild(*(spriteVect.begin() + j));
-        spriteVect.erase(spriteVect.begin() + j);
-    }
-}
-
-void HelloWorld::removeSpriteByName(std::string name)
+int HelloWorld::removeSpriteByName(std::string name)
 {
     std::list<int> toRemove;
     int i = 0;
@@ -580,10 +613,51 @@ void HelloWorld::removeSpriteByName(std::string name)
         this->removeChild(*(spriteVect.begin() + j));
         spriteVect.erase(spriteVect.begin() + j);
     }
+    return toRemove.size();
+}
+
+bool HelloWorld::removeSpriteByID(int id)
+{
+    int i = 0;
+    bool foundOne = false;
+    for (auto s : spriteVect)
+    {
+        if(s->getID() == id)
+        {
+            foundOne = true;
+            break;
+        }
+        i++;
+    }
+    if(!foundOne)
+        return false;
+    this->removeChild(*(spriteVect.begin() + i));
+    spriteVect.erase(spriteVect.begin() + i);
+    return true;
 }
 
 void HelloWorld::addTorpedo(Torpedo* torpedo)
 {
     torpedoVect.push_back(torpedo);
     addSprite(torpedo, false);
+}
+
+bool HelloWorld::removeTorpedoByID(int id)
+{
+    int i = 0;
+    bool foundOne = false;
+    for (auto t : torpedoVect)
+    {
+        if(t->getID() == id)
+        {
+            foundOne = true;
+            break;
+        }
+        i++;
+    }
+    if(!foundOne)
+        return false;
+    this->removeChild(*(torpedoVect.begin() + i));
+    torpedoVect.erase(torpedoVect.begin() + i);
+    return true;
 }

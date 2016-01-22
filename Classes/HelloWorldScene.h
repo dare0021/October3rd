@@ -23,6 +23,7 @@ private:
     cocos2d::EventKeyboard::KeyCode lastKey;
     cocos2d::Vec2 lastCursor, lastPlayerPos;
     std::vector<cocos2d::EventKeyboard::KeyCode> activeKeys;
+    /// contains sprites not contained in other sprite vectors, e.g. torpedoVect
     std::vector<O3Sprite*> spriteVect;
     std::vector<Torpedo*> torpedoVect;
     std::vector<Submarine*> subVect;
@@ -33,7 +34,7 @@ private:
     bool mouseDownFudge, mouseUpFudge, mouseMoveFudge, mouseScrollFudge;
     #endif
     bool isMouseDown[3]; //cocos2dx only supports left right middle mouse buttons in that order
-    float timeSinceLastMouseUp, timeSinceLastMinimapUpdate;
+    float timeSinceLastMouseUp, timeSinceLastMinimapUpdate, timeSinceLastObjectCull;
 
 	void onKeyPressed(cocos2d::EventKeyboard::KeyCode keyCode, cocos2d::Event* event);
 	void onKeyReleased(cocos2d::EventKeyboard::KeyCode keyCode, cocos2d::Event* event);
@@ -60,10 +61,11 @@ private:
 
     O3Sprite* getSpriteByName(std::string name);
     void addSprite(O3Sprite*, bool addToSpriteVect = true);
-    void removeSprite(O3Sprite*);
-    void removeSpriteByName(std::string name);
+    int removeSpriteByName(std::string name);
+    bool removeSpriteByID(int ID);
 
     void addTorpedo(Torpedo*);
+    bool removeTorpedoByID(int ID);
 
     virtual void onEnter();
     virtual void onExit();

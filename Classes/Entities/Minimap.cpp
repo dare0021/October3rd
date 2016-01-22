@@ -1,6 +1,8 @@
 #include "Minimap.h"
 #include "Helpers/Consts.h"
 
+#define SHOW_OFFSCREEN_OBJECTS
+
 USING_NS_CC;
 //TODO: replace DrawDot() with sprites and TintTo::
 
@@ -13,6 +15,7 @@ timeSinceLastOpacityUpdate(0)
 
 void Minimap::newEntry(O3Sprite* sprite, Vec2 pos, float ttl, bool isDrawNode, Color4F color)
 {
+	#ifndef SHOW_OFFSCREEN_OBJECTS
 	// necessary since culling should be done off screen instead of having
 	// the torpedo disappear magically
 	if(pos.x < -1*GAME_SIZE.x/2 || pos.x > GAME_SIZE.x/2 ||
@@ -21,6 +24,7 @@ void Minimap::newEntry(O3Sprite* sprite, Vec2 pos, float ttl, bool isDrawNode, C
 		// ignore objects outside of bounds
 		return;
 	}
+	#endif
 	entries[sprite->getID()] = new MinimapElem(sprite, ttl, isDrawNode, color);
 	addChild(sprite);
 	float xrat = GAME_SIZE.x / MINIMAP_INTERNAL_SIZE.x;
@@ -93,14 +97,14 @@ void Minimap::update(float dt)
 {
 	timeSinceLastOpacityUpdate += dt;
 
-	if (timeSinceLastOpacityUpdate >= MINIMAP_REDRAW_TICK)
+	if (timeSinceLastOpacityUpdate >= MINIMAP_REDRAW_FREQ)
 	{
-		timeSinceLastOpacityUpdate -= MINIMAP_REDRAW_TICK;
+		timeSinceLastOpacityUpdate -= MINIMAP_REDRAW_FREQ;
 		std::vector<int> toRemove;
 		for (auto kvp : entries)
 		{
 			auto elem = kvp.second;
-			elem->ttl -= MINIMAP_REDRAW_TICK;
+			elem->ttl -= MINIMAP_REDRAW_FREQ;
 			bool removeFlag = false;
 			if (elem->ttl <= 0)
 			{
@@ -140,5 +144,4 @@ void Minimap::update(float dt)
 	{
 		kvp.second->sprite->update(dt);
 	}
-	CCLOG("Num entries %d", entries.size());
 }
