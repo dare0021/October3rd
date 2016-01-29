@@ -5,6 +5,9 @@
 
 static const int UI_DEPTH = 1000;
 static const int CURSOR_DEPTH = 9999;
+/// number of icons used per entry;
+static const int MINIMAP_DOT_ANIM_COUNT = 20;
+static const int MINIMAP_DOT_FPS = 5;
 
 static const float TARGET_FPS = 60;
 static const float TYPE_TIME_MAX = 0.25f;
@@ -19,12 +22,8 @@ static const float GRID_LABEL_SIZE = 15;
 static const float DOUBLECLICK_THRESHOLD = 0.3;
 /// how often the minimap items are redrawn in seconds
 static const float MINIMAP_REDRAW_FREQ = 0.1;
-static const float MINIMAP_FADE_ACC = 1.07;
-/// how long a minimap item remains on the screen including fade out in seconds
+/// how long the offscreen notification remains on the screen during fade out in seconds
 static const float MINIMAP_ICON_TTL = 5;
-static const float MINIMAP_ICON_SIZE = 1;
-/// if < threshold, opject is rejected as being invisible
-static const float MINIMAP_OPACITY_THRESHOLD = 0.05;
 /// how often the game culls out of bounds objects, excluding submarines in seconds
 static const float OBJECT_CULL_FREQ = 1;
 
@@ -38,6 +37,8 @@ static const cocos2d::Vec2 GAME_SIZE = cocos2d::Vec2(10000, 10000);
 static const std::string SOUND_PATH = "sounds/";
 static const std::string DATA_PATH = "data/";
 static const std::string PLAYER_SUB_NAME = "player_sub";
+/// the blip icon
+static const std::string MINIMAP_ICON_PATH = "dots/";
 
 enum class PhysicsModel
 {

@@ -208,17 +208,18 @@ void HelloWorld::onMouseDown(Event* event)
 
     if(e->getMouseButton() == 1)
     {
-        if(!getChildByName("dummy.png"))
+        if(!getChildByName("animtest"))
         {
-            auto s = new O3Sprite("dummy.png");
+            auto s = new O3Sprite("", true);
             addSprite(s);
             s->addAnimation("idle", "animtest", 9, 12);
             s->setAnimation("idle");
             s->playAnimation();
+            s->setName("animtest");
         }
         else
         {
-            removeChildByName("dummy.png");
+            removeChildByName("animtest");
         }
     }
 }
@@ -284,7 +285,6 @@ void HelloWorld::onMouseScroll(Event* event)
     if(e->getScrollY() > 0)
     {
         auto vect = screenspaceToWorldspace(lastCursor);
-        CCLOG("POS: %f %f", vect.x, vect.y);
     }
     else if(e->getScrollY() < 0)
     {
@@ -586,14 +586,14 @@ void HelloWorld::update(float dt)
     {
         torpedo->update(dt);
         if(updateMinimap)
-            n->newMinimapTorpedo(torpedo->getPosition());
+            n->newMinimapTorpedo(torpedo->getPosition(), torpedo->getID());
 		n->newOffscreenTorpedo(torpedo->getPosition(), torpedo->getID());
     }
 
     lastPlayerPos = playerSub->getPosition();
     playerSub->update(dt);
     if(updateMinimap)
-        n->newMinimapPlayer(playerSub->getPosition());
+        n->newMinimapPlayer(playerSub->getPosition(), ((O3Sprite*)playerSub)->getID());
     #ifdef LOCK_PLAYER_CAMERA
     lookAt(playerSub->getPosition());
     #else

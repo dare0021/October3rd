@@ -5,7 +5,7 @@
 #include "Helpers/Consts.h"
 #include <unordered_map>
 
-///Not to be used as is. Use as a child of O3Sprite or its inheritor nodes
+/// Not to be used as is. Use as a child of O3Sprite or its inheritor nodes
 class AnimData
 {
 public:
@@ -34,9 +34,10 @@ public:
 
 private:
 	std::vector<AnimElem*> data;
-	///Leftover time on last update
+	/// Leftover time on last update
 	float timeOffset;
 	bool _isLoop, _isDone;
+	/// an iterator over the above variable called data
 	std::vector<AnimElem*>::iterator currentSprite;
 };
 

@@ -2,12 +2,11 @@
 #include "Helpers/Consts.h"
 #include "Helpers/StaticHelpers.h"
 
-#define SHOW_OFFSCREEN_OBJECTS
+//#define SHOW_OFFSCREEN_OBJECTS
 
 USING_NS_CC;
-//TODO: replace DrawDot() with sprites and TintTo::
 
-Notifier::Notifier(std::string path, Vec2 screenSize) : O3Sprite("1x1empty.png"),
+Notifier::Notifier(std::string path, Vec2 screenSize) : O3Sprite("", true),
 resourceFolderPath(path),
 timeSinceLastOpacityUpdate(0),
 screenSize(screenSize)
@@ -46,8 +45,10 @@ screenSize(screenSize)
     addChild(minimap);
 }
 
+/// uses the given sprite if this is not isDotNode
+/// uses the color if this isDotNode
 void Notifier::newMinimapEntry(O3Sprite* minimapSprite,
-	Vec2 pos, float ttl, bool isDrawNode, Color4F color)
+	Vec2 pos, float ttl, bool isDotNode, int id, std::string dotPath)
 {
 	#ifndef SHOW_OFFSCREEN_OBJECTS
 	// necessary since culling should be done off screen instead of having
@@ -59,80 +60,77 @@ void Notifier::newMinimapEntry(O3Sprite* minimapSprite,
 		return;
 	}
 	#endif
-	minimapEntries[minimapSprite->getID()] = new MinimapElem(minimapSprite, ttl, isDrawNode, color);
-	minimap->addChild(minimapSprite);
-	float xrat = GAME_SIZE.x / MINIMAP_INTERNAL_SIZE.x;
-	float yrat = GAME_SIZE.y / MINIMAP_INTERNAL_SIZE.y;
-	// cocos2d::Node anchor is centered
-	// cocos2d::Sprite anchor is bottom left
-	minimapSprite->setPosition(Vec2(pos.x / xrat, pos.y / yrat) + MINIMAP_SIZE/2);
+	auto kvp = minimapEntries.find(id);
+	if(kvp == minimapEntries.end())
+	{
+
+		minimapEntries[id] = new MinimapElem(minimapSprite, 
+			resourceFolderPath + "/dots/" + dotPath, ttl, isDotNode);
+		minimap->addChild(minimapSprite);
+	}
+	else
+	{
+		// cocos2d::Node anchor is centered
+		// cocos2d::Sprite anchor is bottom left
+		float xrat = GAME_SIZE.x / MINIMAP_INTERNAL_SIZE.x;
+		float yrat = GAME_SIZE.y / MINIMAP_INTERNAL_SIZE.y;
+		auto prospectiveVal = Vec2(pos.x / xrat, pos.y / yrat) + MINIMAP_SIZE/2;
+		int dx = kvp->second->nextPos.x - prospectiveVal.x;
+		int dy = kvp->second->nextPos.y - prospectiveVal.y;
+		if(dx || dy)
+		{
+			kvp->second->nextPos = prospectiveVal;
+			kvp->second->dirty = true;
+		}
+		kvp->second->ttl = ttl;
+	}
 }
 
-void Notifier::newMinimapTorpedo(Vec2 pos)
+void Notifier::newMinimapTorpedo(Vec2 pos, int id)
 {
-	auto minimapSprite = new O3Sprite("1x1empty.png");
-	auto drawnode = DrawNode::create();
-	Color4F color = Color4F(1, 1, 1, 1);
-	drawnode->drawDot(Vec2(0, 0), 1, color);
-	minimapSprite->addChild(drawnode);
-	newMinimapEntry(minimapSprite, pos, MINIMAP_ICON_TTL, true, color);
+	auto minimapSprite = new O3Sprite("", true);
+	newMinimapEntry(minimapSprite, pos, MINIMAP_ICON_TTL, true, id, "white");
 }
 
 /// AI player
-void Notifier::newMinimapSubmarine(Vec2 pos)
+void Notifier::newMinimapSubmarine(Vec2 pos, int id)
 {
-	auto minimapSprite = new O3Sprite("1x1empty.png");
-	auto drawnode = DrawNode::create();
-	Color4F color = Color4F(1, 0, 0, 1);
-	drawnode->drawDot(Vec2(0, 0), MINIMAP_ICON_SIZE, color);
-	minimapSprite->addChild(drawnode);
-	newMinimapEntry(minimapSprite, pos, MINIMAP_ICON_TTL, true, color);
+	auto minimapSprite = new O3Sprite("", true);
+	newMinimapEntry(minimapSprite, pos, MINIMAP_ICON_TTL, true, id, "red");
 }
 
 /// the human player
-void Notifier::newMinimapPlayer(Vec2 pos)
+void Notifier::newMinimapPlayer(Vec2 pos, int id)
 {
-	auto minimapSprite = new O3Sprite("1x1empty.png");
-	auto drawnode = DrawNode::create();
-	Color4F color = Color4F(0, 1, 0, 1);
-	drawnode->drawDot(Vec2(0, 0), MINIMAP_ICON_SIZE, color);
-	minimapSprite->addChild(drawnode);
-	newMinimapEntry(minimapSprite, pos, MINIMAP_ICON_TTL, true, color);
+	auto minimapSprite = new O3Sprite("", true);
+	newMinimapEntry(minimapSprite, pos, MINIMAP_ICON_TTL, true, id, "green");
 }
 
-void Notifier::newMinimapCounterMeasure(Vec2 pos)
+void Notifier::newMinimapCounterMeasure(Vec2 pos, int id)
 {
-	auto minimapSprite = new O3Sprite("1x1empty.png");
-	auto drawnode = DrawNode::create();
-	Color4F color = Color4F(0, 0, 1, 1);
-	drawnode->drawDot(Vec2(0, 0), MINIMAP_ICON_SIZE, color);
-	minimapSprite->addChild(drawnode);
-	newMinimapEntry(minimapSprite, pos, MINIMAP_ICON_TTL, true, color);
+	auto minimapSprite = new O3Sprite("", true);
+	newMinimapEntry(minimapSprite, pos, MINIMAP_ICON_TTL, true, id, "cyan");
 }
 
-void Notifier::newMinimapPing(Vec2 pos)
+void Notifier::newMinimapPing(Vec2 pos, int id)
 {
-	auto minimapSprite = new O3Sprite("1x1empty.png");
+	auto minimapSprite = new O3Sprite("", true);
 	int count = 150;
 	int fps = 30;
 	minimapSprite->addAnimation("idle", resourceFolderPath + "/ping", count, fps);
 	minimapSprite->setAnimation("idle");
 	minimapSprite->playAnimation();
-	newMinimapEntry(minimapSprite, pos, count / fps, false);
+	newMinimapEntry(minimapSprite, pos, count / fps, false, id, "NOSUCHPATH");
 }
 
-void Notifier::newMinimapTubeFilling(Vec2 pos)
+void Notifier::newMinimapTubeFilling(Vec2 pos, int id)
 {
-	auto minimapSprite = new O3Sprite("1x1empty.png");
-	auto drawnode = DrawNode::create();
-	Color4F color = Color4F(1, 0.5, 0, 1);
-	drawnode->drawDot(Vec2(0, 0), MINIMAP_ICON_SIZE, color);
-	minimapSprite->addChild(drawnode);
-	newMinimapEntry(minimapSprite, pos, MINIMAP_ICON_TTL, true, color);
+	auto minimapSprite = new O3Sprite("", true);
+	newMinimapEntry(minimapSprite, pos, MINIMAP_ICON_TTL, true, id, "orange");
 }
 
 void Notifier::newOffscreenEntry(Sprite* offscreenPrototype, 
-	Vec2 pos, float ttl, int id)
+	Vec2 pos, int id)
 {
 	#ifndef SHOW_OFFSCREEN_OBJECTS
 	// necessary since culling should be done off screen instead of having
@@ -231,34 +229,34 @@ void Notifier::newOffscreenEntry(Sprite* offscreenPrototype,
 			CCASSERT(0, "Invalid direction");
 			break;
 		}
-		offscreenEntries[id] = new OffscreenElem(offscreenSprite, ttl, currentDirection);
+		offscreenEntries[id] = new OffscreenElem(offscreenSprite, currentDirection);
 	}
 }
 
 void Notifier::newOffscreenTorpedo(Vec2 pos, int id)
 {
-	newOffscreenEntry(offscreenTorpedoPrototype, pos, MINIMAP_ICON_TTL, id);
+	newOffscreenEntry(offscreenTorpedoPrototype, pos, id);
 }
 
 /// AI player
 void Notifier::newOffscreenSubmarine(Vec2 pos, int id)
 {
-	newOffscreenEntry(offscreenEnemyPrototype, pos, MINIMAP_ICON_TTL, id);
+	newOffscreenEntry(offscreenEnemyPrototype, pos, id);
 }
 
 void Notifier::newOffscreenCounterMeasure(Vec2 pos, int id)
 {
-	newOffscreenEntry(offscreenCMPrototype, pos, MINIMAP_ICON_TTL, id);
+	newOffscreenEntry(offscreenCMPrototype, pos, id);
 }
 
 void Notifier::newOffscreenPing(Vec2 pos, int id)
 {
-	newOffscreenEntry(offscreenPingPrototype, pos, MINIMAP_ICON_TTL, id);
+	newOffscreenEntry(offscreenPingPrototype, pos, id);
 }
 
 void Notifier::newOffscreenTubeFilling(Vec2 pos, int id)
 {
-	newOffscreenEntry(offscreenTubeFillingPrototype, pos, MINIMAP_ICON_TTL, id);
+	newOffscreenEntry(offscreenTubeFillingPrototype, pos, id);
 }
 
 void Notifier::setLookingAt(Vec2 pos)
@@ -266,15 +264,36 @@ void Notifier::setLookingAt(Vec2 pos)
 	lookingAt = pos;
 }
 
+/// 0: nothing removed
+/// 1: only removed from the minimap
+/// 2: removed from both the minimap and the offscreen notification
+int Notifier::removeItem(int id)
+{
+	auto mme = minimapEntries.find(id);
+	if (mme == minimapEntries.end())
+		return 0;
+	minimap->removeChild(mme->second->sprite, true);
+	delete minimapEntries.find(id)->second;
+	minimapEntries.erase(id);
+	auto ose = offscreenEntries.find(id);
+	// is detected but visible on screen
+	if (ose == offscreenEntries.end())
+		return 1;
+	removeChild(ose->second->sprite, true);
+	delete offscreenEntries.find(id)->second;
+	offscreenEntries.erase(id);
+	return 2;
+}
+
 void Notifier::update(float dt)
 {
 	timeSinceLastOpacityUpdate += dt;
+	std::vector<int> toRemove;
 
 	// minimap curation. Opacity modification / deleting old dots
 	if (timeSinceLastOpacityUpdate >= MINIMAP_REDRAW_FREQ)
 	{
 		timeSinceLastOpacityUpdate -= MINIMAP_REDRAW_FREQ;
-		std::vector<int> toRemove;
 		for (auto kvp : minimapEntries)
 		{
 			auto elem = kvp.second;
@@ -284,57 +303,64 @@ void Notifier::update(float dt)
 			{
 				removeFlag = true;
 			}
-			else if(elem->isDrawNode)
+			else if(elem->isDotNode)
 			{
-				elem->color.a = elem->color.a / MINIMAP_FADE_ACC;
-				if(elem->color.a < MINIMAP_OPACITY_THRESHOLD)
+				std::vector<Node*> toRemove1;
+				for (auto i : elem->sprite->getChildren())
 				{
-					removeFlag = true;
+					auto si = (O3Sprite*)i;
+					if(si->isAnimated() && si->isDone())
+					{
+						toRemove1.push_back(i);
+					}
 				}
-				else
+				for (auto i : toRemove1)
 				{
-					elem->sprite->removeAllChildren();
-					DrawNode* drawnode = DrawNode::create();
-					drawnode->drawDot(Vec2(0, 0), MINIMAP_ICON_SIZE, elem->color);
-					elem->sprite->addChild(drawnode);
+					elem->sprite->removeChild(i);
 				}
+
+				if(!elem->sprite->getChildrenCount())
+				{
+					elem->dirty = true;
+				}
+
+				if(elem->dirty)
+				{
+					auto s = new O3Sprite("", true);
+					elem->sprite->addChild(s);
+					s->setPosition(elem->nextPos);
+					s->addAnimation("idle", elem->animPath, MINIMAP_DOT_ANIM_COUNT, MINIMAP_DOT_FPS, false);
+					s->setAnimation("idle");
+					s->playAnimation();
+
+					elem->dirty = false;
+				}
+			}
+			else if (elem->dirty)
+			{
+				elem->sprite->setPosition(elem->nextPos);
+				elem->dirty = false;
 			}
 
 			if(removeFlag)
 			{
-				minimap->removeChild(elem->sprite, true);
 				toRemove.push_back(kvp.first);
 			}
 		}
 		// clean up since you can't erase collection elements while iterating over it
 		for (int id : toRemove)
 		{
-			delete minimapEntries.find(id)->second;
-			minimapEntries.erase(id);
+			removeItem(id);
 		}
-	}
-
-	std::vector<int> toRemove;
-	for (auto kvp : offscreenEntries)
-	{
-		auto elem = kvp.second;
-		elem->ttl -= MINIMAP_REDRAW_FREQ;
-		if (elem->ttl <= 0)
-		{
-			removeChild(elem->sprite, true);
-			toRemove.push_back(kvp.first);
-		}
-	}
-	// clean up since you can't erase collection elements while iterating over it
-	for (int id : toRemove)
-	{
-		delete offscreenEntries.find(id)->second;
-		offscreenEntries.erase(id);
 	}
 
 	for (auto kvp : minimapEntries)
 	{
 		kvp.second->sprite->update(dt);
+		for (auto s : kvp.second->sprite->getChildren())
+		{
+			s->update(dt);
+		}
 	}
 	for (auto kvp : offscreenEntries)
 	{

@@ -5,7 +5,7 @@ USING_NS_CC;
 
 int O3Sprite::lastID = -1;
 
-O3Sprite::O3Sprite(std::string mainSprite) :
+O3Sprite::O3Sprite(std::string mainSprite, bool overrideForcedSpriteInitialization) :
 ID(lastID+1),
 physicsModel(PhysicsModel::Stationary),
 speed(0),
@@ -22,7 +22,10 @@ animated(false),
 currentAnimation("NOT_INITIALIZED")
 {
 	lastID++;
-	addSprite("mainSprite", mainSprite);
+	if(!overrideForcedSpriteInitialization)
+	{
+		addSprite("mainSprite", mainSprite);
+	}
 	setName(mainSprite);
 }
 
@@ -267,6 +270,11 @@ bool O3Sprite::playAnimation()
 bool O3Sprite::isAnimated()
 {
 	return animated;
+}
+
+bool O3Sprite::isDone()
+{
+	return animations.find(getCurrentAnimation())->second->isDone();
 }
 
 bool O3Sprite::stopAnimation()

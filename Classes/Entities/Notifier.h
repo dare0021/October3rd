@@ -22,17 +22,17 @@ public:
 	/// e.g. Ping has a different sprite compared to a torpedo
 	/// pos is in game coordinates, not minimap coordinates
 	void newMinimapEntry(O3Sprite* minimapSprite, 
-		cocos2d::Vec2 pos, float ttl, bool isDrawNode,
-		cocos2d::Color4F color = cocos2d::Color4F::MAGENTA);
-	void newMinimapTorpedo(cocos2d::Vec2 pos);
-	void newMinimapPlayer(cocos2d::Vec2 pos);
-	void newMinimapSubmarine(cocos2d::Vec2 pos);
-	void newMinimapCounterMeasure(cocos2d::Vec2 pos);
-	void newMinimapPing(cocos2d::Vec2 pos);
-	void newMinimapTubeFilling(cocos2d::Vec2 pos);
+		cocos2d::Vec2 pos, float ttl, bool isDotNode, int id,
+		std::string dotPath);
+	void newMinimapTorpedo(cocos2d::Vec2 pos, int id);
+	void newMinimapPlayer(cocos2d::Vec2 pos, int id);
+	void newMinimapSubmarine(cocos2d::Vec2 pos, int id);
+	void newMinimapCounterMeasure(cocos2d::Vec2 pos, int id);
+	void newMinimapPing(cocos2d::Vec2 pos, int id);
+	void newMinimapTubeFilling(cocos2d::Vec2 pos, int id);
 
 	void newOffscreenEntry(cocos2d::Sprite* offscreenPrototype, 
-		cocos2d::Vec2 pos, float ttl, int id);
+		cocos2d::Vec2 pos, int id);
 	void newOffscreenTorpedo(cocos2d::Vec2 pos, int id);
 	void newOffscreenSubmarine(cocos2d::Vec2 pos, int id);
 	void newOffscreenCounterMeasure(cocos2d::Vec2 pos, int id);
@@ -41,6 +41,7 @@ public:
 
 	/// could need to be independent of update()
 	void setLookingAt(cocos2d::Vec2);
+	int removeItem(int id);
 
 	void update(float dt);
 
@@ -48,16 +49,19 @@ private:
 	struct MinimapElem
 	{
 		O3Sprite *sprite;
+		std::string animPath;
 		float ttl;
-		bool isDrawNode;
-		cocos2d::Color4F color;
+		bool isDotNode, dirty;
+		cocos2d::Vec2 nextPos;
 
-		MinimapElem(O3Sprite* s, float t, bool idn, cocos2d::Color4F c)
+		MinimapElem(O3Sprite* s, std::string ap, float t, bool idn)
 		{
 			sprite = s;
+			animPath = ap;
 			ttl = t;
-			isDrawNode = idn;
-			color = c;
+			isDotNode = idn;
+			dirty = false;
+			nextPos = cocos2d::Vec2::ZERO;
 		}
 	};
 
@@ -65,12 +69,10 @@ private:
 	{
 		cocos2d::Sprite *sprite;
 		int direction;
-		float ttl;
 
-		OffscreenElem(cocos2d::Sprite* s, float t, int dir)
+		OffscreenElem(cocos2d::Sprite* s, int dir)
 		{
 			sprite = s;
-			ttl = t;
 			direction = dir;
 		}
 	};
@@ -88,7 +90,7 @@ private:
 	int isOffscreen(cocos2d::Vec2 pos);
 
 	std::string resourceFolderPath;
-	/// key: Sprite ID
+	/// key: Sprite ID of the object represented
 	std::unordered_map<int, MinimapElem*> minimapEntries;
 	std::unordered_map<int, OffscreenElem*> offscreenEntries;
 	float timeSinceLastOpacityUpdate;

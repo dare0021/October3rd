@@ -4,7 +4,7 @@
 USING_NS_CC;
 
 /// Dummy sprite is not used. Just so I don't have to rewrite O3Sprite
-Protractor::Protractor(std::string path, float radius) : O3Sprite(path + "/1x1empty.png"),
+Protractor::Protractor(std::string path, float radius) : O3Sprite("", true),
 cursorAngle(-90), radius(radius)
 {
 	setName("Protractor");
@@ -21,7 +21,6 @@ cursorAngle(-90), radius(radius)
 		txt->setOpacity(128);
 		drawnode->addChild(txt);
 	}
-	removeSprite("mainSprite");
 	addSprite("mainSprite", (Sprite*)drawnode);
 }
 
