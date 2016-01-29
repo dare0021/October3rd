@@ -19,13 +19,13 @@ screenSize(screenSize)
 	offscreenEnemyPrototype = Sprite::create(resourceFolderPath + "/offscreen/enemy-bg.png");
 	auto offscreenEnemyFG = Sprite::create(resourceFolderPath + "/offscreen/enemy-fg.png");
 	offscreenEnemyPrototype->addChild(offscreenEnemyFG);
-	offscreenEnemyFG->setPosition(Vec2(0, -15));
+	offscreenEnemyFG->setPosition(Vec2(20, 20));
 	prototypes->addChild(offscreenEnemyPrototype);
 
 	offscreenTorpedoPrototype = Sprite::create(resourceFolderPath + "/offscreen/torpedo-bg.png");
 	auto offscreenTorpedoFG = Sprite::create(resourceFolderPath + "/offscreen/torpedo-fg.png");
 	offscreenTorpedoPrototype->addChild(offscreenTorpedoFG);
-	offscreenTorpedoFG->setPosition(Vec2(0, -15));
+	offscreenTorpedoFG->setPosition(Vec2(20, 20));
 	prototypes->addChild(offscreenTorpedoPrototype);
 
 	offscreenCMPrototype = Sprite::create(resourceFolderPath + "/offscreen/cm.png");
