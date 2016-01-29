@@ -47,7 +47,11 @@ void AnimData::update(float dt)
 			if(_isLoop)
 				currentSprite = data.begin();
 			else
+			{
+				currentSprite = std::prev(currentSprite, 1);
 				_isDone = true;
+				break;
+			}
 		}
 	}
 	timeOffset = x;
