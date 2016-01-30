@@ -67,13 +67,11 @@ private:
 	{
 		cocos2d::Sprite *sprite;
 		int direction;
-		bool fading;
 
 		OffscreenElem(cocos2d::Sprite* s, int dir)
 		{
 			sprite = s;
 			direction = dir;
-			fading = false;
 		}
 	};
 

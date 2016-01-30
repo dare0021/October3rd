@@ -150,10 +150,12 @@ void Notifier::newOffscreenEntry(Sprite* offscreenPrototype,
 	if(pos.x < -1*GAME_SIZE.x/2 || pos.x > GAME_SIZE.x/2 ||
 		pos.y < -1*GAME_SIZE.y/2 || pos.y > GAME_SIZE.y/2)
 	{
-		auto kvp = minimapEntries.find(id);
-		if(kvp != minimapEntries.end())
+		auto kvp = offscreenEntries.find(id);
+		if(kvp != offscreenEntries.end())
 		{
-			kvp->second->fading = true;
+			removeChild(kvp->second->sprite, true);
+			delete offscreenEntries.find(id)->second;
+			offscreenEntries.erase(id);
 		}
 		return;
 	}
