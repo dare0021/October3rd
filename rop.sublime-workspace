@@ -4,6 +4,30 @@
 		"selected_items":
 		[
 			[
+				"getChil",
+				"getChildrenCount"
+			],
+			[
+				"minim",
+				"minimapEntries"
+			],
+			[
+				"mini",
+				"minimapEntries"
+			],
+			[
+				"dot",
+				"dotPath"
+			],
+			[
+				"getC",
+				"getChildByName"
+			],
+			[
+				"MINIM",
+				"MINIMAP_ICON_PER_ENTRY"
+			],
+			[
 				"offc",
 				"offscreenEntries"
 			],
@@ -42,10 +66,6 @@
 			[
 				"noti",
 				"Notifier"
-			],
-			[
-				"mini",
-				"minimapBG"
 			],
 			[
 				"ga",
@@ -164,18 +184,10 @@
 	"buffers":
 	[
 		{
-			"file": "Classes/Entities/Submarine.cpp",
-			"settings":
-			{
-				"buffer_size": 1365,
-				"line_ending": "Windows"
-			}
-		},
-		{
 			"file": "Helpers/Consts.h",
 			"settings":
 			{
-				"buffer_size": 1830,
+				"buffer_size": 1834,
 				"line_ending": "Windows"
 			}
 		},
@@ -183,7 +195,7 @@
 			"file": "Classes/Entities/Notifier.h",
 			"settings":
 			{
-				"buffer_size": 3000,
+				"buffer_size": 3110,
 				"line_ending": "Windows"
 			}
 		},
@@ -196,18 +208,10 @@
 			}
 		},
 		{
-			"file": "Classes/HelloWorldScene.cpp",
-			"settings":
-			{
-				"buffer_size": 19327,
-				"line_ending": "Windows"
-			}
-		},
-		{
 			"file": "Classes/Entities/Notifier.cpp",
 			"settings":
 			{
-				"buffer_size": 10434,
+				"buffer_size": 10543,
 				"line_ending": "Windows"
 			}
 		}
@@ -252,6 +256,12 @@
 	],
 	"file_history":
 	[
+		"/C/October3rd/Classes/HelloWorldScene.cpp",
+		"/C/October3rd/Classes/Entities/O3Sprite.cpp",
+		"/C/October3rd/Classes/Entities/Submarine.cpp",
+		"/C/October3rd/Classes/Entities/Protractor.cpp",
+		"/C/October3rd/Classes/Entities/O3Sprite.h",
+		"/C/October3rd/Classes/Entities/AnimData.h",
 		"/C/October3rd/Resources/data/torpedos.jld",
 		"/C/October3rd/Classes/Entities/Notifier.h",
 		"/C/October3rd/Classes/Entities/Notifier.cpp",
@@ -259,18 +269,13 @@
 		"/C/October3rd/Classes/Entities/Minimap.h",
 		"/C/October3rd/Classes/Entities/OffmapNotification.h",
 		"/C/October3rd/Classes/Entities/OffmapNotification.c",
-		"/C/October3rd/Classes/Entities/O3Sprite.cpp",
-		"/C/October3rd/Classes/Entities/AnimData.h",
 		"/C/October3rd/Helpers/StaticHelpers.h",
 		"/C/October3rd/Helpers/StaticHelpers.cpp",
 		"/C/Users/HAJE/Documents/gpsgameServer/main.js",
-		"/C/October3rd/Classes/HelloWorldScene.cpp",
 		"/C/October3rd/Helpers/Consts.h",
-		"/C/October3rd/Classes/Entities/Protractor.cpp",
 		"/C/October3rd/Classes/HelloWorldScene.h",
 		"/C/October3rd/Classes/Entities/TorpedoData.cpp",
 		"/C/October3rd/cocos2d/README.md",
-		"/C/October3rd/Classes/Entities/Submarine.cpp",
 		"/C/October3rd/Classes/Entities/Commorose.cpp",
 		"/C/October3rd/Helpers/JLD/DataTypes.h",
 		"/C/October3rd/Classes/Entities/TorpedoData.h",
@@ -290,7 +295,6 @@
 		"/C/October3rd/Classes/Entities/Torpedo.h",
 		"/C/October3rd/Classes/Entities/Torpedo.cpp",
 		"/C/October3rd/Classes/AppDelegate.cpp",
-		"/C/October3rd/Classes/Entities/O3Sprite.h",
 		"/C/October3rd/Classes/Entities/Commorose.h",
 		"/C/October3rd/proj.win32/Release.win32/RedOctober.tlog/CL.read.1.tlog",
 		"/C/October3rd/Helpers/SaferAudioEngine.cpp",
@@ -319,9 +323,47 @@
 	},
 	"find_state":
 	{
-		"case_sensitive": true,
+		"case_sensitive": false,
 		"find_history":
 		[
+			"getchildrencoun",
+			"dirty",
+			"CCLOG",
+			"\"1x1empty.png\"",
+			"1x1",
+			"sprites",
+			"sprite",
+			"mains",
+			"animated",
+			"mainsp",
+			"isDone()",
+			"currentsprite",
+			"update",
+			"child",
+			"update",
+			"Torpedo",
+			"torpedo",
+			"torpedo+",
+			"torpedo",
+			"minimap",
+			"remove",
+			"dummy",
+			"isDrawNode",
+			"xrat",
+			"std::string",
+			"stoa",
+			"itoa",
+			"\"\"+",
+			"setposi",
+			"MINIMAP_OPACITY_THRESHOLD",
+			"MINIMAP_FADE_ACC",
+			"remove",
+			"SHOW_OFFSCREEN_OBJECTS",
+			"offscreenEntries",
+			"offs",
+			"ttl",
+			"newOffscreenTorpedo",
+			"addChild",
 			"::new",
 			"Minimap",
 			"90",
@@ -411,38 +453,10 @@
 			"Commorose",
 			"commorose",
 			"pointing",
-			"comm",
-			"cursor",
-			"pointing",
-			"lastC",
-			"lookingAt",
-			"SIZE",
-			"Size",
-			"SIZE",
-			".insert(",
-			"output",
-			"setvisi",
-			"->setPosition\\(-?130, -?35\\);",
-			"scroll",
-			"lookAt",
-			"lookat",
-			"Speed",
-			"speed",
-			"#define",
-			"define",
-			"addchild(s",
-			"SCALE",
-			"masterSprite",
-			"setpo",
-			"this",
-			"layer",
-			"setpo",
-			"camera",
-			".second",
-			"typekey"
+			"comm"
 		],
 		"highlight": true,
-		"in_selection": true,
+		"in_selection": false,
 		"preserve_case": false,
 		"regex": false,
 		"replace_history":
@@ -457,53 +471,24 @@
 	"groups":
 	[
 		{
-			"selected": 2,
+			"selected": 0,
 			"sheets":
 			[
 				{
 					"buffer": 0,
-					"file": "Classes/Entities/Submarine.cpp",
-					"semi_transient": false,
-					"settings":
-					{
-						"buffer_size": 1365,
-						"regions":
-						{
-						},
-						"selection":
-						[
-							[
-								647,
-								647
-							]
-						],
-						"settings":
-						{
-							"syntax": "Packages/C++/C++.tmLanguage",
-							"translate_tabs_to_spaces": false
-						},
-						"translation.x": 0.0,
-						"translation.y": 260.0,
-						"zoom_level": 1.0
-					},
-					"stack_index": 5,
-					"type": "text"
-				},
-				{
-					"buffer": 1,
 					"file": "Helpers/Consts.h",
 					"semi_transient": false,
 					"settings":
 					{
-						"buffer_size": 1830,
+						"buffer_size": 1834,
 						"regions":
 						{
 						},
 						"selection":
 						[
 							[
-								888,
-								888
+								654,
+								654
 							]
 						],
 						"settings":
@@ -511,27 +496,31 @@
 							"syntax": "Packages/C++/C++.tmLanguage"
 						},
 						"translation.x": 0.0,
-						"translation.y": 0.0,
+						"translation.y": 300.0,
 						"zoom_level": 1.0
 					},
-					"stack_index": 2,
+					"stack_index": 1,
 					"type": "text"
 				},
 				{
-					"buffer": 2,
+					"buffer": 1,
 					"file": "Classes/Entities/Notifier.h",
 					"semi_transient": false,
 					"settings":
 					{
-						"buffer_size": 3000,
+						"buffer_size": 3110,
 						"regions":
 						{
 						},
 						"selection":
 						[
 							[
-								1593,
-								1593
+								2078,
+								2078
+							],
+							[
+								2245,
+								2245
 							]
 						],
 						"settings":
@@ -540,20 +529,20 @@
 							"translate_tabs_to_spaces": false
 						},
 						"translation.x": 0.0,
-						"translation.y": 0.0,
+						"translation.y": 780.0,
 						"zoom_level": 1.0
 					},
-					"stack_index": 1,
+					"stack_index": 3,
 					"type": "text"
 				}
 			]
 		},
 		{
-			"selected": 2,
+			"selected": 1,
 			"sheets":
 			[
 				{
-					"buffer": 3,
+					"buffer": 2,
 					"file": "Classes/HelloWorldScene.h",
 					"semi_transient": false,
 					"settings":
@@ -565,8 +554,8 @@
 						"selection":
 						[
 							[
-								1905,
-								1905
+								643,
+								643
 							]
 						],
 						"settings":
@@ -576,85 +565,27 @@
 							"translate_tabs_to_spaces": true
 						},
 						"translation.x": 0.0,
-						"translation.y": 480.0,
+						"translation.y": 300.0,
 						"zoom_level": 1.0
 					},
-					"stack_index": 4,
+					"stack_index": 2,
 					"type": "text"
 				},
 				{
-					"buffer": 4,
-					"file": "Classes/HelloWorldScene.cpp",
-					"semi_transient": false,
-					"settings":
-					{
-						"buffer_size": 19327,
-						"regions":
-						{
-						},
-						"selection":
-						[
-							[
-								2401,
-								2401
-							],
-							[
-								17273,
-								17273
-							],
-							[
-								17448,
-								17448
-							]
-						],
-						"settings":
-						{
-							"syntax": "Packages/C++/C++.tmLanguage",
-							"tab_size": 4,
-							"translate_tabs_to_spaces": true
-						},
-						"translation.x": 0.0,
-						"translation.y": 11855.0,
-						"zoom_level": 1.0
-					},
-					"stack_index": 3,
-					"type": "text"
-				},
-				{
-					"buffer": 5,
+					"buffer": 3,
 					"file": "Classes/Entities/Notifier.cpp",
 					"semi_transient": false,
 					"settings":
 					{
-						"buffer_size": 10434,
+						"buffer_size": 10543,
 						"regions":
 						{
 						},
 						"selection":
 						[
 							[
-								2961,
-								2961
-							],
-							[
-								3315,
-								3315
-							],
-							[
-								3673,
-								3673
-							],
-							[
-								4018,
-								4018
-							],
-							[
-								4368,
-								4368
-							],
-							[
-								4701,
-								4701
+								9179,
+								9179
 							]
 						],
 						"settings":
@@ -663,7 +594,7 @@
 							"translate_tabs_to_spaces": false
 						},
 						"translation.x": 0.0,
-						"translation.y": 1160.0,
+						"translation.y": 5975.0,
 						"zoom_level": 1.0
 					},
 					"stack_index": 0,
