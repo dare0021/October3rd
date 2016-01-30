@@ -50,7 +50,7 @@ private:
 	{
 		O3Sprite *sprite;
 		float ttl;
-		bool isDotNode, dirty;
+		bool isDotNode, dirty, fading;
 		cocos2d::Vec2 nextPos;
 
 		MinimapElem(O3Sprite* s, float t, bool idn)
@@ -58,7 +58,7 @@ private:
 			sprite = s;
 			ttl = t;
 			isDotNode = idn;
-			dirty = false;
+			fading = dirty = false;
 			nextPos = cocos2d::Vec2::ZERO;
 		}
 	};
@@ -67,11 +67,13 @@ private:
 	{
 		cocos2d::Sprite *sprite;
 		int direction;
+		bool fading;
 
 		OffscreenElem(cocos2d::Sprite* s, int dir)
 		{
 			sprite = s;
 			direction = dir;
+			fading = false;
 		}
 	};
 

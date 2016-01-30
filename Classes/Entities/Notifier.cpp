@@ -51,12 +51,17 @@ void Notifier::newMinimapEntry(O3Sprite* minimapSprite,
 	Vec2 pos, float ttl, bool isDotNode, int id, std::string dotPath)
 {
 	#ifndef SHOW_OFFSCREEN_OBJECTS
+	// ignore objects outside of bounds	
 	// necessary since culling should be done off screen instead of having
 	// the torpedo disappear magically
 	if(pos.x < -1*GAME_SIZE.x/2 || pos.x > GAME_SIZE.x/2 ||
 		pos.y < -1*GAME_SIZE.y/2 || pos.y > GAME_SIZE.y/2)
 	{
-		// ignore objects outside of bounds
+		auto kvp = minimapEntries.find(id);
+		if(kvp != minimapEntries.end())
+		{
+			kvp->second->fading = true;
+		}
 		return;
 	}
 	#endif
@@ -139,12 +144,17 @@ void Notifier::newOffscreenEntry(Sprite* offscreenPrototype,
 	Vec2 pos, int id)
 {
 	#ifndef SHOW_OFFSCREEN_OBJECTS
+	// ignore objects outside of bounds
 	// necessary since culling should be done off screen instead of having
 	// the torpedo disappear magically
 	if(pos.x < -1*GAME_SIZE.x/2 || pos.x > GAME_SIZE.x/2 ||
 		pos.y < -1*GAME_SIZE.y/2 || pos.y > GAME_SIZE.y/2)
 	{
-		// ignore objects outside of bounds
+		auto kvp = minimapEntries.find(id);
+		if(kvp != minimapEntries.end())
+		{
+			kvp->second->fading = true;
+		}
 		return;
 	}
 	#endif
@@ -332,6 +342,18 @@ void Notifier::update(float dt)
 			if(removeFlag)
 			{
 				toRemove.push_back(kvp.first);
+			}
+			else if(elem->fading)
+			{
+				for (auto i : elem->sprite->getChildren())
+				{
+					if(i->isVisible())
+					{
+						i->setVisible(false);
+						break;
+					}
+				}
+				elem->dirty = true;
 			}
 		}
 		// clean up since you can't erase collection elements while iterating over it
