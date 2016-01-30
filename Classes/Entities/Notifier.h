@@ -49,15 +49,13 @@ private:
 	struct MinimapElem
 	{
 		O3Sprite *sprite;
-		std::string animPath;
 		float ttl;
 		bool isDotNode, dirty;
 		cocos2d::Vec2 nextPos;
 
-		MinimapElem(O3Sprite* s, std::string ap, float t, bool idn)
+		MinimapElem(O3Sprite* s, float t, bool idn)
 		{
 			sprite = s;
-			animPath = ap;
 			ttl = t;
 			isDotNode = idn;
 			dirty = false;

@@ -63,9 +63,15 @@ void Notifier::newMinimapEntry(O3Sprite* minimapSprite,
 	auto kvp = minimapEntries.find(id);
 	if(kvp == minimapEntries.end())
 	{
-
-		minimapEntries[id] = new MinimapElem(minimapSprite, 
-			resourceFolderPath + "/dots/" + dotPath, ttl, isDotNode);
+		if(isDotNode)
+		{
+			for (int i=0; i<MINIMAP_DOT_ANIM_COUNT; i++)
+			{
+				std::string filePath = resourceFolderPath + "/dots/" + dotPath + std::to_string(i) + ".png";
+				minimapSprite->addSprite(filePath, filePath);
+			}
+		}
+		minimapEntries[id] = new MinimapElem(minimapSprite, ttl, isDotNode);
 		minimap->addChild(minimapSprite);
 	}
 	else
@@ -89,27 +95,27 @@ void Notifier::newMinimapEntry(O3Sprite* minimapSprite,
 void Notifier::newMinimapTorpedo(Vec2 pos, int id)
 {
 	auto minimapSprite = new O3Sprite("", true);
-	newMinimapEntry(minimapSprite, pos, MINIMAP_ICON_TTL, true, id, "white");
+	newMinimapEntry(minimapSprite, pos, MINIMAP_ICON_TTL, true, id, "white/");
 }
 
 /// AI player
 void Notifier::newMinimapSubmarine(Vec2 pos, int id)
 {
 	auto minimapSprite = new O3Sprite("", true);
-	newMinimapEntry(minimapSprite, pos, MINIMAP_ICON_TTL, true, id, "red");
+	newMinimapEntry(minimapSprite, pos, MINIMAP_ICON_TTL, true, id, "red/");
 }
 
 /// the human player
 void Notifier::newMinimapPlayer(Vec2 pos, int id)
 {
 	auto minimapSprite = new O3Sprite("", true);
-	newMinimapEntry(minimapSprite, pos, MINIMAP_ICON_TTL, true, id, "green");
+	newMinimapEntry(minimapSprite, pos, MINIMAP_ICON_TTL, true, id, "green/");
 }
 
 void Notifier::newMinimapCounterMeasure(Vec2 pos, int id)
 {
 	auto minimapSprite = new O3Sprite("", true);
-	newMinimapEntry(minimapSprite, pos, MINIMAP_ICON_TTL, true, id, "cyan");
+	newMinimapEntry(minimapSprite, pos, MINIMAP_ICON_TTL, true, id, "cyan/");
 }
 
 void Notifier::newMinimapPing(Vec2 pos, int id)
@@ -126,7 +132,7 @@ void Notifier::newMinimapPing(Vec2 pos, int id)
 void Notifier::newMinimapTubeFilling(Vec2 pos, int id)
 {
 	auto minimapSprite = new O3Sprite("", true);
-	newMinimapEntry(minimapSprite, pos, MINIMAP_ICON_TTL, true, id, "orange");
+	newMinimapEntry(minimapSprite, pos, MINIMAP_ICON_TTL, true, id, "orange/");
 }
 
 void Notifier::newOffscreenEntry(Sprite* offscreenPrototype, 
@@ -305,34 +311,15 @@ void Notifier::update(float dt)
 			}
 			else if(elem->isDotNode)
 			{
-				std::vector<Node*> toRemove1;
-				for (auto i : elem->sprite->getChildren())
-				{
-					auto si = (O3Sprite*)i;
-					if(si->isAnimated() && si->isDone())
-					{
-						toRemove1.push_back(i);
-					}
-				}
-				for (auto i : toRemove1)
-				{
-					elem->sprite->removeChild(i);
-				}
-
-				if(!elem->sprite->getChildrenCount())
-				{
-					elem->dirty = true;
-				}
-
 				if(elem->dirty)
 				{
-					auto s = new O3Sprite("", true);
-					elem->sprite->addChild(s);
-					s->setPosition(elem->nextPos);
-					s->addAnimation("idle", elem->animPath, MINIMAP_DOT_ANIM_COUNT, MINIMAP_DOT_FPS, false);
-					s->setAnimation("idle");
-					s->playAnimation();
-
+					Vec2 swapTemp;
+					for (auto i : elem->sprite->getChildren())
+					{
+						swapTemp = i->getPosition();
+						i->setPosition(elem->nextPos);
+						elem->nextPos = swapTemp;
+					}
 					elem->dirty = false;
 				}
 			}

@@ -5,8 +5,7 @@ USING_NS_CC;
 AnimData::AnimData(std::string path, int count, float frameRate, bool loop) :
 timeOffset(0),
 _isLoop(loop),
-_isDone(false),
-lastAccessedName("NONE")
+_isDone(false)
 {
 	for (int i=0; i<count; i++)
 	{
