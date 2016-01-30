@@ -196,10 +196,8 @@ void O3Sprite::update(float dt)
 		auto ad = animations.find(currentAnimation);
 		if(ad == animations.end())
 			break;
-		removeChildByName("mainSprite");
-		auto s = StaticHelpers::duplicateSprite(ad->second->getCurrentSprite());
-		s->setName("mainSprite");
-		addChild(s);
+		getChildByName(ad->second->getLastAccessedName())->setVisible(false);
+		getChildByName(ad->second->getCurrentName())->setVisible(true);
 		break;
 	}
 }
@@ -240,6 +238,11 @@ std::string O3Sprite::getCurrentAnimation()
 void O3Sprite::addAnimation(std::string name, std::string path, int count, float frameRate, bool loop)
 {
 	auto val = new AnimData(path, count, frameRate, loop);
+	for (int i=0; i<count; i++)
+	{
+		std::string filePath = path + "/" + std::to_string(i) + ".png";
+		addSprite(filePath, Sprite::create(filePath), false);
+	}
 	animations.insert({ name, val });
 }
 

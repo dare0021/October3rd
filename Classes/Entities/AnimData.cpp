@@ -5,15 +5,16 @@ USING_NS_CC;
 AnimData::AnimData(std::string path, int count, float frameRate, bool loop) :
 timeOffset(0),
 _isLoop(loop),
-_isDone(false)
+_isDone(false),
+lastAccessedName("NONE")
 {
 	for (int i=0; i<count; i++)
 	{
-		std::stringstream ss;
-		ss << path << "/" << i << ".png";
-		data.push_back(new AnimElem(ss.str(), 1.0f / frameRate));
+		data.push_back(new AnimElem(
+			path + "/" + std::to_string(i) + ".png", 1.0f / frameRate));
 	}
-	currentSprite = data.begin();
+	currentElem = data.begin();
+	lastAccessedName = getCurrentName();
 }
 
 AnimData::AnimData(std::vector<AnimElem*> d, bool loop) :
@@ -22,7 +23,7 @@ timeOffset(0),
 _isLoop(loop),
 _isDone(false)
 {
-	currentSprite = data.begin();
+	currentElem = data.begin();
 }
 
 AnimData::~AnimData()
@@ -38,17 +39,17 @@ void AnimData::update(float dt)
 	if(!data.size() || isDone())
 		return;
 	float x = dt + timeOffset;
-	while(x > (*currentSprite)->lifetime)
+	while(x > (*currentElem)->lifetime)
 	{
-		x -= (*currentSprite)->lifetime;
-		currentSprite = std::next(currentSprite, 1);
-		if(currentSprite == data.end())
+		x -= (*currentElem)->lifetime;
+		currentElem = std::next(currentElem, 1);
+		if(currentElem == data.end())
 		{
 			if(_isLoop)
-				currentSprite = data.begin();
+				currentElem = data.begin();
 			else
 			{
-				currentSprite = std::prev(currentSprite, 1);
+				currentElem = std::prev(currentElem, 1);
 				_isDone = true;
 				break;
 			}
@@ -57,14 +58,20 @@ void AnimData::update(float dt)
 	timeOffset = x;
 }
 
-Sprite* AnimData::getCurrentSprite()
+std::string AnimData::getLastAccessedName()
 {
-	return Sprite::create((*currentSprite)->path);
+	return lastAccessedName;
+}
+
+std::string AnimData::getCurrentName()
+{
+	lastAccessedName = (*currentElem)->name;
+	return (*currentElem)->name;
 }
 
 int AnimData::getFrameNumber()
 {
-	return currentSprite - data.begin();
+	return currentElem - data.begin();
 }
 
 bool AnimData::isLoop()

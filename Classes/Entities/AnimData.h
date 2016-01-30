@@ -11,12 +11,12 @@ class AnimData
 public:
 	struct AnimElem
 	{
-		std::string path;
+		std::string name;
 		float lifetime;
 
-		AnimElem(std::string p, float lt)
+		AnimElem(std::string n, float lt)
 		{
-			path = p;
+			name = n;
 			lifetime = lt;
 		}
 	};
@@ -27,18 +27,20 @@ public:
 
 	void update(float dt);
 
-	cocos2d::Sprite* getCurrentSprite();
+	std::string getLastAccessedName();
+	std::string getCurrentName();
 	int getFrameNumber();
 	bool isLoop();
 	bool isDone();
 
 private:
 	std::vector<AnimElem*> data;
+	/// an iterator over the above variable called data
+	std::vector<AnimElem*>::iterator currentElem;
 	/// Leftover time on last update
 	float timeOffset;
 	bool _isLoop, _isDone;
-	/// an iterator over the above variable called data
-	std::vector<AnimElem*>::iterator currentSprite;
+	std::string lastAccessedName;
 };
 
 #endif // __ANIMDATA_H__
