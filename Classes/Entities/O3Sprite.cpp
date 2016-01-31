@@ -26,6 +26,8 @@ currentAnimation("NOT_INITIALIZED")
 	{
 		addSprite("mainSprite", mainSprite);
 	}
+	setCascadeColorEnabled(true);
+	setCascadeOpacityEnabled(true);
 	setName(mainSprite);
 }
 
