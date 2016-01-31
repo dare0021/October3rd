@@ -38,9 +38,9 @@ screenSize(screenSize)
 	addChild(prototypes);
 
 
-	minimap = Sprite::create(resourceFolderPath + "/bg.png");
-    Vec2 minimapPos = -1 * screenSize/2 + MINIMAP_SIZE/2;
-    minimapPos.x += MINIMAP_SIZE.x/5;
+	minimap = Sprite::create(resourceFolderPath + "/bg-big.png");
+    Vec2 minimapPos = screenSize/2 - MINIMAP_SIZE/2;
+    minimapPos.y *= -1;
     minimap->setPosition(minimapPos);
     addChild(minimap);
 }

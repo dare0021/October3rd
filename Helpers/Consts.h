@@ -30,8 +30,8 @@ static const float OBJECT_CULL_FREQ = 1;
 static const cocos2d::Vec2 GRID_SPACING = cocos2d::Vec2(20, 20);
 static const cocos2d::Vec2 GRID_LABEL_SPACING = GRID_SPACING * 5;
 static const cocos2d::Vec2 CURSOR_OFFSET = cocos2d::Vec2(12, -14);
-static const cocos2d::Vec2 MINIMAP_SIZE = cocos2d::Vec2(304, 304);
-static const cocos2d::Vec2 MINIMAP_INTERNAL_SIZE = cocos2d::Vec2(284, 284);
+static const cocos2d::Vec2 MINIMAP_SIZE = cocos2d::Vec2(540, 540);
+static const cocos2d::Vec2 MINIMAP_INTERNAL_SIZE = cocos2d::Vec2(520, 520);
 static const cocos2d::Vec2 GAME_SIZE = cocos2d::Vec2(10000, 10000);
 
 static const std::string SOUND_PATH = "sounds/";
