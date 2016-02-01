@@ -43,6 +43,17 @@ screenSize(screenSize)
     minimapPos.y *= -1;
     minimap->setPosition(minimapPos);
     addChild(minimap);
+
+	
+	auto s = addSprite("hp bar", "centergui/hp.png");
+	s->setOpacity(255*.3);
+	s->setPosition(Vec2(-212 , 0));
+	s = addSprite("noise bar", "centergui/noise.png");
+	s->setOpacity(255*.4);
+	s->setPosition(Vec2(226, 0));
+	s = addSprite("thrust bar", "centergui/thrust.png");
+	s->setOpacity(255*.5);
+	s->setPosition(Vec2(212, 0));
 }
 
 /// uses the given sprite if this is not isDotNode

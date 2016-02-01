@@ -19,6 +19,7 @@ public:
     virtual void update(float);
 
 private:
+    // overlaySprite currently doesn't do anything other than display the default Cocos logo
     cocos2d::Sprite *overlaySprite, *cursorSprite, *protractor, *commorose, *playerSub, *notifier;
     cocos2d::EventKeyboard::KeyCode lastKey;
     cocos2d::Vec2 lastCursor, lastPlayerPos;

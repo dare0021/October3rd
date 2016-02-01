@@ -5,6 +5,7 @@
 #include "O3Sprite.h"
 #include <unordered_map>
 
+/// General output GUI class
 /// update functions can take entries about formerly not mentioned items
 /// just run a function for each item in the game as necessary
 /// e.g. anything the player shouldn't be able to see shouldn't be on the minimap

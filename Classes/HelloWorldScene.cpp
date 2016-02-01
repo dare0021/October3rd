@@ -54,7 +54,7 @@ bool HelloWorld::init()
 
     overlaySprite = Sprite::create();
     overlaySprite->setPosition(visibleSize/2);
-    this->addChild(overlaySprite, 1024);
+    this->addChild(overlaySprite, UI_DEPTH);
 
     auto label = Label::createWithTTF("Hello World", "fonts/Marker Felt.ttf", 24);
     
@@ -360,7 +360,7 @@ void HelloWorld::onTouchEnded(Touch* touch, Event* e)
                 break;
             }
         }
-        addChild(cursorSprite);
+        addChild(cursorSprite, CURSOR_DEPTH);
         repaintCursor();
         commorose->setVisible(false);
         return;
