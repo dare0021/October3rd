@@ -43,6 +43,15 @@ public:
 	/// could need to be independent of update()
 	void setLookingAt(cocos2d::Vec2);
 	int removeItem(int id);
+	void setHPBar(float ratio);
+	void setThrustBar(float ratio);
+	void setNoiseBar(float ratio);
+	void setHPText(float);
+	void setThrustText(float);
+	void setNoiseText(float);
+	void setSpeedText(float);
+	void setMenuText(std::string);
+	void setActiveMenuText(std::string);
 
 	void update(float dt);
 
@@ -87,14 +96,16 @@ private:
 	/// 7: W
 	/// 8: NW
 	int isOffscreen(cocos2d::Vec2 pos);
+	void setBarPercentage(std::string name, float ratio);
 
 	std::string resourceFolderPath;
 	/// key: Sprite ID of the object represented
 	std::unordered_map<int, MinimapElem*> minimapEntries;
 	std::unordered_map<int, OffscreenElem*> offscreenEntries;
-	float timeSinceLastOpacityUpdate;
+	float timeSinceLastOpacityUpdate, thrustNormalX, thrustNegativeX;
 	cocos2d::Vec2 screenSize, lookingAt;
 
+	cocos2d::Label *hpText, *speedText, *noiseText, *thrustText, *menuText, *activeMenuText;
 	cocos2d::Sprite *minimap, *offscreenCMPrototype, *offscreenEnemyPrototype,
 				*offscreenPingPrototype, *offscreenTorpedoPrototype,
 				*offscreenTubeFillingPrototype;

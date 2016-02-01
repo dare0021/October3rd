@@ -3,16 +3,23 @@
 
 #include "cocos2d.h"
 
+// unless otherwise specified, uses cocos default units
+// time: seconds
+// angle: degrees
+// distance: px
+
 static const int UI_DEPTH = 1000;
 static const int CURSOR_DEPTH = 9999;
 /// number of icons used per entry;
 static const int MINIMAP_DOT_ANIM_COUNT = 20;
 static const int MINIMAP_DOT_FPS = 5;
+static const int GUI_BAR_HEIGHT = 307;
 
 static const float TARGET_FPS = 60;
 static const float TYPE_TIME_MAX = 0.25f;
 static const float ACC_G = 9.80665f;
-static const float ZERO_SPEED_THRESHOLD = 1.0f;
+/// a rotation difference of less than this value should be threated as being equal
+static const float ROTATION_EQUALITY_THRESHOLD = .01;
 static const float COMMOROSE_MIN_DIST = 50.0f;
 static const float PROTRACTOR_SIZE = 200;
 static const float PROTRACTOR_LABEL_SIZE = 15;
@@ -20,12 +27,19 @@ static const float PROTRACTOR_LINE_THICKNESS = 0.5;
 static const float GRID_LINE_THICKNESS = 0.5;
 static const float GRID_LABEL_SIZE = 15;
 static const float DOUBLECLICK_THRESHOLD = 0.3;
-/// how often the minimap items are redrawn in seconds
+/// how often the minimap items are redrawn
 static const float MINIMAP_REDRAW_FREQ = 0.1;
-/// how long the offscreen notification remains on the screen during fade out in seconds
+/// how long the offscreen notification remains on the screen during fade out
 static const float MINIMAP_ICON_TTL = 5;
-/// how often the game culls out of bounds objects, excluding submarines in seconds
+/// how often the game culls out of bounds objects, excluding submarines
 static const float OBJECT_CULL_FREQ = 1;
+/// Number multiplied to the object speed before being displayed
+/// to make the number look like a reasonable speed in knots.
+/// Typical subs are around 35kt, with fast ones going up to 45kt
+/// modern torpedos can achieve 100~200kt w/h less conservative designs
+/// reaching 430kt.
+/// Note this makes a pixel 1/fudge NM long. e.g. @ fudge=0.5, 1px is 2NM.
+static const float OBJECT_SPEED_FUDGE = .5;
 
 static const cocos2d::Vec2 GRID_SPACING = cocos2d::Vec2(20, 20);
 static const cocos2d::Vec2 GRID_LABEL_SPACING = GRID_SPACING * 5;

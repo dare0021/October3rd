@@ -63,7 +63,9 @@ void O3Sprite::setForce(float nf)
 		return;
 	}
 	force = nf > maxForce ? maxForce : nf;
-	force = nf < -1*maxForce ? -1*maxForce : nf;
+	force = force < -1*maxForce ? -1*maxForce : force;
+
+	CCLOG("NEW FORCE %f, MAX %f", force, maxForce);
 }
 
 float O3Sprite::getForce()
@@ -80,7 +82,7 @@ void O3Sprite::setSpeed(float ns)
 		return;
 	}
 	speed = ns > maxSpeed ? maxSpeed : ns;
-	speed = ns < -1*maxSpeed ? -1*maxSpeed : ns;
+	speed = speed < -1*maxSpeed ? -1*maxSpeed : speed;
 }
 
 float O3Sprite::getSpeed()
@@ -159,6 +161,16 @@ Vec2 O3Sprite::getHeadingVector()
 	Vec2 vect = Vec2(0, 1);
 	vect.rotate(Vec2::ZERO, -1 * getRotation() * M_PI / 180);
 	return vect;
+}
+
+bool O3Sprite::isTurning()
+{
+	float diff = getRotation() - getTargetHeading();
+	diff = diff < 0 ? diff * -1 : diff;
+	return (diff > ROTATION_EQUALITY_THRESHOLD) && 
+			(getTurnSpeed() > ROTATION_EQUALITY_THRESHOLD);
+	// checking if the sub can turn, since wanting to turn does
+	// dot neccessarily mean turning
 }
 
 void O3Sprite::update(float dt)

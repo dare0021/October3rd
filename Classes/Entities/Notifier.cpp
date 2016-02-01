@@ -47,13 +47,58 @@ screenSize(screenSize)
 	
 	auto s = addSprite("hp bar", "centergui/hp.png");
 	s->setOpacity(255*.3);
-	s->setPosition(Vec2(-212 , 0));
+	s->setPosition(Vec2(-212 , -0.5*GUI_BAR_HEIGHT));
+	s->setAnchorPoint(Vec2(0.5, 0));
 	s = addSprite("noise bar", "centergui/noise.png");
 	s->setOpacity(255*.4);
-	s->setPosition(Vec2(226, 0));
+	s->setPosition(Vec2(225, -0.5*GUI_BAR_HEIGHT));
+	s->setAnchorPoint(Vec2(0.5, 0));
 	s = addSprite("thrust bar", "centergui/thrust.png");
 	s->setOpacity(255*.5);
-	s->setPosition(Vec2(212, 0));
+	s->setPosition(Vec2(212, -0.5*GUI_BAR_HEIGHT));
+	s->setAnchorPoint(Vec2(0.5, 0));
+	s = addSprite("subsystem menu", "centergui/subsystem-menu.png");
+	s->setOpacity(255*.5);
+	s->setPosition(Vec2(-85, -230));
+	// static sprite ergo no need to fudge with the anchor point
+
+
+	hpText = Label::createWithTTF("72", "fonts/NanumGothic.ttf", 33);
+	hpText->setPosition(Vec2(-220, -140));
+	hpText->setAnchorPoint(Vec2(1, 0.5));
+	hpText->setColor(Color3B(0, 255, 102));
+	hpText->setOpacity(255*.5);
+	addChild(hpText);
+	speedText = Label::createWithTTF("12 kt", "fonts/NanumGothic.ttf", 37);
+	speedText->setPosition(Vec2(-152, -188));
+	speedText->setAnchorPoint(Vec2(1, 0.5));
+	speedText->setColor(Color3B(0, 255, 255));
+	speedText->setOpacity(255*.5);
+	addChild(speedText);
+	thrustText = Label::createWithTTF("0%", "fonts/NanumGothic.ttf", 27);
+	thrustNormalX = 172;
+	thrustNegativeX = 200;
+	thrustText->setPosition(Vec2(thrustNormalX, -177));
+	thrustText->setAnchorPoint(Vec2(0, 0.5));
+	thrustText->setOpacity(255*.5);
+	addChild(thrustText);
+	noiseText = Label::createWithTTF("45 dB", "fonts/NanumGothic.ttf", 27);
+	noiseText->setPosition(Vec2(235, -150));
+	noiseText->setAnchorPoint(Vec2(0, 0.5));
+	noiseText->setColor(Color3B(255, 0, 0));
+	noiseText->setOpacity(255*.7);
+	addChild(noiseText);
+	menuText = Label::createWithTTF("0: stop\n\n2: full ahead", "fonts/NanumGothicCoding.ttf", 27);
+	menuText->setPosition(Vec2(-124, -283));
+	menuText->setAnchorPoint(Vec2(0, 0.5));
+	menuText->setOpacity(255*.5);
+	addChild(menuText);
+	activeMenuText = Label::createWithTTF("\n1: half ahead\n", "fonts/NanumGothicCoding.ttf", 27);
+	activeMenuText->setPosition(Vec2(-124, -283));
+	activeMenuText->setAnchorPoint(Vec2(0, 0.5));
+	activeMenuText->setColor(Color3B(255, 0, 0));
+	activeMenuText->setOpacity(255*.7);
+	addChild(activeMenuText);
 }
 
 /// uses the given sprite if this is not isDotNode
@@ -314,6 +359,54 @@ int Notifier::removeItem(int id)
 	return 2;
 }
 
+void Notifier::setHPBar(float ratio)
+{
+	setBarPercentage("hp bar", ratio);
+}
+
+void Notifier::setThrustBar(float ratio)
+{
+	setBarPercentage("thrust bar", ratio);
+}
+
+void Notifier::setNoiseBar(float ratio)
+{
+	setBarPercentage("noise bar", ratio);
+}
+
+void Notifier::setHPText(float hp)
+{
+	hpText->setString(std::to_string((int)std::round(hp)));
+}
+
+void Notifier::setThrustText(float thrust)
+{
+	auto xpos = thrust < 0 ? thrustNegativeX : thrustNormalX;
+	thrustText->setPosition(Vec2(xpos, thrustText->getPosition().y));
+	thrustText->setString(std::to_string((int)std::round(thrust)) + "%");
+}
+
+void Notifier::setNoiseText(float noise)
+{
+	noiseText->setString(std::to_string((int)std::round(noise)) + " dB");
+}
+
+void Notifier::setSpeedText(float speed)
+{
+	speedText->setString(std::to_string((int)std::round(speed * OBJECT_SPEED_FUDGE)) + " kt");
+}
+
+void Notifier::setMenuText(std::string txt)
+{
+	menuText->setString(txt);
+}
+
+void Notifier::setActiveMenuText(std::string txt)
+{
+	activeMenuText->setString(txt);
+}
+
+
 void Notifier::update(float dt)
 {
 	timeSinceLastOpacityUpdate += dt;
@@ -419,4 +512,12 @@ int Notifier::isOffscreen(Vec2 pos)
 	if(w)
 		return 7;
 	return 0;
+}
+
+/// ratio should have range [0, 1]
+void Notifier::setBarPercentage(std::string name, float ratio)
+{
+	auto sprite = sprites.find(name)->second;
+	float toShow = ratio * GUI_BAR_HEIGHT;
+	sprite->setTextureRect(Rect(0, GUI_BAR_HEIGHT - toShow, 68, toShow));
 }

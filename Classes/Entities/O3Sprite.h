@@ -42,6 +42,7 @@ public:
     void setTargetHeading(float);
     float getTargetHeading();
     cocos2d::Vec2 getHeadingVector();
+    bool isTurning();
 
     std::string getCurrentAnimation();
     void addAnimation(std::string name, std::string path, int count, float frameRate = TARGET_FPS, bool loop = true);

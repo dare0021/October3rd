@@ -57,10 +57,8 @@ bool HelloWorld::init()
     this->addChild(overlaySprite, UI_DEPTH);
 
     auto label = Label::createWithTTF("Hello World", "fonts/Marker Felt.ttf", 24);
-    
     // position the label on the center of the screen
     label->setPosition(Vec2(0,label->getContentSize().height/2));
-
     // add the label as a child to this layer
     overlaySprite->addChild(label, 1);
 
@@ -83,11 +81,16 @@ bool HelloWorld::init()
     s->setPhysicsModel(PhysicsModel::Newtonian);
     s->setMass(300);
     s->setFriction(5);
+    s->setMaxForce(20 * 1000);
     addChild(playerSub, UI_DEPTH);
+    playerDeltaForcePerSecond = 2000;
+    playerTurning = false;
 
     ((Submarine*)playerSub)->addTorpedoPrototype(new TorpedoData("testpedo", "testpedo"));
 
     notifier = (Sprite*) new Notifier("notifier", visibleSize);
+    ((Notifier*)notifier)->setThrustBar(0);
+    // ((Notifier*)notifier)->setNoiseBar(0);
     addChild(notifier, UI_DEPTH);
 
     moveScreenBy(Director::getInstance()->getVisibleSize()/-2);
@@ -168,18 +171,6 @@ void HelloWorld::onKeyTyped(EventKeyboard::KeyCode keyCode)
 {
     switch (keyCode)
     {
-        case EventKeyboard::KeyCode::KEY_UP_ARROW:
-        {
-            auto s = (Submarine*)playerSub;
-            s->setForce(s->getForce() + 1000);
-            break;
-        }
-        case EventKeyboard::KeyCode::KEY_DOWN_ARROW:
-        {
-            auto s = (Submarine*)playerSub;
-            s->setForce(s->getForce() - 1000);
-            break;
-        }
 		case EventKeyboard::KeyCode::KEY_SPACE:
 		{
             auto c = (Commorose*)commorose;
@@ -195,11 +186,11 @@ void HelloWorld::onKeyTyped(EventKeyboard::KeyCode keyCode)
 
 void HelloWorld::onMouseDown(Event* event)
 {
-    #ifdef MOUSE_DOUBLE_LISTEN_FUDGE
+#ifdef MOUSE_DOUBLE_LISTEN_FUDGE
     mouseDownFudge = !mouseDownFudge;
     if(!mouseDownFudge)
         return;
-    #endif
+#endif
     EventMouse* e = (EventMouse*)event;
     isMouseDown[e->getMouseButton()] = true;
     std::stringstream ss;
@@ -226,11 +217,11 @@ void HelloWorld::onMouseDown(Event* event)
 
 void HelloWorld::onMouseUp(Event* event)
 {
-    #ifdef MOUSE_DOUBLE_LISTEN_FUDGE
+#ifdef MOUSE_DOUBLE_LISTEN_FUDGE
     mouseUpFudge = !mouseUpFudge;
     if(!mouseUpFudge)
         return;
-    #endif
+#endif
     EventMouse* e = (EventMouse*)event;
     isMouseDown[e->getMouseButton()] = false;
     timeSinceLastMouseUp = 0;
@@ -243,11 +234,11 @@ void HelloWorld::onMouseUp(Event* event)
 ///Use only for hover
 void HelloWorld::onMouseMove(Event* event)
 {
-    #ifdef MOUSE_DOUBLE_LISTEN_FUDGE
+#ifdef MOUSE_DOUBLE_LISTEN_FUDGE
     mouseMoveFudge = !mouseMoveFudge;
     if(!mouseMoveFudge)
         return;
-    #endif
+#endif
     EventMouse* e = (EventMouse*)event;
     lastCursor.x = e->getCursorX();
     lastCursor.y = e->getCursorY();
@@ -276,11 +267,11 @@ void HelloWorld::onMouseMove(Event* event)
 ///Input is 1 or -1
 void HelloWorld::onMouseScroll(Event* event)
 {
-    #ifdef MOUSE_DOUBLE_LISTEN_FUDGE
+#ifdef MOUSE_DOUBLE_LISTEN_FUDGE
     mouseScrollFudge = !mouseScrollFudge;
     if(!mouseScrollFudge)
         return;
-    #endif
+#endif
     EventMouse* e = (EventMouse*)event;
     if(e->getScrollY() > 0)
     {
@@ -576,7 +567,39 @@ void HelloWorld::update(float dt)
         *p.second += dt;
     }
 
-    // update existing items' opacity before adding new ones
+    // process user input before updating existing items
+    // while key pressed
+    for (auto key : activeKeys)
+    {
+        auto ps = (Submarine*)playerSub;
+		switch (key)
+		{
+			case EventKeyboard::KeyCode::KEY_UP_ARROW:
+			{
+				setPlayerForce(getPlayerForce() + playerDeltaForcePerSecond * dt);
+				break;
+			}
+			case EventKeyboard::KeyCode::KEY_DOWN_ARROW:
+			{
+				setPlayerForce(getPlayerForce() - playerDeltaForcePerSecond * dt);
+				break;
+			}
+#ifdef TURN_VIA_ARROW_KEYS
+            case EventKeyboard::KeyCode::KEY_RIGHT_ARROW:
+            {
+                ps->setTargetHeading(ps->getTargetHeading() + ps->getTurnSpeed() * dt);
+                break;
+            }
+            case EventKeyboard::KeyCode::KEY_LEFT_ARROW:
+            {
+                ps->setTargetHeading(ps->getTargetHeading() - ps->getTurnSpeed() * dt);
+                break;
+            }
+#endif
+		}
+    }
+
+    // update existing items
     n->update(dt);
     for (auto o3s : spriteVect)
     {
@@ -591,7 +614,20 @@ void HelloWorld::update(float dt)
     }
 
     lastPlayerPos = playerSub->getPosition();
+    if(playerTurning && !((Submarine*)playerSub)->isTurning())
+    {
+        playerTurning = false;
+        setPlayerForce(getPlayerForce());
+    }
+    else if(!playerTurning && ((Submarine*)playerSub)->isTurning())
+    {
+        playerTurning = true;
+        setPlayerForce(getPlayerForce());
+    }
     playerSub->update(dt);
+    // update speed display after physics simulation
+    ((Notifier*)notifier)->setSpeedText(((Submarine*)playerSub)->getSpeed());
+
     if(updateMinimap)
         n->newMinimapPlayer(playerSub->getPosition(), ((O3Sprite*)playerSub)->getID());
     #ifdef LOCK_PLAYER_CAMERA
@@ -680,4 +716,52 @@ bool HelloWorld::removeTorpedoByID(int id)
     this->removeChild(*(torpedoVect.begin() + i));
     torpedoVect.erase(torpedoVect.begin() + i);
     return true;
+}
+
+void HelloWorld::setPlayerHP(float nhp)
+{
+    ((Submarine*)playerSub)->setHP(nhp);
+    ((Notifier*)notifier)->setHPBar(getPlayerHP() / getPlayerMaxHP());
+    ((Notifier*)notifier)->setHPText(getPlayerHP());
+}
+
+float HelloWorld::getPlayerHP()
+{
+    return ((Submarine*)playerSub)->getHP();
+}
+
+void HelloWorld::setPlayerMaxHP(float nhp)
+{
+    ((Submarine*)playerSub)->setMaxHP(nhp);
+}
+
+float HelloWorld::getPlayerMaxHP()
+{
+    return ((Submarine*)playerSub)->getMaxHP();
+}
+
+void HelloWorld::setPlayerForce(float nhp)
+{
+    ((Submarine*)playerSub)->setForce(nhp);
+    float displayForce = getPlayerForce();
+    if(playerTurning)
+        displayForce += ((Submarine*)playerSub)->getTurningForce();
+	float ratio = displayForce / getPlayerMaxForce();
+    ((Notifier*)notifier)->setThrustBar(ratio);
+    ((Notifier*)notifier)->setThrustText(ratio * 100);
+}
+
+float HelloWorld::getPlayerForce()
+{
+    return ((Submarine*)playerSub)->getForce();
+}
+
+void HelloWorld::setPlayerMaxForce(float nhp)
+{
+    ((Submarine*)playerSub)->setMaxForce(nhp);
+}
+
+float HelloWorld::getPlayerMaxForce()
+{
+    return ((Submarine*)playerSub)->getMaxForce();
 }

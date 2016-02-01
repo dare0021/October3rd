@@ -3,7 +3,10 @@
 
 USING_NS_CC;
 
-Submarine::Submarine(std::string path) : O3Sprite(path)
+Submarine::Submarine(std::string path) : O3Sprite(path),
+hp(100),
+maxHP(100),
+turningForce(2000)
 {
 }
 
@@ -51,4 +54,34 @@ Torpedo* Submarine::spawnTorpedo(TorpedoData* prototype, float targetHeading)
 	torpedo->setTargetHeading(targetHeading);
 	torpedo->setSpeed(torpedo->getSpeed());
 	return torpedo;
+}
+
+void Submarine::setHP(float nhp)
+{
+	hp = nhp;
+}
+
+float Submarine::getHP()
+{
+	return hp;
+}
+
+void Submarine::setMaxHP(float nhp)
+{
+	maxHP = nhp;
+}
+
+float Submarine::getMaxHP()
+{
+	return maxHP;
+}
+
+void Submarine::setTurningForce(float nv)
+{
+	turningForce = nv;
+}
+
+float Submarine::getTurningForce()
+{
+	return turningForce;
 }

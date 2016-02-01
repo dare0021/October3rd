@@ -35,7 +35,9 @@ private:
     bool mouseDownFudge, mouseUpFudge, mouseMoveFudge, mouseScrollFudge;
     #endif
     bool isMouseDown[3]; //cocos2dx only supports left right middle mouse buttons in that order
-    float timeSinceLastMouseUp, timeSinceLastNotifierUpdate, timeSinceLastObjectCull;
+    bool playerTurning;
+    float timeSinceLastMouseUp, timeSinceLastNotifierUpdate, timeSinceLastObjectCull,
+            playerDeltaForcePerSecond;
 
 	void onKeyPressed(cocos2d::EventKeyboard::KeyCode keyCode, cocos2d::Event* event);
 	void onKeyReleased(cocos2d::EventKeyboard::KeyCode keyCode, cocos2d::Event* event);
@@ -67,6 +69,15 @@ private:
 
     void addTorpedo(Torpedo*);
     bool removeTorpedoByID(int ID);
+
+    void setPlayerHP(float);
+    float getPlayerHP();
+    void setPlayerMaxHP(float);
+    float getPlayerMaxHP();
+    void setPlayerForce(float nhp);
+    float getPlayerForce();
+    void setPlayerMaxForce(float);
+    float getPlayerMaxForce();
 
     virtual void onEnter();
     virtual void onExit();
