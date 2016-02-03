@@ -35,9 +35,6 @@ static const float MINIMAP_ICON_TTL = 5;
 static const float OBJECT_CULL_FREQ = 1;
 /// Number multiplied to the object speed before being displayed
 /// to make the number look like a reasonable speed in knots.
-/// Typical subs are around 35kt, with fast ones going up to 45kt
-/// modern torpedos can achieve 100~200kt w/h less conservative designs
-/// reaching 430kt.
 /// Note this makes a pixel 1/fudge NM long. e.g. @ fudge=0.5, 1px is 2NM.
 static const float OBJECT_SPEED_FUDGE = .5;
 

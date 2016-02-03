@@ -371,7 +371,8 @@ void Notifier::setThrustBar(float ratio)
 
 void Notifier::setNoiseBar(float dB)
 {
-	setBarPercentage("noise bar", dB / 100 * 2);
+	auto ratio = dB < 0 ? 1 : dB / 100 * 2;
+	setBarPercentage("noise bar", ratio);
 }
 
 void Notifier::setHPText(float hp)
@@ -388,7 +389,8 @@ void Notifier::setThrustText(float thrust)
 
 void Notifier::setNoiseText(float noise)
 {
-	noiseText->setString(std::to_string((int)std::round(noise)) + " dB");
+	std::string out = noise < 0 ? "deafening" : std::to_string((int)std::round(noise)) + " dB";
+	noiseText->setString(out);
 }
 
 void Notifier::setSpeedText(float speed)
