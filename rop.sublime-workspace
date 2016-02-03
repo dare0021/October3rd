@@ -4,6 +4,34 @@
 		"selected_items":
 		[
 			[
+				"play",
+				"playerDeltaForcePerSecond"
+			],
+			[
+				"getp",
+				"getPlayerForce"
+			],
+			[
+				"setan",
+				"setAnchorPoint"
+			],
+			[
+				"thrust",
+				"thrustText"
+			],
+			[
+				"noti",
+				"notifier"
+			],
+			[
+				"player",
+				"playerSub"
+			],
+			[
+				"CURSO",
+				"CURSOR_DEPTH"
+			],
+			[
 				"mini",
 				"minimapSprite"
 			],
@@ -70,10 +98,6 @@
 			[
 				"scre",
 				"screenSize"
-			],
-			[
-				"noti",
-				"Notifier"
 			],
 			[
 				"ga",
@@ -195,7 +219,7 @@
 			"file": "Helpers/Consts.h",
 			"settings":
 			{
-				"buffer_size": 1834,
+				"buffer_size": 2442,
 				"line_ending": "Windows"
 			}
 		},
@@ -203,15 +227,7 @@
 			"file": "Classes/Entities/O3Sprite.cpp",
 			"settings":
 			{
-				"buffer_size": 5222,
-				"line_ending": "Windows"
-			}
-		},
-		{
-			"file": "Classes/Entities/Notifier.h",
-			"settings":
-			{
-				"buffer_size": 3069,
+				"buffer_size": 5598,
 				"line_ending": "Windows"
 			}
 		},
@@ -219,23 +235,26 @@
 			"file": "Classes/Entities/Submarine.cpp",
 			"settings":
 			{
-				"buffer_size": 1365,
+				"buffer_size": 1729,
 				"line_ending": "Windows"
 			}
 		},
 		{
+			"file": "Classes/Entities/Submarine.h",
+			"settings":
+			{
+				"buffer_size": 924,
+				"line_ending": "Windows"
+			}
+		},
+		{
+			"contents": "#ifndef __HELLOWORLD_SCENE_H__\n#define __HELLOWORLD_SCENE_H__\n\n//#define MOUSE_DOUBLE_LISTEN_FUDGE\n#define TURN_VIA_ARROW_KEYS\n\n#include \"cocos2d.h\"\n#include <unordered_map>\n#include \"Entities/O3Sprite.h\"\n#include \"Entities/Submarine.h\"\n\nclass HelloWorld : public cocos2d::Layer\n{\npublic:\n    static cocos2d::Scene* createScene();\n    virtual bool init();\n    // implement the \"static create()\" method manually\n    CREATE_FUNC(HelloWorld);\n\n    virtual void update(float);\n\nprivate:\n    // overlaySprite currently doesn't do anything other than display the default Cocos logo\n    cocos2d::Sprite *overlaySprite, *cursorSprite, *protractor, *commorose, *playerSub, *notifier;\n    cocos2d::EventKeyboard::KeyCode lastKey;\n    cocos2d::Vec2 lastCursor, lastPlayerPos;\n    std::vector<cocos2d::EventKeyboard::KeyCode> activeKeys;\n    /// contains sprites not contained in other sprite vectors, e.g. torpedoVect\n    std::vector<O3Sprite*> spriteVect;\n    std::vector<Torpedo*> torpedoVect;\n    std::vector<Submarine*> subVect;\n    //std::vector<CounterMreasure*> CMVect;\n    std::unordered_map<cocos2d::EventKeyboard::KeyCode, float*> typeKeyCandidates;\n    ///cocos2dx mouse listener is broken\n    #ifdef MOUSE_DOUBLE_LISTEN_FUDGE\n    bool mouseDownFudge, mouseUpFudge, mouseMoveFudge, mouseScrollFudge;\n    #endif\n    bool isMouseDown[3]; //cocos2dx only supports left right middle mouse buttons in that order\n    bool playerTurning;\n    float timeSinceLastMouseUp, timeSinceLastNotifierUpdate, timeSinceLastObjectCull,\n            playerDeltaForcePerSecond;\n\n	void onKeyPressed(cocos2d::EventKeyboard::KeyCode keyCode, cocos2d::Event* event);\n	void onKeyReleased(cocos2d::EventKeyboard::KeyCode keyCode, cocos2d::Event* event);\n	void onMouseDown(cocos2d::Event* event);\n	void onMouseUp(cocos2d::Event* event);\n	void onMouseMove(cocos2d::Event* event);\n	void onMouseScroll(cocos2d::Event* event);\n    bool onTouchBegan(cocos2d::Touch* touch, cocos2d::Event* e);\n    void onTouchMoved(cocos2d::Touch* touch, cocos2d::Event* e);\n    void onTouchEnded(cocos2d::Touch* touch, cocos2d::Event* e);\n\n    void onKeyTyped(cocos2d::EventKeyboard::KeyCode keyCode);\n    void repaintCursor();\n\n    void lookAt(cocos2d::Vec2);\n    cocos2d::Vec2 lookingAt();\n    cocos2d::Vec2 pointingAt();\n    void moveScreenBy(cocos2d::Vec2);\n    bool onScreen(cocos2d::Vec2);\n    bool onScreen(cocos2d::Vec2, cocos2d::Vec2);\n    bool onScreen(cocos2d::Vec2, cocos2d::Vec4);\n    cocos2d::Vec2 screenspaceToWorldspace(cocos2d::Vec2);\n    cocos2d::Vec2 worldspaceToScreenspace(cocos2d::Vec2);\n\n    O3Sprite* getSpriteByName(std::string name);\n    void addSprite(O3Sprite*, bool addToSpriteVect = true);\n    int removeSpriteByName(std::string name);\n    bool removeSpriteByID(int ID);\n\n    void addTorpedo(Torpedo*);\n    bool removeTorpedoByID(int ID);\n\n    void setPlayerHP(float);\n    float getPlayerHP();\n    void setPlayerMaxHP(float);\n    float getPlayerMaxHP();\n    void setPlayerForce(float nhp);\n    float getPlayerForce();\n    void setPlayerMaxForce(float);\n    float getPlayerMaxForce();\n\n    virtual void onEnter();\n    virtual void onExit();\n};\n\n#endif // __HELLOWORLD_SCENE_H__\n",
 			"file": "Classes/HelloWorldScene.h",
+			"file_size": 3215,
+			"file_write_time": 130988051301456646,
 			"settings":
 			{
-				"buffer_size": 2728,
-				"line_ending": "Windows"
-			}
-		},
-		{
-			"file": "Classes/HelloWorldScene.cpp",
-			"settings":
-			{
-				"buffer_size": 19364,
+				"buffer_size": 3157,
 				"line_ending": "Windows"
 			}
 		},
@@ -243,7 +262,31 @@
 			"file": "Classes/Entities/Notifier.cpp",
 			"settings":
 			{
-				"buffer_size": 10791,
+				"buffer_size": 0,
+				"line_ending": "Windows"
+			}
+		},
+		{
+			"file": "Classes/Entities/O3Sprite.h",
+			"settings":
+			{
+				"buffer_size": 2481,
+				"line_ending": "Windows"
+			}
+		},
+		{
+			"file": "Classes/HelloWorldScene.cpp",
+			"settings":
+			{
+				"buffer_size": 21594,
+				"line_ending": "Windows"
+			}
+		},
+		{
+			"file": "Classes/Entities/Notifier.h",
+			"settings":
+			{
+				"buffer_size": 3545,
 				"line_ending": "Windows"
 			}
 		}
@@ -288,16 +331,18 @@
 	],
 	"file_history":
 	[
-		"/C/October3rd/Classes/HelloWorldScene.cpp",
-		"/C/October3rd/Classes/Entities/O3Sprite.cpp",
-		"/C/October3rd/Classes/Entities/AnimData.cpp",
-		"/C/October3rd/Classes/Entities/AnimData.h",
-		"/C/October3rd/Classes/Entities/Submarine.cpp",
-		"/C/October3rd/Classes/Entities/Protractor.cpp",
+		"/C/October3rd/Classes/Entities/Submarine.h",
 		"/C/October3rd/Classes/Entities/O3Sprite.h",
-		"/C/October3rd/Resources/data/torpedos.jld",
+		"/C/October3rd/Classes/Entities/Submarine.cpp",
 		"/C/October3rd/Classes/Entities/Notifier.h",
 		"/C/October3rd/Classes/Entities/Notifier.cpp",
+		"/C/October3rd/Classes/Entities/O3Sprite.cpp",
+		"/C/October3rd/Classes/HelloWorldScene.h",
+		"/C/October3rd/Classes/HelloWorldScene.cpp",
+		"/C/October3rd/Classes/Entities/AnimData.cpp",
+		"/C/October3rd/Classes/Entities/AnimData.h",
+		"/C/October3rd/Classes/Entities/Protractor.cpp",
+		"/C/October3rd/Resources/data/torpedos.jld",
 		"/C/October3rd/Classes/Entities/Minimap.cpp",
 		"/C/October3rd/Classes/Entities/Minimap.h",
 		"/C/October3rd/Classes/Entities/OffmapNotification.h",
@@ -306,13 +351,11 @@
 		"/C/October3rd/Helpers/StaticHelpers.cpp",
 		"/C/Users/HAJE/Documents/gpsgameServer/main.js",
 		"/C/October3rd/Helpers/Consts.h",
-		"/C/October3rd/Classes/HelloWorldScene.h",
 		"/C/October3rd/Classes/Entities/TorpedoData.cpp",
 		"/C/October3rd/cocos2d/README.md",
 		"/C/October3rd/Classes/Entities/Commorose.cpp",
 		"/C/October3rd/Helpers/JLD/DataTypes.h",
 		"/C/October3rd/Classes/Entities/TorpedoData.h",
-		"/C/October3rd/Classes/Entities/Submarine.h",
 		"/C/October3rd/Helpers/JLD/JLDIO.h",
 		"/C/Users/HAJE/Downloads/example.jld",
 		"/C/October3rd/Resources/data/torpedo/testpedo.jld",
@@ -348,6 +391,7 @@
 		"height": 102.0,
 		"where_history":
 		[
+			"C:\\October3rd\\Classes\\,C:\\October3rd\\Helpers",
 			"C:\\October3rd\\Classes\\",
 			"C:\\October3rd\\Classes\\Entities",
 			"C:\\October3rd\\Classes,C:\\October3rd\\Helpers"
@@ -358,6 +402,32 @@
 		"case_sensitive": false,
 		"find_history":
 		[
+			"ifdef",
+			"fudge",
+			"ZERO_SPEED_THRESHOLD",
+			"thrust",
+			"getheading",
+			"activekeys",
+			"update",
+			"typed",
+			"setPlayerForce",
+			",",
+			"ttf",
+			"?",
+			"force",
+			"HelloWorldScene",
+			"HelloWorld",
+			"HP",
+			"repaintcur",
+			"cursor",
+			"overlay",
+			"ui_depth",
+			"9999",
+			"9999.",
+			"cursor_depth",
+			"ui_depth",
+			"cursor",
+			"addsprite",
 			"setpo",
 			"minimap",
 			"offscreenEntries",
@@ -459,33 +529,7 @@
 			"Submarine",
 			"second",
 			"add",
-			"setname",
-			";",
-			"switch",
-			";",
-			"addsprite",
-			"cclog",
-			"update",
-			"torpe",
-			"delete",
-			"playerSub",
-			"	\n",
-			"setro",
-			"setrotation",
-			"getmode",
-			"typed",
-			",",
-			";",
-			"rotation",
-			"insert",
-			"end()",
-			";",
-			"enum",
-			"end()",
-			"dt",
-			"c->",
-			"comm",
-			"c->"
+			"setname"
 		],
 		"highlight": true,
 		"in_selection": false,
@@ -512,19 +556,15 @@
 					"semi_transient": false,
 					"settings":
 					{
-						"buffer_size": 1834,
+						"buffer_size": 2442,
 						"regions":
 						{
 						},
 						"selection":
 						[
 							[
-								1358,
-								1358
-							],
-							[
-								1363,
-								1363
+								1663,
+								1663
 							]
 						],
 						"settings":
@@ -535,7 +575,7 @@
 						"translation.y": 180.0,
 						"zoom_level": 1.0
 					},
-					"stack_index": 3,
+					"stack_index": 0,
 					"type": "text"
 				},
 				{
@@ -544,15 +584,15 @@
 					"semi_transient": false,
 					"settings":
 					{
-						"buffer_size": 5222,
+						"buffer_size": 5598,
 						"regions":
 						{
 						},
 						"selection":
 						[
 							[
-								571,
-								571
+								2675,
+								2675
 							]
 						],
 						"settings":
@@ -561,27 +601,27 @@
 							"translate_tabs_to_spaces": false
 						},
 						"translation.x": 0.0,
-						"translation.y": 360.0,
+						"translation.y": 2075.0,
 						"zoom_level": 1.0
 					},
-					"stack_index": 5,
+					"stack_index": 2,
 					"type": "text"
 				},
 				{
 					"buffer": 2,
-					"file": "Classes/Entities/Notifier.h",
+					"file": "Classes/Entities/Submarine.cpp",
 					"semi_transient": false,
 					"settings":
 					{
-						"buffer_size": 3069,
+						"buffer_size": 1729,
 						"regions":
 						{
 						},
 						"selection":
 						[
 							[
-								2410,
-								2410
+								1729,
+								1729
 							]
 						],
 						"settings":
@@ -589,28 +629,28 @@
 							"syntax": "Packages/C++/C++.tmLanguage",
 							"translate_tabs_to_spaces": false
 						},
-						"translation.x": 0.0,
-						"translation.y": 420.0,
+						"translation.x": -0.0,
+						"translation.y": 1539.0,
 						"zoom_level": 1.0
 					},
-					"stack_index": 4,
+					"stack_index": 7,
 					"type": "text"
 				},
 				{
 					"buffer": 3,
-					"file": "Classes/Entities/Submarine.cpp",
+					"file": "Classes/Entities/Submarine.h",
 					"semi_transient": false,
 					"settings":
 					{
-						"buffer_size": 1365,
+						"buffer_size": 924,
 						"regions":
 						{
 						},
 						"selection":
 						[
 							[
-								108,
-								108
+								785,
+								785
 							]
 						],
 						"settings":
@@ -622,7 +662,66 @@
 						"translation.y": 0.0,
 						"zoom_level": 1.0
 					},
-					"stack_index": 6,
+					"stack_index": 8,
+					"type": "text"
+				},
+				{
+					"buffer": 4,
+					"file": "Classes/HelloWorldScene.h",
+					"semi_transient": false,
+					"settings":
+					{
+						"buffer_size": 3157,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								127,
+								127
+							]
+						],
+						"settings":
+						{
+							"syntax": "Packages/C++/C++.tmLanguage",
+							"tab_size": 4,
+							"translate_tabs_to_spaces": true
+						},
+						"translation.x": 0.0,
+						"translation.y": 0.0,
+						"zoom_level": 1.0
+					},
+					"stack_index": 5,
+					"type": "text"
+				},
+				{
+					"buffer": 5,
+					"file": "Classes/Entities/Notifier.cpp",
+					"semi_transient": false,
+					"settings":
+					{
+						"buffer_size": 0,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								0,
+								0
+							]
+						],
+						"settings":
+						{
+							"syntax": "Packages/C++/C++.tmLanguage",
+							"translate_tabs_to_spaces": false
+						},
+						"translation.x": 0.0,
+						"translation.y": 0.0,
+						"zoom_level": 1.0
+					},
+					"stack_index": 3,
 					"type": "text"
 				}
 			]
@@ -632,20 +731,20 @@
 			"sheets":
 			[
 				{
-					"buffer": 4,
-					"file": "Classes/HelloWorldScene.h",
+					"buffer": 6,
+					"file": "Classes/Entities/O3Sprite.h",
 					"semi_transient": false,
 					"settings":
 					{
-						"buffer_size": 2728,
+						"buffer_size": 2481,
 						"regions":
 						{
 						},
 						"selection":
 						[
 							[
-								643,
-								643
+								1940,
+								1940
 							]
 						],
 						"settings":
@@ -655,27 +754,27 @@
 							"translate_tabs_to_spaces": true
 						},
 						"translation.x": 0.0,
-						"translation.y": 300.0,
+						"translation.y": 540.0,
 						"zoom_level": 1.0
 					},
-					"stack_index": 2,
+					"stack_index": 6,
 					"type": "text"
 				},
 				{
-					"buffer": 5,
+					"buffer": 7,
 					"file": "Classes/HelloWorldScene.cpp",
-					"semi_transient": true,
+					"semi_transient": false,
 					"settings":
 					{
-						"buffer_size": 19364,
+						"buffer_size": 21594,
 						"regions":
 						{
 						},
 						"selection":
 						[
 							[
-								10642,
-								10647
+								18162,
+								18162
 							]
 						],
 						"settings":
@@ -684,28 +783,28 @@
 							"tab_size": 4,
 							"translate_tabs_to_spaces": true
 						},
-						"translation.x": -0.0,
-						"translation.y": 7075.0,
+						"translation.x": 0.0,
+						"translation.y": 11935.0,
 						"zoom_level": 1.0
 					},
-					"stack_index": 1,
+					"stack_index": 4,
 					"type": "text"
 				},
 				{
-					"buffer": 6,
-					"file": "Classes/Entities/Notifier.cpp",
+					"buffer": 8,
+					"file": "Classes/Entities/Notifier.h",
 					"semi_transient": false,
 					"settings":
 					{
-						"buffer_size": 10791,
+						"buffer_size": 3545,
 						"regions":
 						{
 						},
 						"selection":
 						[
 							[
-								1717,
-								1717
+								3219,
+								3219
 							]
 						],
 						"settings":
@@ -714,10 +813,10 @@
 							"translate_tabs_to_spaces": false
 						},
 						"translation.x": 0.0,
-						"translation.y": 240.0,
+						"translation.y": 1620.0,
 						"zoom_level": 1.0
 					},
-					"stack_index": 0,
+					"stack_index": 1,
 					"type": "text"
 				}
 			]
@@ -799,7 +898,7 @@
 		],
 		"width": 0.0
 	},
-	"selected_group": 1,
+	"selected_group": 0,
 	"settings":
 	{
 	},

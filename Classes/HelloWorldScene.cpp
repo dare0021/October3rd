@@ -82,6 +82,8 @@ bool HelloWorld::init()
     s->setMass(300);
     s->setFriction(5);
     s->setMaxForce(20 * 1000);
+    s->setPropulsionType(PropulsionType::Diesel);
+    s->setNoisiness(40);
     addChild(playerSub, UI_DEPTH);
     playerDeltaForcePerSecond = 2000;
     playerTurning = false;
@@ -90,7 +92,7 @@ bool HelloWorld::init()
 
     notifier = (Sprite*) new Notifier("notifier", visibleSize);
     ((Notifier*)notifier)->setThrustBar(0);
-    // ((Notifier*)notifier)->setNoiseBar(0);
+    ((Notifier*)notifier)->setNoiseBar(0);
     addChild(notifier, UI_DEPTH);
 
     moveScreenBy(Director::getInstance()->getVisibleSize()/-2);
@@ -742,13 +744,18 @@ float HelloWorld::getPlayerMaxHP()
 
 void HelloWorld::setPlayerForce(float nhp)
 {
-    ((Submarine*)playerSub)->setForce(nhp);
+    auto s = (Submarine*)playerSub;
+    auto n = (Notifier*)notifier;
+    s->setForce(nhp);
     float displayForce = getPlayerForce();
     if(playerTurning)
-        displayForce += ((Submarine*)playerSub)->getTurningForce();
-	float ratio = displayForce / getPlayerMaxForce();
-    ((Notifier*)notifier)->setThrustBar(ratio);
-    ((Notifier*)notifier)->setThrustText(ratio * 100);
+        displayForce += s->getTurningForce();
+	float displayRatio = displayForce / getPlayerMaxForce();
+    n->setThrustBar(displayRatio);
+    n->setThrustText(displayRatio * 100);
+    float noise = s->getNoiseLevel(displayRatio);
+    n->setNoiseBar(noise);
+    n->setNoiseText(noise);
 }
 
 float HelloWorld::getPlayerForce()

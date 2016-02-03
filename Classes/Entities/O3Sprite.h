@@ -32,7 +32,10 @@ public:
     float getMass();
     void setFriction(float);
     float getFriction();
-    float getNoiseLevel();
+    /// the actual output
+    /// input has range [0, 1] ish
+    /// <0 means always visible
+    float getNoiseLevel(float ratioOverride = -1);
     void setMaxSpeed(float);
     float getMaxSpeed();
     void setMaxForce(float);
@@ -43,6 +46,11 @@ public:
     float getTargetHeading();
     cocos2d::Vec2 getHeadingVector();
     bool isTurning();
+    void setPropulsionType(PropulsionType);
+    PropulsionType getPropulsionType();
+    /// how noisy the object is relative to other objects with the same engine
+    void setNoisiness(float);
+    float getNoisiness();
 
     std::string getCurrentAnimation();
     void addAnimation(std::string name, std::string path, int count, float frameRate = TARGET_FPS, bool loop = true);
@@ -55,11 +63,12 @@ public:
 
 protected:
     PhysicsModel physicsModel;
+    PropulsionType engineType;
     bool updateSuspended;
     float updateSuspendTime;
     ///effectiveForce = force - friction * v^2 / 2
     float friction;
-    float speed, mass, force, maxSpeed, maxForce, turnSpeed, targetHeading;
+    float speed, mass, force, maxSpeed, maxForce, turnSpeed, targetHeading, noisiness;
     ///Separate name in O3Sprite from Sprite name
     ///So we can use this name for roles instead of a unique ID
     std::unordered_map<std::string, cocos2d::Sprite*> sprites;

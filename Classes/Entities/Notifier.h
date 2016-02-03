@@ -45,7 +45,7 @@ public:
 	int removeItem(int id);
 	void setHPBar(float ratio);
 	void setThrustBar(float ratio);
-	void setNoiseBar(float ratio);
+	void setNoiseBar(float dB);
 	void setHPText(float);
 	void setThrustText(float);
 	void setNoiseText(float);

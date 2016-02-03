@@ -82,7 +82,7 @@ screenSize(screenSize)
 	thrustText->setAnchorPoint(Vec2(0, 0.5));
 	thrustText->setOpacity(255*.5);
 	addChild(thrustText);
-	noiseText = Label::createWithTTF("45 dB", "fonts/NanumGothic.ttf", 27);
+	noiseText = Label::createWithTTF("0 dB", "fonts/NanumGothic.ttf", 27);
 	noiseText->setPosition(Vec2(235, -150));
 	noiseText->setAnchorPoint(Vec2(0, 0.5));
 	noiseText->setColor(Color3B(255, 0, 0));
@@ -369,9 +369,9 @@ void Notifier::setThrustBar(float ratio)
 	setBarPercentage("thrust bar", ratio);
 }
 
-void Notifier::setNoiseBar(float ratio)
+void Notifier::setNoiseBar(float dB)
 {
-	setBarPercentage("noise bar", ratio);
+	setBarPercentage("noise bar", dB / 100);
 }
 
 void Notifier::setHPText(float hp)

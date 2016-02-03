@@ -61,4 +61,13 @@ enum class PhysicsModel
     Newtonian
 };
 
+enum class PropulsionType
+{
+	None,		// invisible
+	Diesel,		// baseline
+	Nuclear,	// quieter
+	Electric,	// short range, almost invisible
+	Rocket		// always visible
+};
+
 #endif // __CONSTS_H__

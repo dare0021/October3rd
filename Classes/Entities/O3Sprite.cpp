@@ -19,7 +19,9 @@ targetHeading(0),
 updateSuspended(false),
 updateSuspendTime(0),
 animated(false),
-currentAnimation("NOT_INITIALIZED")
+currentAnimation("NOT_INITIALIZED"),
+engineType(PropulsionType::None),
+noisiness(1)
 {
 	lastID++;
 	if(!overrideForcedSpriteInitialization)
@@ -64,8 +66,6 @@ void O3Sprite::setForce(float nf)
 	}
 	force = nf > maxForce ? maxForce : nf;
 	force = force < -1*maxForce ? -1*maxForce : force;
-
-	CCLOG("NEW FORCE %f, MAX %f", force, maxForce);
 }
 
 float O3Sprite::getForce()
@@ -110,10 +110,38 @@ float O3Sprite::getFriction()
 	return friction;
 }
 
-float O3Sprite::getNoiseLevel()
+float O3Sprite::getNoiseLevel(float ratioOverride)
 {
-	CCASSERT(0, "Not implemented");
-	return -1;
+	float thrustRatio;
+	if(ratioOverride < 0)
+	{
+		thrustRatio = getForce() / getMaxForce();
+		thrustRatio = thrustRatio < 0 ? thrustRatio * -1 : thrustRatio;
+	}
+	else
+	{
+		thrustRatio = ratioOverride;
+	}
+	float out = 0;
+	switch (getPropulsionType())
+	{
+	case PropulsionType::None:
+		// already 0
+		break;
+	case PropulsionType::Diesel:
+		out = (tan((thrustRatio - (M_PI / 2 + 0.2)) * 2.5) + 3.41) / 6;
+		break;
+	case PropulsionType::Nuclear:
+		out = 0.3 * (thrustRatio - 0.2) + 0.4;
+		break;
+	case PropulsionType::Electric:
+		out = 0.2;
+		break;
+	case PropulsionType::Rocket:
+		out = -1;
+		break;
+	}
+	return out * getNoisiness();
 }
 
 void O3Sprite::setMaxSpeed(float nv)
@@ -299,4 +327,24 @@ bool O3Sprite::stopAnimation()
 	bool output = animated;
 	animated = false;
 	return output;
+}
+
+void O3Sprite::setPropulsionType(PropulsionType nv)
+{
+	engineType = nv;
+}
+
+PropulsionType O3Sprite::getPropulsionType()
+{
+	return engineType;
+}
+
+void O3Sprite::setNoisiness(float nv)
+{
+	noisiness = nv;
+}
+
+float O3Sprite::getNoisiness()
+{
+	return noisiness;
 }
