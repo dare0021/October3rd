@@ -371,7 +371,7 @@ void Notifier::setThrustBar(float ratio)
 
 void Notifier::setNoiseBar(float dB)
 {
-	setBarPercentage("noise bar", dB / 100);
+	setBarPercentage("noise bar", dB / 100 * 2);
 }
 
 void Notifier::setHPText(float hp)
